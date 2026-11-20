@@ -32,3 +32,9 @@ Plugin contract (measured, v2.0.32): each module must `export default { id, setu
 ## Backups
 
 Harness install backups live outside this target at `/home/joao/fusionlf/wsProjeto/.harness-backup-atlas-financeiro-*`. Retain until flagged items resolved and a green suite; rollback = copy files back + remove `.harness-install.json`.
+<!-- harness:v2:start -->
+## Harness v2 — seção gerenciada
+
+Esta seção é gerada pelo harness. Edições são preservadas: divergência é reportada com WARN, nunca reescrita.
+PRÓPRIOS: .agents/rules/project-*.md e tokens/*.json. ANEXADOS: AGENTS.md e DESIGN.md.
+<!-- harness:v2:end -->
