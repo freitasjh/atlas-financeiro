@@ -1,0 +1,114 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "$comment": "v2-only config (opencode v2.0.32). Shape unico: chave `agent` (singular) com `description` OBRIGATORIA + `permission`; `plugin`/`plugins` VAZIOS (plugin local e auto-carregado de `.opencode/plugins/`). O shape v1/dual (`server`, mapa `agents`/`system`, chave `permissions`, `plugin` com caminhos locais) foi REMOVIDO — ver ciclo `.spec/backend/opencode-v2-only/`. Contrato de plugin MEDIDO: `export default { id, setup }` com `setup(ctx)` retornando `undefined` (retorno truthy e CHAMADO pelo runtime => `TypeError` => `failed to reload plugins` => registry global de agentes cai).",
+  "plugin": [],
+  "plugins": [],
+  "instructions": [
+    ".agents/rules/*.md"
+  ],
+  "permission": {
+    "task": "ask"
+  },
+  "agent": {
+    "orchestrator": {
+      "mode": "primary",
+      "prompt": "{file:./.agents/agents/orchestrator/AGENT.md}",
+      "description": "Triagem, governance, SPEC/PLAN/TASKS e orquestracao do harness. NAO implementa codigo.",
+      "permission": {
+        "edit": "deny",
+        "bash": "allow"
+      }
+    },
+    "atlas-template-specialist": {
+      "mode": "subagent",
+      "prompt": "{file:./.agents/agents/atlas-template/AGENT.md}",
+      "description": "Especialista no template atlas",
+      "permission": {
+        "edit": "allow",
+        "bash": "allow"
+      }
+    },
+    "developer-engineer": {
+      "mode": "subagent",
+      "prompt": "{file:./.agents/agents/developer-engineer/AGENT.md}",
+      "description": "Implementa codigo e testes sob delegacao do orquestrador (com write/edit).",
+      "permission": {
+        "edit": "allow",
+        "bash": "allow"
+      }
+    },
+    "codebase-analyzer": {
+      "mode": "subagent",
+      "prompt": "{file:./.agents/agents/codebase-analyzer/AGENT.md}",
+      "description": "Analise estatica de codigo e arquitetura; nao escreve.",
+      "permission": {
+        "edit": "deny",
+        "bash": "allow"
+      }
+    },
+    "product-manager": {
+      "mode": "subagent",
+      "prompt": "{file:./.agents/agents/product-manager/AGENT.md}",
+      "description": "Validacao de negocio: escopo, aceite e riscos de produto.",
+      "permission": {
+        "edit": "allow",
+        "bash": "allow"
+      }
+    },
+    "qa-engineer": {
+      "mode": "subagent",
+      "prompt": "{file:./.agents/agents/qa-engineer/AGENT.md}",
+      "description": "Execucao do harness/qualidade e verificacao independente (nao corrige).",
+      "permission": {
+        "edit": "allow",
+        "bash": "allow"
+      }
+    },
+    "architect": {
+      "mode": "subagent",
+      "prompt": "{file:./.agents/agents/architect/AGENT.md}",
+      "description": "Decisoes arquiteturais, ADRs e integridade estrutural.",
+      "permission": {
+        "edit": "allow",
+        "bash": "allow"
+      }
+    },
+    "security-engineer": {
+      "mode": "subagent",
+      "prompt": "{file:./.agents/agents/security-engineer/AGENT.md}",
+      "description": "Auditoria de seguranca (OWASP/ASVS) por fase do SDD.",
+      "permission": {
+        "edit": "deny",
+        "bash": "allow"
+      }
+    },
+    "code-reviewer": {
+      "mode": "subagent",
+      "prompt": "{file:./.agents/agents/code-reviewer/PROMPT.md}",
+      "description": "Code review com veredito por severidade; parecer, nao bloqueio.",
+      "permission": {
+        "edit": "deny",
+        "bash": "allow"
+      }
+    },
+    "ux-designer": {
+      "mode": "subagent",
+      "prompt": "{file:./.agents/agents/ux-designer/AGENT.md}",
+      "description": "Parecer de UX/interface; vinculante no escopo visual sob o template Atlas.",
+      "permission": {
+        "edit": "deny",
+        "bash": "allow"
+      }
+    },
+    "design-system-specialist": {
+      "mode": "subagent",
+      "prompt": "{file:./.agents/agents/design-system-specialist/AGENT.md}",
+      "description": "Templates de componentes reutilizáveis do design system Atlas Shadcn (props/slots/estados/variantes); nao decide UX nem implementa framework.",
+      "permission": {
+        "edit": "deny",
+        "bash": "allow"
+      }
+    }
+  },
+  "$experiment": "v2-only (2026-10-18, RT-02/opencode-v2-only): agent + description obrigatoria + permission (tools deprecated); removidos os mapas agents/system e permissions; `plugin` vazio (local plugins de .opencode/plugins/ sao AUTO-CARREGADOS; a chave e para pacotes npm). Backup pre-v2-only: opencode.json.rt02.bak"
+}

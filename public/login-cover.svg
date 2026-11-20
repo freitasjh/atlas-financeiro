@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="45%" stop-color="#0f172a" />
+      <stop offset="85%" stop-color="#062e24" />
+      <stop offset="100%" stop-color="#021c16" />
+    </linearGradient>
+
+    <linearGradient id="chartGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.2" />
+      <stop offset="50%" stop-color="#059669" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#34d399" stop-opacity="1" />
+    </linearGradient>
+
+    <linearGradient id="chartGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+    </linearGradient>
+
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0" />
+    </linearGradient>
+
+    <filter id="blurFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="80" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1200" height="1600" fill="url(#bgGrad)" />
+
+  <!-- Ambient Glow Orbs -->
+  <circle cx="850" cy="450" r="350" fill="url(#glowGrad)" filter="url(#blurFilter)" />
+  <circle cx="300" cy="950" r="400" fill="#047857" opacity="0.15" filter="url(#blurFilter)" />
+  <circle cx="900" cy="1200" r="300" fill="#0284c7" opacity="0.12" filter="url(#blurFilter)" />
+
+  <!-- Geometric / Grid Texture -->
+  <g stroke="#ffffff" stroke-opacity="0.04" stroke-width="1">
+    <line x1="100" y1="0" x2="100" y2="1600" />
+    <line x1="300" y1="0" x2="300" y2="1600" />
+    <line x1="500" y1="0" x2="500" y2="1600" />
+    <line x1="700" y1="0" x2="700" y2="1600" />
+    <line x1="900" y1="0" x2="900" y2="1600" />
+    <line x1="1100" y1="0" x2="1100" y2="1600" />
+
+    <line x1="0" y1="200" x2="1200" y2="200" />
+    <line x1="0" y1="400" x2="1200" y2="400" />
+    <line x1="0" y1="600" x2="1200" y2="600" />
+    <line x1="0" y1="800" x2="1200" y2="800" />
+    <line x1="0" y1="1000" x2="1200" y2="1000" />
+    <line x1="0" y1="1200" x2="1200" y2="1200" />
+    <line x1="0" y1="1400" x2="1200" y2="1400" />
+  </g>
+
+  <!-- Financial Chart Elements (Waves & Area) -->
+  <g transform="translate(100, 300)">
+    <!-- Filled area chart under curve -->
+    <path d="M 0 520 C 150 500, 250 420, 400 450 C 550 480, 650 320, 800 280 C 900 250, 950 180, 1000 120 L 1000 700 L 0 700 Z" fill="url(#chartGrad2)" />
+    
+    <!-- Main Neon Line -->
+    <path d="M 0 520 C 150 500, 250 420, 400 450 C 550 480, 650 320, 800 280 C 900 250, 950 180, 1000 120" fill="none" stroke="url(#chartGrad1)" stroke-width="4" stroke-linecap="round" />
+
+    <!-- Secondary Line -->
+    <path d="M 0 600 C 180 580, 320 540, 500 520 C 680 500, 820 420, 1000 360" fill="none" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="2" stroke-dasharray="6,6" />
+
+    <!-- Data Nodes on primary line -->
+    <circle cx="400" cy="450" r="6" fill="#10b981" />
+    <circle cx="400" cy="450" r="14" fill="#10b981" opacity="0.3" />
+
+    <circle cx="800" cy="280" r="6" fill="#34d399" />
+    <circle cx="800" cy="280" r="16" fill="#34d399" opacity="0.3" />
+
+    <circle cx="1000" cy="120" r="7" fill="#6ee7b7" />
+    <circle cx="1000" cy="120" r="20" fill="#6ee7b7" opacity="0.4" />
+  </g>
+</svg>
+

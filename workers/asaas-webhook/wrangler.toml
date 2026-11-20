@@ -1,0 +1,30 @@
+# Worker de borda do webhook Asaas (fatia F5).
+# Placeholders explícitos: nada de conta, zone, URL ou token reais neste repo.
+# Os dois segredos chegam só por `wrangler secret put` — nunca em [vars].
+
+name = "asaas-webhook"
+main = "src/index.js"
+compatibility_date = "<DATA-DO-DEPLOY>"
+
+[[queues.producers]]
+binding = "PSP_QUEUE"
+queue = "asaas-psp-events"
+
+[[queues.consumers]]
+queue = "asaas-psp-events"
+max_retries = 8
+dead_letter_queue = "asaas-psp-events-dlq"
+
+[triggers]
+crons = ["*/5 * * * *", "0 6 * * *"]
+
+[vars]
+SUPABASE_URL = "<PROJECT_URL>"
+
+# Sem isto os `console.log` não persistem — só `wrangler tail` ao vivo — e a
+# trilha de borda (REQ-41/A8) morre no stdout. Sem segredos neste bloco.
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true

@@ -1,0 +1,3687 @@
+{
+  "current_feature": "control-plane-billing",
+  "current_phase": "Completed",
+  "previous_phase": "Completed",
+  "next_phase": "Execution",
+  "type": "feature",
+  "last_update": "2026-11-20T14:31:52.793Z",
+  "artifacts": {
+    "roadmap": "ROADMAP.md",
+    "proposal": ".spec/frontend/dashboard-shell-harness/PROPOSAL.md",
+    "spec": ".spec/archive/20261101-fase-1-fundacao/SPEC.md",
+    "plan": ".spec/archive/20261101-fase-1-fundacao/PLAN.md",
+    "tasks": ".spec/archive/20261101-fase-1-fundacao/TASKS.md",
+    "verify": ".spec/frontend/design-system-atlas-shadcn/VERIFY.md",
+    "proposal2": ".spec/archive/20261101-fase-2-core/PROPOSAL.md",
+    "spec2": ".spec/archive/20261101-fase-2-core/SPEC.md",
+    "plan2": ".spec/archive/20261101-fase-2-core/PLAN.md",
+    "tasks2": ".spec/archive/20261101-fase-2-core/TASKS.md",
+    "proposal3": ".spec/frontend/fase-3-ingestao/PROPOSAL.md",
+    "spec3": ".spec/frontend/fase-3-ingestao/SPEC.md",
+    "plan3": ".spec/frontend/fase-3-ingestao/PLAN.md",
+    "tasks3": ".spec/frontend/fase-3-ingestao/TASKS.md",
+    "proposal4": ".spec/frontend/fase-4-conversao-backoffice/PROPOSAL.md",
+    "spec4": ".spec/frontend/fase-4-conversao-backoffice/SPEC.md",
+    "plan4": ".spec/frontend/fase-4-conversao-backoffice/PLAN.md",
+    "tasks4": ".spec/frontend/fase-4-conversao-backoffice/TASKS.md",
+    "proposalP": ".spec/frontend/melhoria-premium/PROPOSAL.md",
+    "specP": ".spec/frontend/melhoria-premium/SPEC.md",
+    "planP": ".spec/frontend/melhoria-premium/PLAN.md",
+    "tasksP": ".spec/frontend/melhoria-premium/TASKS.md",
+    "proposal5": ".spec/frontend/fase-5-landing-v2/PROPOSAL.md",
+    "spec5": ".spec/frontend/fase-5-landing-v2/SPEC.md",
+    "plan5": ".spec/frontend/fase-5-landing-v2/PLAN.md",
+    "tasks5": ".spec/frontend/fase-5-landing-v2/TASKS.md",
+    "bugLancamentos": ".spec/bugs/lancamentos-entrada-saida/TASKS.md",
+    "verify5": ".spec/frontend/fase-5-landing-v2/VERIFY.md",
+    "archive5": ".spec/archive/20261102-fase-5-landing-v2",
+    "tasksRFContas": ".spec/refactors/contas-drawer/TASKS.md",
+    "tasksRFCat": ".spec/refactors/categorias-drawer/TASKS.md",
+    "tasksRFCard": ".spec/refactors/cartoes-drawer/TASKS.md",
+    "tasksRFRules": ".spec/refactors/regras-drawer/TASKS.md",
+    "tasksRFBud": ".spec/refactors/orcamentos-drawer/TASKS.md",
+    "tasksRFSearch": ".spec/refactors/telas-pesquisa/TASKS.md",
+    "tasksMELedger": ".spec/melhorias/lancamentos-validacoes/TASKS.md",
+    "tasksMESplit": ".spec/melhorias/lancamentos-split/TASKS.md",
+    "tasksMEUxD": ".spec/melhorias/lancamentos-ux-desktop/TASKS.md",
+    "tasksMEUxM": ".spec/melhorias/lancamentos-ux-mobile/TASKS.md",
+    "tasksRFTransf": ".spec/refactors/transferencia-drawer/TASKS.md",
+    "proposal6": ".spec/archive/20261104-fase-6-rf03-cartoes/PROPOSAL.md",
+    "spec6": ".spec/archive/20261104-fase-6-rf03-cartoes/SPEC.md",
+    "plan6": ".spec/archive/20261104-fase-6-rf03-cartoes/PLAN.md",
+    "tasks6": ".spec/archive/20261104-fase-6-rf03-cartoes/TASKS.md",
+    "verify6": ".spec/archive/20261104-fase-6-rf03-cartoes/VERIFY.md",
+    "designSystem6": ".spec/archive/20261104-fase-6-rf03-cartoes/DESIGN-SYSTEM.md",
+    "deltaSpecs6": ".spec/archive/20261104-fase-6-rf03-cartoes/DELTA-SPECS.md",
+    "archive6": ".spec/archive/20261104-fase-6-rf03-cartoes",
+    "tasksSaneamento": ".spec/archive/20261104-rf03-p2-saneamento/TASKS.md",
+    "verifySaneamento": ".spec/archive/20261104-rf03-p2-saneamento/VERIFY.md",
+    "archiveSaneamento": ".spec/archive/20261104-rf03-p2-saneamento",
+    "deltaSpecsAddendum": ".spec/archive/20261104-fase-6-rf03-cartoes/DELTA-SPECS-ADDENDUM.md",
+    "planP3": ".spec/archive/20261104-rf03-p3-fechamento/PLAN.md",
+    "tasksP3": ".spec/archive/20261104-rf03-p3-fechamento/TASKS.md",
+    "verifyP3": ".spec/archive/20261104-rf03-p3-fechamento/VERIFY.md",
+    "archiveP3": ".spec/archive/20261104-rf03-p3-fechamento",
+    "planFrentes": ".spec/melhorias/backlog-tres-frentes/PLAN.md",
+    "tasksFrenteA": ".spec/melhorias/frente-a-seguranca/TASKS.md",
+    "tasksFrenteB": ".spec/melhorias/frente-b-dados/TASKS.md",
+    "tasksFrenteC": ".spec/melhorias/frente-c-a11y/TASKS.md",
+    "deltaSpecsAddendum2": ".spec/melhorias/backlog-tres-frentes/DELTA-SPECS-ADDENDUM-2.md",
+    "specCardsDrawer": ".spec/frontend/cartoes-lancamentos-drawer/SPEC.md",
+    "planCardsDrawer": ".spec/frontend/cartoes-lancamentos-drawer/PLAN.md",
+    "tasksCardsDrawer": ".spec/frontend/cartoes-lancamentos-drawer/TASKS.md",
+    "prd_tenants": ".spec/archive/20261105-prd-tenants-cobranca/tenants-cobranca/PRD.md",
+    "research_tenants": ".spec/archive/20261105-prd-tenants-cobranca/tenants-cobranca/RESEARCH.md",
+    "adr_index_tenants": ".spec/archive/20261105-prd-tenants-cobranca/tenants-cobranca/ADR-INDEX.md",
+    "spec_tenants": ".spec/backend/tenants-cobranca/SPEC.md",
+    "plan_tenants": ".spec/backend/tenants-cobranca/PLAN.md",
+    "tasks_tenants": ".spec/backend/tenants-cobranca/TASKS.md",
+    "spec_tenants2": ".spec/backend/tenants-cobranca-adr002/SPEC.md",
+    "plan_tenants2": ".spec/backend/tenants-cobranca-adr002/PLAN.md",
+    "tasks_tenants2": ".spec/backend/tenants-cobranca-adr002/TASKS.md",
+    "spec_tenants3": ".spec/backend/tenants-cobranca-adr003/SPEC.md",
+    "plan_tenants3": ".spec/backend/tenants-cobranca-adr003/PLAN.md",
+    "tasks_tenants3": ".spec/backend/tenants-cobranca-adr003/TASKS.md",
+    "spec_tenants4": ".spec/backend/tenants-cobranca-adr004/SPEC.md",
+    "plan_tenants4": ".spec/backend/tenants-cobranca-adr004/PLAN.md",
+    "tasks_tenants4": ".spec/backend/tenants-cobranca-adr004/TASKS.md",
+    "spec_mvp": ".spec/frontend/tenants-cobranca-mvp/SPEC.md",
+    "plan_mvp": ".spec/frontend/tenants-cobranca-mvp/PLAN.md",
+    "tasks_mvp": ".spec/frontend/tenants-cobranca-mvp/TASKS.md",
+    "verify_mvp": ".spec/frontend/tenants-cobranca-mvp/VERIFY.md",
+    "archive_mvp": ".spec/archive/20261105-tenants-mvp/tenants-mvp",
+    "defaultCategoriesSpec": ".spec/archive/20261106-default-categories/SPEC.md",
+    "defaultCategoriesPlan": ".spec/archive/20261106-default-categories/PLAN.md",
+    "defaultCategoriesTasks": ".spec/archive/20261106-default-categories/TASKS.md",
+    "defaultCategoriesVerify": ".spec/archive/20261106-default-categories/VERIFY.md",
+    "bugDashboardLoading": ".spec/bugs/dashboard-loading/TASKS.md",
+    "tasksDashboardLoading": ".spec/bugs/dashboard-loading/TASKS.md",
+    "tasksDashboardKpisRealizadoPrevisto": ".spec/frontend/dashboard-kpis-realizado-previsto/TASKS.md",
+    "bugDashboardKpisRealizadoPrevisto": ".spec/frontend/dashboard-kpis-realizado-previsto/TASKS.md",
+    "proposal_backoffice_p0": ".spec/backend/backoffice-p0/PROPOSAL.md",
+    "spec_backoffice_p0": ".spec/backend/backoffice-p0/SPEC.md",
+    "bugfix_backoffice_qa01": ".spec/bugs/backoffice-qa01/TASKS.md",
+    "verify_backoffice_p0": ".spec/archive/20261108-backoffice-p0/VERIFY.md",
+    "spec_p1_adr001": ".spec/backend/backoffice-p1-cockpit-adr001/SPEC.md",
+    "plan_p1_adr001": ".spec/backend/backoffice-p1-cockpit-adr001/PLAN.md",
+    "tasks_p1_adr001": ".spec/backend/backoffice-p1-cockpit-adr001/TASKS.md",
+    "spec_p1_adr002": ".spec/backend/backoffice-p1-cockpit-adr002/SPEC.md",
+    "plan_p1_adr002": ".spec/backend/backoffice-p1-cockpit-adr002/PLAN.md",
+    "tasks_p1_adr002": ".spec/backend/backoffice-p1-cockpit-adr002/TASKS.md",
+    "bugfix_adr002_ui": ".spec/bugs/adr002-ui/TASKS.md",
+    "proposal_p0mfa": ".spec/backend/backoffice-p0-mfa/PROPOSAL.md",
+    "spec_p0mfa": ".spec/backend/backoffice-p0-mfa/SPEC.md",
+    "plan_p0mfa": ".spec/backend/backoffice-p0-mfa/PLAN.md",
+    "tasks_p0mfa": ".spec/backend/backoffice-p0-mfa/TASKS.md",
+    "board_p0mfa": ".spec/backend/backoffice-p0-mfa/JIRA_BOARD.md",
+    "archive_p0mfa": ".spec/archive/20261109-backoffice-p0-mfa",
+    "proposal_ia": ".spec/admin/internal-admin/PROPOSAL.md",
+    "spec_ia": ".spec/admin/internal-admin/SPEC.md",
+    "plan_ia": ".spec/admin/internal-admin/PLAN.md",
+    "tasks_ia": ".spec/admin/internal-admin/TASKS.md",
+    "archive_ia": ".spec/archive/20261109-internal-admin",
+    "proposalLandingRefactor": ".spec/frontend/landing-refactor-harness/PROPOSAL.md",
+    "specLandingRefactor": ".spec/frontend/landing-refactor-harness/SPEC.md",
+    "planLandingRefactor": ".spec/frontend/landing-refactor-harness/PLAN.md",
+    "tasksLandingRefactor": ".spec/frontend/landing-refactor-harness/TASKS.md",
+    "spec_login_screen": ".spec/archive/20261112-login-screen/SPEC.md",
+    "plan_login_screen": ".spec/archive/20261112-login-screen/PLAN.md",
+    "tasks_login_screen": ".spec/archive/20261112-login-screen/TASKS.md",
+    "verify_login_screen": ".spec/archive/20261112-login-screen/VERIFY.md",
+    "tasks_bug_roteamento": ".spec/bugs/roteamento-hash/TASKS.md",
+    "verify_bug_roteamento": ".spec/bugs/roteamento-hash/TASKS.md",
+    "tasks_bug_logout": ".spec/bugs/logout/TASKS.md",
+    "spec_landing_financeira": ".spec/archive/20261113-landing-financeira/SPEC.md",
+    "plan_landing_financeira": ".spec/archive/20261113-landing-financeira/PLAN.md",
+    "tasks_landing_financeira": ".spec/archive/20261113-landing-financeira/TASKS.md",
+    "verify_landing_financeira": ".spec/archive/20261113-landing-financeira/VERIFY.md",
+    "tasks_refactor_contas_padrao": ".spec/refactors/cadastro-contas-padrao/TASKS.md",
+    "spec_contas_bank_template": ".spec/archive/20261113-contas-bank-accounts-template/SPEC.md",
+    "plan_contas_bank_template": ".spec/archive/20261113-contas-bank-accounts-template/PLAN.md",
+    "tasks_contas_bank_template": ".spec/archive/20261113-contas-bank-accounts-template/TASKS.md",
+    "tasks_bug_routing": ".spec/bugs/contas-routing-blank/TASKS.md",
+    "spec_nav": ".spec/refactors/navegacao-rotas/SPEC.md",
+    "plan_nav": ".spec/refactors/navegacao-rotas/PLAN.md",
+    "tasks_nav": ".spec/refactors/navegacao-rotas/TASKS.md",
+    "tasks_layout_fidelity": ".spec/archive/20261113-contas-layout-fidelity/TASKS.md",
+    "report_layout_fidelity": "developer ses_e29de48e6ffe1oYGu9iI0vAD2I: P1.1..P2.3 ok; typecheck 0; test 33 files/174 tests; build OK",
+    "tasks_new_account_modal": ".spec/refactors/contas-new-account-modal/TASKS.md",
+    "tasks_modal_print": ".spec/refactors/contas-new-account-modal-print/TASKS.md",
+    "tasks_modulos_shadcn": ".spec/archive/20261113-contas-modulos-shadcn/TASKS.md",
+    "report_modulos_shadcn": "developer ses_e2989f254ffe0wDvlzxaaKq6oW: P1.1..P3.1 ok; typecheck 0; suite 36 files/194 tests; build OK",
+    "tasks_extrato_demo": ".spec/archive/20261113-contas-extrato-demo/TASKS.md",
+    "tasks_tabs_gap": ".spec/archive/20261113-contas-tabs-gap/TASKS.md",
+    "tasks_transactions_modulos": ".spec/archive/20261114-contas-transactions-modulos/TASKS.md",
+    "report_transactions_modulos": "developer ses_e25f54897ffeE5DVtXYwJdw58C: P1-P3 ok; typecheck 0; suite 210/210; build OK; boundary verde",
+    "tasks_modelo_limpo": ".spec/refactors/contas-transactions-modelo-limpo/TASKS.md",
+    "report_modelo_limpo": "developer ses_e24c2582cffeQ0cnbylh5UhMF6: P1-P3 ok; typecheck 0; 210 testes; build OK; shadcn intacto",
+    "tasks_modals_menu": ".spec/refactors/contas-transactions-modals-menu/TASKS.md",
+    "report_modals_menu": "developer ses_e24a977b5ffe9z1QBkalb2nFLv: P1-P3.2 ok; typecheck 0; 217 testes; build OK; boundary verde; E2E nao executado (MCP indisponivel)",
+    "tasks_mascara": ".spec/archive/20261114-mascara-monetaria/TASKS.md",
+    "report_mascara": "developer ses_e2494c66bffeBa6VCcWRWcunl0: P1-P2 ok; typecheck 0; 222 testes; build OK; E2E mask 1500->15,00",
+    "tasks_saldo_transacao": ".spec/archive/20261114-contas-saldo-transacao/TASKS.md",
+    "report_saldo_transacao": "developer ses_e248a3abdffesDTXngSrJmArgs: B1-B3 ok; typecheck 0; 225 testes; build OK",
+    "tasks_extrato_real": ".spec/archive/20261114-contas-extrato-real/TASKS.md",
+    "report_extrato_real": "developer ses_e24746055ffecdwM5EWHXD8kaG: B1-B2 ok; typecheck 0; 243 testes; build OK; E2E manual 1280 ok",
+    "tasks_transferencia": ".spec/archive/20261114-contas-transferencia-real/TASKS.md",
+    "report_transferencia": "developer ses_e245252b6ffeASXX4rVgHjBHPW: P1-P3.2 ok; typecheck 0; 254 testes; build OK; E2E nao executado (sugerido ao QA)",
+    "tasks_ofx_analysis": ".spec/analysis/ofx-import/TASKS.md",
+    "report_ofx_map": "codebase-analyzer ses_e1bce559effePttgOadbxa08fa: A1.1..A1.5 ok; 9 lacunas; riscos RN05/RLS/BIGINT/volume/timezone",
+    "report_ofx_proposal": "architect ses_e1bc9ee90ffes6V0tywNvvhAvM: A2.1 10 etapas + A2.2 escopo negativo; riscos residuais; o que NAO fazer",
+    "spec_ofx": ".spec/frontend/ofx-import-real/SPEC.md",
+    "plan_ofx": ".spec/frontend/ofx-import-real/PLAN.md",
+    "tasks_ofx": ".spec/frontend/ofx-import-real/TASKS.md",
+    "report_ofx_b1": "developer ses_e1bc36bd4ffeiwGWnUcDaV9AEU: O1.1..O1.6 ok (TDD); typecheck 0; 286 testes; build OK; fixtures BB/Itau/Nubank 100%",
+    "report_ofx_b2": "developer ses_e1baa11e1ffeRAHwaKrQaOxG9f: O2.1..O2.4 ok (TDD); typecheck 0; 302 testes; build OK; staging pre-insert",
+    "report_ofx_b3": "developer ses_e1b9e2d6affeO2sAUYkQjdN5bK: O3.1..O3.6 + 4 amarelos ok; typecheck 0; 320 testes; build OK; E2E real executado (2 linhas, re-import idempotente, dados removidos)",
+    "report_ofx_yellows": "developer ses_e1b8b9ebaffe7wXflxzyyA5lOf: 2/2 amarelos ok; typecheck 0; 323 testes; build OK",
+    "report_ofx_qa": "qa-engineer ses_e1b6e2dc5ffen1tiqgpnbW2coc: passed_with_notes 11/11; QA-OFX-01 P2 (resumo+extrato nao recarregam pos-confirm ate reload); QA-OFX-02 P3 (UUID cru de categoria no extrato); 323 testes; build OK; ambiente limpo",
+    "report_ofx_qafix": "developer ses_e1b674cf7ffevM1BDBMwR3DaAx: QA-OFX-01+02 ok; typecheck 0; 327 testes; build OK",
+    "report_ofx_uuidflash": "developer ses_e1b603b55ffeZtQuDwEEsSzslG: flash UUID ok; typecheck 0; 330 testes; build OK",
+    "tasks_ofx_modal": ".spec/archive/20261116-ofx-modal-staging-layout/TASKS.md",
+    "report_ofx_modal": "developer ses_e1b57b8edffeVzUz4JNaQsXD7v: B1.1..B2.2 ok (TDD); typecheck 0; 333 testes; build OK; B2.3 E2E pendente",
+    "report_ofx_modal_e2e": "orquestrador via browse: dialog 672px, tabela scroll interno (1082>305), Confirmar visivel sem rolar (mioloScrollTop 0), 15 novos/0/0, 375 sem overflow; screenshots ofx-verify-1280/375",
+    "report_ofx_ux": "ux-designer ses_e1b497317ffenHr7rV66z3L7Mn: veredito pagina dedicada SIM, modal vira picker; proposta /contas/importar (Arquétipo 1, 2 etapas, sticky CTA, a11y)",
+    "spec_ofx_page": ".spec/frontend/ofx-import-page/SPEC.md",
+    "plan_ofx_page": ".spec/frontend/ofx-import-page/PLAN.md",
+    "tasks_ofx_page": ".spec/frontend/ofx-import-page/TASKS.md",
+    "report_ofxpage_b1": "developer ses_e1b4662b6ffeYCg2rpaMXKRhBz: P1.1..P1.4 ok (TDD); typecheck 0; 347 testes; build OK",
+    "report_ofxpage_b2": "developer ses_e1b38e7d0ffe8fwwBNB4M5ehRW: P2.1..P2.4 + 3 amarelos ok; typecheck 0; 356 testes; build OK",
+    "report_ofxpage_b3": "developer ses_e1b2d3ec3ffeE3znHAJZ5vm3XV: P3.1 + 5 amarelos ok (TDD 5 falhas->14/14); typecheck 0; 370 testes; build OK",
+    "report_ofxmodal_e2e": "browse E2E proprio: dialog 672px, tabela scroll interno 1082>305, Confirmar visivel sem rolar, 375 sem overflow; pagina /contas/importar: upload 15, revisar, confirmar 2 linhas (cents/dedup/reconciled ok), extrato reflete, ambiente restaurado (Bradesco 0, Conta Teste 20000)",
+    "report_categorias_ux": "ux-designer ses_e1a34ccd7ffeOWPpyjOJjMvPKW: veredicto Arquetipo 1 reduzido; proposta /categorias pronta p/ SPEC (blocos, estados, 1280/375, a11y); riscos",
+    "spec_categorias": ".spec/frontend/categorias/SPEC.md",
+    "plan_categorias": ".spec/frontend/categorias/PLAN.md",
+    "tasks_categorias": ".spec/frontend/categorias/TASKS.md",
+    "report_categorias_b1": "developer ses_e1a0ccea1ffeMQGCaZsb0InjAW: C1.1..C1.4 ok (TDD); typecheck 0; 411 testes (41 novos); build OK; achado: is_system NAO existe no banco — guards defensivos no-op documentado",
+    "report_categorias_b2": "developer ses_e19e01438ffeRlgeliFNUO400b: C2.1..C2.6 ok (TDD); typecheck 0; 435 testes (24 novos); build OK",
+    "report_categorias_b3": "developer ses_e19ce5054ffeF4SupEGa1z1pNu: P3.1 ok (TDD); typecheck 0; 455 testes (20 novos); build OK; fix real: handleRemove preserva codigo category-in-use; idempotencia via submittingRef",
+    "report_categorias_mustfix": "developer ses_e19baea83ffeYeoWexnrIyuIQ4: 4 must-fix ok; typecheck 0; 459 testes; build OK",
+    "tasks_toolbar": ".spec/archive/20261116-categorias-toolbar-segmented/TASKS.md",
+    "report_toolbar": "developer ses_e1990e9c0ffeDvXMHPMItyixeF: B1+B2.1-2 ok (TDD); typecheck 0; suite verde; build OK; pílulas h-11 (= /contas, preserva 44px); CTA h-8 desktop + min-h-11 mobile",
+    "tasks_tx_cat": ".spec/archive/20261116-transacoes-categorias-combobox/TASKS.md",
+    "report_tx_cat": "developer ses_e1987976cffelCrK8BiUDGMsEJ: B1+B2.1-2 ok (TDD); typecheck 0; 473 testes (9 novos); build OK",
+    "spec_orcamentos": ".spec/frontend/orcamentos/SPEC.md",
+    "plan_orcamentos": ".spec/frontend/orcamentos/PLAN.md",
+    "tasks_orcamentos": ".spec/frontend/orcamentos/TASKS.md",
+    "report_orcamentos_b1": "developer ses_e1948aa7fffeQbYQr2l41C0WBW: O1.1..O1.4 ok (TDD); typecheck 0; 504 testes (31 novos); build OK",
+    "report_orcamentos_b2": "developer ses_e193a8b02ffepcskG9VuG0vvPL: O2.1..O2.5 ok (TDD); typecheck 0; 539 testes (35 novos); build OK; mapBudgetError + copy alinhada incluidos",
+    "report_orcamentos_b3": "developer ses_e192d7c19ffeAoEPr67QiYzY2U: P3.1 + 6 amarelos ok (TDD 6 falhas->verde); typecheck 0; 551 testes (8 novos); build OK",
+    "tasks_toolbar_vazia": ".spec/bugs/orcamentos-toolbar-vazia/TASKS.md",
+    "report_toolbar_vazia": "developer ses_e191ff91dffeC6LgZAxTctNoMv: B1+B2.1-2 ok; typecheck 0; 556 testes; build OK",
+    "tasks_toolbar_vazia_orc": ".spec/archive/20261116-orcamentos-toolbar-vazia/TASKS.md",
+    "tasks_desc_truncate": ".spec/archive/20261116-transacoes-descricao-truncate/TASKS.md",
+    "report_desc_truncate": "developer ses_e19040805ffeLoI21tXERmuyrZ: B1+B2.1-2 ok; typecheck 0; 558 testes; build OK; ATENCAO: tocou src/components/shadcn/transactions/transaction-table.tsx (unico arquivo)",
+    "report_truncate_e2e": "browse E2E: truncate/ellipsis/tooltip ok, sem scroll de pagina; ambiente reconciliado (Bradesco 0, Conta Teste 10000, Nubank 2206 recalculado pela formula do app)",
+    "report_cartoes_ux": "ux-designer ses_e18f0dd28ffeJ6oFwjgq3Rsh7S: veredicto Arquetipo 2; proposta /cartoes (seletor+veredito 3col+MonthTabs+tabela+modais); estados 8; 1280/375; a11y; riscos",
+    "spec_cartoes": ".spec/frontend/cartoes/SPEC.md",
+    "plan_cartoes": ".spec/frontend/cartoes/PLAN.md",
+    "tasks_cartoes": ".spec/frontend/cartoes/TASKS.md",
+    "report_cartoes_b1": "developer ses_e18ec3e71ffeGNeYP18eJCtQjk: C1.1..C1.4 ok (TDD); typecheck 0; 606 testes (48 novos); build OK; DDL: sem coluna brand (name=apelido, brand view-only)",
+    "report_cartoes_b2": "developer ses_e18e2af9fffeFZ26uB3hLA35vP: C2.1..C2.6 ok; typecheck 0; 621 testes (15 novos); build OK",
+    "report_cartoes_mustfix": "developer ses_e18d634ffffeakSRoH0YHjcRfb: 5 must-fix ok; typecheck 0; 636 testes (novos: csv 7, form-limit 2, hook reescrito, view +3); build OK",
+    "report_cartoes_bom": "developer ses_e18ce4026ffepx8pSIpYd9r4pJ: BOM real + deps/cache + guarda consolidado + opcionais ok; typecheck 0; 644 testes; build OK",
+    "report_cartoes_b3": "developer ses_e18c93626ffelN9txe1cmR2IeT: P3.1 ok (TDD); typecheck 0; 667 testes (23 novos); build OK; batch so de testes (zero diff prod)",
+    "triagem_fidelidade": "architect: adotar (a) adaptar CardsView do modulo; rejeitar import da galeria (boundary spec). PM: APROVAR com ajustes; nao copiar mocks/Pix/PDF; D1 novo duplicado, D6 CTA Pix/Boleto proibido.",
+    "proposal_fidelidade": ".spec/frontend/cartoes/PROPOSAL-fidelidade.md",
+    "spec_fidelidade": ".spec/frontend/cartoes/SPEC-fidelidade.md",
+    "plan_fidelidade": ".spec/frontend/cartoes/PLAN-fidelidade.md",
+    "jira_board_fidelidade": ".spec/frontend/cartoes/JIRA_BOARD-fidelidade.md",
+    "report_f1": "developer ses_e18a2aadfffeMOex11p7Ejn3rr: CF-FE-01..03 ok; typecheck 0; 673 testes (6 novos); build OK; boundary 2/2; diff-zero shadcn/model/service/store",
+    "bug_contas_filtros": ".spec/bugs/contas-filtros/TASKS.md",
+    "report_f1_review": "code-reviewer re-review APPROVED; 19/19 spec, typecheck 0, boundary 2/2; carry-over 375px para E2E F4",
+    "report_f2": "developer ses_e18933781ffe1vjHLQpuu9Jf4K: CF-FE-04..06 ok; typecheck 0; 703 testes (20 novos); build+verify OK; boundary 2/2; diff-zero regras",
+    "bug_contas_filtros_spec": "src/components/shadcn/bank-accounts/__tests__/bank-account-statement-table-filters.spec.tsx",
+    "bug_contas_filtros_route": "src/modules/accounts/components/StatementTable.tsx",
+    "report_f2_review": "code-reviewer APPROVED F2; 20 testes isolados verdes; 0 criticos; 2 carry-over (F3 botao novo, F4 375px/foco chevrons)",
+    "audit_contas_template": ".spec/archive/20261117-contas-filtros/AUDIT.md",
+    "tasks_completo_contas": ".spec/archive/20261117-contas-filtros/TASKS-COMPLETO.md",
+    "report_f3": "developer ses_e18849c47ffeuNAJMVeN6Q840K: CF-FE-07..08 ok; 1 unico cards.new; pills; spec integridade 4 testes; 707 testes (7 pre-existentes inalterados); typecheck 0; build OK; boundary 2/2; diff-zero regras",
+    "batchA_report": "developer ses_e1881ac67ffe62e63xyMx1e3rM: 9 itens + A-0; 123 arq/721 testes; typecheck/build/verify OK; screenshots batchA-*",
+    "batchB_report": "developer ses_e1881ac67ffe62e63xyMx1e3rM: 8 itens; 129 arq/746 testes; typecheck/build/verify OK; screenshots batchB-*",
+    "plan_adr003": ".spec/frontend/cartoes-identidade-template/PLAN.md",
+    "tasks_adr003": ".spec/frontend/cartoes-identidade-template/TASKS.md",
+    "report_adr003": "developer ses_e185cce14ffeilzuip7A3KDNfh: T1.1-T2.1 ok; typecheck 0; build OK; escopo isolado 2 files/28 testes; suite cheia contaminada por agente concorrente (accounts/cards-view), zero falhas de tema; diff-zero regras",
+    "report_adr003_rename": "developer ses_e1854a7f4ffe6yQHzs36tQIX37: rename cardThemeSchema->CardThemeSchema + z.infer; suite cheia 133/780 verde; typecheck 0; build OK; boundary 2/2; diff-zero regras",
+    "report_adr001": "developer ses_e184fa38efferSNow6Yrkt7Dt4: migration 0047 aplicada (db reset OK), information_schema verificado, CHECK 5 temas, PAN/CVV=0, RLS A!=B, gen types OK, adapter le colunas; 134 files/789 testes",
+    "batchC_report": "developer ses_e1881ac67ffe62e63xyMx1e3rM: 10 itens; 134 arq/789 testes; typecheck/build/verify OK; screenshots batchC-*",
+    "batchC_notas": ".spec/archive/20261117-contas-filtros/BATCH-C-NOTAS.md",
+    "report_adr002": "developer ses_e16c4d65cffexRN9UlKJP95IF5: migration 0048 aplicada, spec SQL T0-T6 OK (A!=B card-not-found, indice rejeita 2o, atomica), wrapper setDefaultCard 3/3; 137 files/808 testes (+3, mesmas 5 falhas budgets alheias); typecheck/build bloqueados por 4x TS6133 em BudgetsToolbar.tsx (outro agente, fora escopo); 0046 intacta",
+    "batchD_report": "developer ses_e1881ac67ffe62e63xyMx1e3rM: vitrine+hardening; 137 arq/808 testes; verify OK com template-overrides",
+    "runbook_template": ".doc/runbook-template-overwrite.md",
+    "report_adr005": "developer ses_e16ae45c7ffe3JINjDKMj03rK8: helper CardIdentity (••••+chip pendente | •1234 tabular), aplicado seletor+wallet, i18n cards.identity.pending PT/EN, 6 testes; suite 138/814 (+6), escopo isolado 6/6; tsc erros alheios em dashboard/layouts; diff-zero regras",
+    "report_adr004": "developer ses_e16a0a75affejAjWNGA7itbohs: veredito 3 slots (pay/exportCsv/viewStatement), Editar movido p/ wallet, i18n PT/EN, onExport real + scroll extrato; 30 testes isolados verdes; build full bloqueado por router.tsx alheio; diff-zero regras",
+    "h6_unblock": "developer ses_e1693e6a5ffelkwwi0YbEwh53O: 7 erros tsc->0 (helpers removidos de proposito, router usa Outlet, chart guard tipado, main->div), Os 7 erros + 19 falhas navigation estabilizados por agente concorrente; suite final 139/844 verde, build OK",
+    "verify_final": ".spec/archive/20261117-cartoes-identidade-template/frontend/VERIFY.md",
+    "archive": ".spec/archive/20261117-cartoes-identidade-template/",
+    "report_debt_title": "developer ses_e16803c31ffehQEPxqs7nGaAeH: useDocumentTitle hook + 1 linha no layout; 140 files/856 testes; typecheck 0 build OK; browser R1 confirmado (abas Cartões/Contas • Atlas Financeiro)",
+    "verify_contas_filtros": ".spec/archive/20261117-contas-filtros/VERIFY.md",
+    "archive_contas_filtros": ".spec/archive/20261117-contas-filtros",
+    "validacao_template_cartoes": "workflow-state.json#validacao_template_cartoes",
+    "refactor_contas_pill_toggle": "pill-toggle lg em modo+filtros (rota+vitrine); 141 arq/877 testes",
+    "adr006": ".spec/prd/cartoes-identidade-template/ADRs/ADR-006-preview-3d-contrato-visual/ADR.md",
+    "adrIndex": ".spec/prd/cartoes-identidade-template/ADR-INDEX.md",
+    "deltaAdr006": ".spec/prd/cartoes-identidade-template/DELTA-ADR-006.md",
+    "specFollowup": ".spec/archive/20261117-cartoes-preview-3d-followup/SPEC.md",
+    "planFollowup": ".spec/archive/20261117-cartoes-preview-3d-followup/PLAN.md",
+    "tasksFollowup": ".spec/archive/20261117-cartoes-preview-3d-followup/TASKS.md",
+    "report_batch1": "developer ses_e1629a696ffeTW9PAKpj0a2rwO: C1.1-C1.2-C2.1-C2.2 ok (TDD); 142 arq/904 testes 0 falhas; typecheck 0; build OK; verify OK; PCI grep limpo; boundary 2/2",
+    "report_batch1_review": "code-reviewer ses_e161c83c9ffeSLZThG9jVbMuw4: APPROVED, 0 criticos, 3 atencao; tsc 0, 64/64 testes, i18n 13/13, PCI grep limpo",
+    "report_batch2": "developer ses_e1615fa3effeaoPOutKC8aVHLH: C3.1-C3.2-C4.1-C4.2 + 2 amarelos ok; 143 arq/912 testes 0 falhas; typecheck 0; build OK; verify OK; boundary 2/2; AT identidade 1x/cartao via sr-only",
+    "report_batch2_review": "code-reviewer ses_e160e8f60ffeJcDPebixRhfi9s: CHANGES_REQUESTED, 2 criticos visuais, screenshot /tmp/opencode/wallet-identity-overlap.png",
+    "report_batch2_loop1": "developer ses_e1615fa3effeaoPOutKC8aVHLH loop1/3: 2 criticos corrigidos; 143 arq/917 testes 0 falhas; overlap 0 em 1280/375; contraste AA 5 temas (platinum 7,81:1); screenshots harness/wallet-fixed-1280x800.png + 375x812; console 0 ERRO/WARN; network 0 4xx/5xx",
+    "report_batch2_review_final": "code-reviewer ses_e160e8f60ffeJcDPebixRhfi9s re-review: APPROVED, 0 criticos, 2 atencao nao bloqueantes",
+    "verifyFollowup": ".spec/archive/20261117-cartoes-preview-3d-followup/VERIFY.md",
+    "verifyEmenda": ".spec/archive/20261117-cartoes-identidade-template/frontend/VERIFY.md (emenda falso verde 2026-11-17)",
+    "report_c5": "developer: contraprova visual versionada; 144 arq/919 testes; verify OK",
+    "archiveFollowup": ".spec/archive/20261117-cartoes-preview-3d-followup/",
+    "report_veredito_impl": "developer ses_e15a64b46ffevhESBUeNfYFdzT: V1-V4 ok (TDD 21 vermelhas->0); 145 arq/940 testes; typecheck 0; build/verify OK; boundary 2/2; E2E 1280/375 screenshots; console/network limpos; A1/A2/A3 aplicados",
+    "report_veredito_review": "code-reviewer ses_e1597b196ffeaUVpM6kRtlr7me: APPROVED, 0 criticos, 40/40 testes alvo, screenshots 1280/375 conferidos",
+    "specVeredito": ".spec/frontend/cartoes-veredito-consolidado-template/SPEC.md",
+    "planVeredito": ".spec/frontend/cartoes-veredito-consolidado-template/PLAN.md",
+    "tasksVeredito": ".spec/frontend/cartoes-veredito-consolidado-template/TASKS.md",
+    "verifyVeredito": ".spec/frontend/cartoes-veredito-consolidado-template/VERIFY.md",
+    "proposta_template_reuse": ".agents/rules/template-reuse.md (APLICADA pelo humano 2026-11-17)",
+    "report_template_reuse_selector": "developer ses_e153fafc9ffeDsg9SXIshj0Ucq: template card-selector-bar reutilizado em CardsView, cents via formatCentsBRL (sem /100/Intl), recriacao do modulo removida, boundary allowlist atualizada; 144 arq/925 testes; typecheck/build/verify OK; E2E 1280/375 screenshots; ATENCAO: template-overrides.json regenerado absorvendo divergencias concorrentes em card-invoice-header.tsx e index.css",
+    "report_template_reuse_selector_review": "code-reviewer ses_e152e04feffetV572RmW6RhC6O: APPROVED, 0 criticos, 50 testes alvo verdes, check template-overrides sem --update OK",
+    "verifyTemplateReuse": ".spec/archive/20261117-template-reuse-card-selector-bar/VERIFY.md",
+    "archiveVeredito": ".spec/archive/20261117-cartoes-veredito-consolidado-template/",
+    "archiveTemplateReuse": ".spec/archive/20261117-template-reuse-card-selector-bar/",
+    "report_datatable_cartoes": "developer ses_e15143602ffeojTKNQWmF8H1Ma: CardExpensesTable ao padrao bank-account (header/search/PillToggle/Label sr-only); colunas so do dominio; 145 arq/937 testes; typecheck/build/verify/boundary 3/3 OK; 5 screenshots + comparacao /contas; zero overflow 375",
+    "verifyDatatableCartoes": ".spec/archive/20261117-cartoes-datatable-padrao-bank-account/VERIFY.md",
+    "archiveDatatableCartoes": ".spec/archive/20261117-cartoes-datatable-padrao-bank-account/",
+    "report_cadastro_p1": "developer ses_e14c43654ffe2InGWDGBAoJ3kH: P1 service/model ok (TDD 31 novos); 148 arq/968 testes 0 falhas; typecheck/build/verify/boundary 3/3 OK; 47 migrations intactas; A1-A6 aplicados",
+    "report_cadastro_p1_review": "code-reviewer ses_e14bbbb0dffe990f8Vx0HlpKys: APPROVED, 0 criticos, 34/34 testes alvo, comparacao linha a linha com backup",
+    "report_cadastro_p2": "developer ses_e14c43654ffe2InGWDGBAoJ3kH: P2 modal+ligacao ok (TDD 16 novos); 149 arq/984 testes 0 falhas; typecheck/build/verify/boundary 3/3 OK; erro por instanceof/name (nao message); E2E 1x R$15 e 3x R$300 split nov/dez/jan; console/network limpos; P1 service/model intactos (+1 teste 23505)",
+    "report_cadastro_p2_review": "code-reviewer ses_e14a56e63ffe3YAOmPu7WjVZNo: APPROVED, 0 criticos, 73 testes alvo, E2E conferida",
+    "report_bugfix_categorias": "developer ses_e14c43654ffe2InGWDGBAoJ3kH: bugfix categorias ok; CardsScreen mount carrega loadCategories({silent:true}) no mesmo Promise.all; 149 arq/985 testes; E2E Select 10 categorias expense, GET 200, console/network limpos",
+    "verifyCadastroLancamentos": ".spec/archive/20261117-cartoes-cadastro-lancamentos/VERIFY.md",
+    "archiveCadastroLancamentos": ".spec/archive/20261117-cartoes-cadastro-lancamentos/",
+    "regra_template_reuse_status": "aplicada — auto-carregada via opencode.json instructions .agents/rules/*.md",
+    "report_bugfix_exibicao_categoria": "developer ses_e14c43654ffe2InGWDGBAoJ3kH: bugfix exibicao ok; ExpenseRow.categoryName + Map lookup + badge na subtlinha + detalhe; 150 arq/991 testes; E2E 'E2E Categoria Visivel · Alimentacao'; CONCORRENCIA: agente paralelo mudou PillToggle lg->sm as 18:33, dev restaurou lg (44px DESIGN.md) — conferir intencao",
+    "report_bugfix_exibicao_review": "code-reviewer ses_e148142d0ffeNEOAKmV56r8Y3f: APPROVED, 0 criticos, 30/30 testes alvo, E2E confirmada",
+    "report_detail_layout": "developer ses_e147ab8c0ffeJCW70BMfv8LCI9: ExpenseDetailDialog reconstruido (badge categoria+ID, titulo, subtitulo last4 real, bloco valor, Dados so Data+Cartao); sem Horario/Local/Notas/Recibo/Contestar; last4 via invoice_id->card sem SELECT; 150 arq/999 testes; E2E 1280/375 last4 1881/4444",
+    "report_detail_layout_review": "code-reviewer ses_e146c7d37ffeo1aLv0Bwii3GZH: APPROVED, 0 criticos, 30 testes alvo",
+    "monthTabsTasks": ".spec/melhorias/cartoes-month-tabs-ativo-visivel/TASKS.md",
+    "monthTabsReview": "code-reviewer ses_e13e0f6d7ffe7UrunHGAX8VVnJ: CHANGES_REQUESTED; 1 critico (paginacao manual remove ativo da janela -> sem tabIndex=0/aria-selected); 2 atencao (useLayoutEffect, evidencia console/network incompleta); 13/13 testes alvo; 1012 suite",
+    "monthTabsReviewUx": "ux-designer ses_e14099ec9ffeMSdDJZs9KU4wZV: Opcao 1 aprovada com emenda; 6 invariantes CR-1..CR-6; teste 14; evidencia H3 independente bloqueia Completed",
+    "jiraBoard": "JIRA_BOARD.md",
+    "monthTabsReviewFinal": "code-reviewer re-review APPROVED; 0 criticos; 16/16 testes alvo; 1015 suite; CR-1..CR-6 confirmados",
+    "monthTabsOrderTasks": ".spec/melhorias/cartoes-month-tabs-ativo-visivel/TASKS.md (Extensao E1)",
+    "e1Report": "harness/e1-fatura-aberta-primeiro.json",
+    "e1Evidence": "harness/h3-e1/evidence/",
+    "securityP1Tasks": ".spec/archive/20261118-security-p1-hardening/TASKS.md",
+    "brain_uso_aprendizado_busca": {
+      "status": "review-approved",
+      "code_review_status": "passed",
+      "critical_issues": 0,
+      "attention_issues": 1,
+      "artifacts": {
+        "tasks": ".spec/bugs/brain-uso-aprendizado-busca/TASKS.md",
+        "patchProtected": ".spec/bugs/brain-uso-aprendizado-busca/PATCH-PROTECTED.md"
+      },
+      "brain_store": "estudos/projetos/atlas-financeiro/brain-uso-aprendizado-busca-diagnostico",
+      "pending": [
+        "P1..P5 em paths protegidos aguardam resolução humana/trailer Harness-Gate-Change",
+        "A1 follow-up no repo brain"
+      ],
+      "last_update": "2026-11-18T13:08:56.440Z"
+    },
+    "securityP1Verify": ".spec/archive/20261118-security-p1-hardening/VERIFY.md",
+    "securityP1Adr": ".spec/archive/20261118-security-p1-hardening/ADR-001-operator-gate.md",
+    "securityP1Ux": ".spec/archive/20261118-security-p1-hardening/UX-AUTH-SURFACE.md",
+    "securityP1P2": ".spec/archive/20261118-security-p1-hardening/P2-LANDING.md",
+    "securityTechDebts": ".spec/tech-debts/security-p2-p3/TASKS.md",
+    "prdControlPlane": ".spec/prd/control-plane-billing/PRD.md",
+    "inventoryControlPlane": ".spec/prd/control-plane-billing/INVENTORY.md",
+    "debts4950Tasks": ".spec/bugs/security-debts-49-50/TASKS.md",
+    "f1Proposal": ".spec/backend/tenant-onboarding/PROPOSAL.md",
+    "f1Spec": ".spec/backend/tenant-onboarding/SPEC.md",
+    "f1Plan": ".spec/backend/tenant-onboarding/PLAN.md",
+    "f1BillingProposal": ".spec/backend/subscription-billing/PROPOSAL.md",
+    "f1BillingSpec": ".spec/backend/subscription-billing/SPEC.md",
+    "f1BillingPlan": ".spec/backend/subscription-billing/PLAN.md",
+    "f1BillingTasks": ".spec/backend/subscription-billing/TASKS.md",
+    "f1BillingBoard": ".spec/backend/subscription-billing/JIRA_BOARD.md",
+    "f2Tasks": ".spec/backend/tenant-onboarding/TASKS.md",
+    "f2Board": ".spec/backend/tenant-onboarding/JIRA_BOARD.md",
+    "f3Spec": ".spec/backend/tenant-quota/SPEC.md",
+    "f3Plan": ".spec/backend/tenant-quota/PLAN.md",
+    "f3Tasks": ".spec/backend/tenant-quota/TASKS.md",
+    "f3Board": ".spec/backend/tenant-quota/JIRA_BOARD.md",
+    "f4Spec": ".spec/frontend/internal-control-plane/SPEC.md",
+    "f4Plan": ".spec/frontend/internal-control-plane/PLAN.md",
+    "f4Ux": ".spec/frontend/internal-control-plane/UX.md",
+    "f4Tasks": ".spec/frontend/internal-control-plane/TASKS.md",
+    "f4Board": ".spec/frontend/internal-control-plane/JIRA_BOARD.md",
+    "f5Spec": ".spec/backend/asaas-webhook/SPEC.md",
+    "f5Plan": ".spec/backend/asaas-webhook/PLAN.md",
+    "f5Tasks": ".spec/backend/asaas-webhook/TASKS.md",
+    "f5Board": ".spec/backend/asaas-webhook/JIRA_BOARD.md"
+  },
+  "features": [
+    {
+      "name": "fase-1-fundacao",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "fase-2-core",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "fase-3-ingestao",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "fase-4-conversao-backoffice",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "melhoria-premium",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "fase-5-landing-v2",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "ref-contas-drawer",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "ref-categorias-drawer",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "ref-cartoes-drawer",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "ref-regras-drawer",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "ref-orcamentos-drawer",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "ref-telas-pesquisa",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "me-lancamentos-validacoes",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "me-lancamentos-split",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "me-lancamentos-ux-desktop",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "me-lancamentos-ux-mobile",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "ref-transferencia-drawer",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "fase-6-rf03-cartoes",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "rf03-p2-saneamento",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "rf03-p3-fechamento",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "tenants-cobranca",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "tenants-mvp",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "dashboard-loading",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "dashboard-kpis-realizado-previsto",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "backoffice-p0",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "backoffice-p1-cockpit",
+      "stage": "Discovery",
+      "progress": 5,
+      "status": "in_progress"
+    },
+    {
+      "name": "backoffice-p1-cockpit-adr002",
+      "stage": "Testing",
+      "progress": 80,
+      "status": "in_progress"
+    },
+    {
+      "name": "backoffice-p0-mfa",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "internal-admin",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "landing-refactor-harness",
+      "stage": "Execution",
+      "progress": 30,
+      "status": "in_progress"
+    },
+    {
+      "name": "login-screen",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "roteamento-hash",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "logout",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "landing-financeira",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "contas-bank-accounts-template",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "cadastro-contas-padrao",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "contas-layout-fidelity",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "contas-modulos-shadcn",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "contas-extrato-demo",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "contas-tabs-gap",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "contas-transactions-modulos",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "mascara-monetaria",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "contas-saldo-transacao",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "contas-extrato-real",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "contas-transferencia-real",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "ofx-modal-staging-layout",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "categorias-toolbar-segmented",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "transacoes-categorias-combobox",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "orcamentos-toolbar-vazia",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "transacoes-descricao-truncate",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "cartoes-preview-3d-followup",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "cartoes-veredito-consolidado-template",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "template-reuse-card-selector-bar",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "cartoes-datatable-padrao-bank-account",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "cartoes-cadastro-lancamentos",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "cartoes-month-tabs-ativo-visivel",
+      "stage": "Testing",
+      "progress": 90,
+      "status": "in_progress"
+    },
+    {
+      "name": "cartoes-fatura-aberta-primeiro",
+      "stage": "Testing",
+      "progress": 95,
+      "status": "in_progress"
+    }
+  ],
+  "overrides": [
+    {
+      "portao": "D2a-cookie-JS",
+      "motivo": "SPA Vite pura não grava HttpOnly; cookie JS sb-* SameSite=Lax/Secure + CSP + follow-up SSR Módulo 4",
+      "data": "2026-11-01T23:17:16.192931Z"
+    },
+    {
+      "portao": "protected-path-rules",
+      "motivo": "autorizacao humana explicita (2026-11-04) para aplicar DELTA-SPECS + ADDENDUM do RF03 em .agents/rules; repo sem git, logo trailer Harness-Gate-Change/CI N/A",
+      "data": "2026-11-04T16:50:01.384Z"
+    },
+    {
+      "portao": "G-1-suitefull",
+      "motivo": "usuario decidiu adiar; suiteFull segue build+typecheck. Consequencia aceita: o gate nao roda testes.",
+      "data": "2026-11-04T22:21:59.246Z"
+    },
+    {
+      "portao": "PRD-decisoes-abertas",
+      "motivo": "usuario aprovou o plano sem responder unidade de excedente, provedor de cobranca e profundidade do aceite; decisoes levadas ao PRD (secao 14 + bloco 16) para aprovacao explicita, nao assumidas na implementacao",
+      "data": "2026-11-05T16:55:47.299Z"
+    },
+    {
+      "portao": "protected-path-rules",
+      "motivo": "humano autorizou delta P7 em .agents/rules/supabase-postgres-standards.md (2026-11-05); gate negou protected-path-write; proposta salva em .spec/backend/tenants-cobranca/DELTA-P7-proposal.md para aplicacao humana",
+      "data": "2026-11-05T18:21:35.547Z"
+    },
+    {
+      "portao": "PRD-archive",
+      "motivo": "4/4 ADRs merged com aprovação humana; PRD movido para .spec/archive/20261105-prd-tenants-cobranca/tenants-cobranca; checks vacuous-safe",
+      "data": "2026-11-05T18:57:13.786Z"
+    },
+    {
+      "portao": "vitest-flake",
+      "motivo": "1a medicao pos-onda2 deu 5 falhas transitórias sem arquivo identificado; rerun 1657/1657; sem rerun isolado do arquivo",
+      "data": "2026-11-05T20:55:17.356Z"
+    },
+    {
+      "portao": "H3-r2",
+      "motivo": "passo 03 refeito em browser real após fix (4/4 r2); baseline 04-09 intacto do ciclo anterior",
+      "data": "2026-11-05T21:43:04.276Z"
+    },
+    {
+      "portao": "P5->P6",
+      "motivo": "usuario autorizou arquivar com debito BUG-MFA-ENV (GoTrue local sem aal2 — caminho feliz nao provado por limitacao infra); BUG-MFA-RETRY corrigido e provado",
+      "data": "2026-11-09T05:10:00.000Z"
+    },
+    {
+      "portao": "brain-register",
+      "motivo": "MCP brain exige login no servidor 127.0.0.1:8321 — brain_store indisponivel nesta sessao; sessoes/lições nao registradas (pendente de login)",
+      "data": "2026-11-09T16:10:00.000Z"
+    },
+    {
+      "portao": "P5->P6",
+      "motivo": "usuario autorizou arquivar internal-admin com dividas documentadas (paginas legadas mortas pos-L4, borda Edge sem teste executavel, BUG-MFA-ENV infra)",
+      "data": "2026-11-09T16:20:00.000Z"
+    },
+    {
+      "portao": "shadcn-zero-edit",
+      "motivo": "usuario aceitou (opcao A): truncate em src/components/shadcn/transactions/transaction-table.tsx porque a tabela real vive no shadcn sem wrapper em modules; mudanca minima visual, boundary verde",
+      "data": "2026-11-17T00:54:14.920554+00:00"
+    },
+    {
+      "portao": "P0→P1",
+      "motivo": "Refactor cartoes-fidelidade-template: '+ Novo' fica exclusivamente no SelectorBar (Arquétipo 2 / regra mais específica), com exceção registrada à Regra da Ação Única de tables-and-data.md §1; architect+PM recomendaram; usuário aprovou em 2026-11-16",
+      "data": "2026-11-17T02:33:59.604133+00:00"
+    },
+    {
+      "portao": "B1->B2-escopo-5-arquivo",
+      "motivo": "humano autorizou 5o arquivo StatementTable.tsx (componente real da rota /contas) e Variante A; vitrine sozinha nao resolvia o bug na tela",
+      "data": "2026-11-16T23:58:00Z"
+    },
+    {
+      "portao": "H2-budgets-externo",
+      "motivo": "humano autorizou saneamento minimo de BudgetsToolbar.tsx (debito de outro agente) para desbloquear verify; e correcao do overflow 4px em view-mode-toggle.tsx compartilhado",
+      "data": "2026-11-17T01:00:00Z"
+    },
+    {
+      "portao": "E1-credit-cards-paralelo",
+      "motivo": "humano confirmou sessao paralela escrevendo src/modules/credit-cards/** durante o ciclo; nao tocado por este ciclo; risco de colisao registrado",
+      "data": "2026-11-17T01:25:00Z"
+    },
+    {
+      "portao": "layout-refactor-paralelo",
+      "motivo": "humano autorizou migrar src/router.tsx para a nova API do AtlasAdminLayout (children+Outlet) em vez de reverter; app estava sem boot por refactor da sessao paralela",
+      "data": "2026-11-17T01:40:00Z"
+    },
+    {
+      "portao": "D-HARD-escopo-ampliado",
+      "motivo": "humano autorizou estender o manifesto anti-overwrite de bank-accounts para todo o catalogo do template (layouts, navigation, dashboard, ui, index.css, lib/cn)",
+      "data": "2026-11-17T01:55:00Z"
+    },
+    {
+      "portao": "follow-up-cartoes-preview-3d",
+      "motivo": "Usuario aprovou 'pode iniciar' follow-up SDD curto aberto apos validacao do atlas-template-specialist (modal 3D ausente, lista correta). PRD cartoes-identidade-template ja aprovado; sem PRD novo.",
+      "data": "2026-11-17T13:16:03.072863+00:00"
+    },
+    {
+      "portao": "ADR-006-merge-e-inserto-mesmo-ciclo",
+      "motivo": "Usuario aprovou opcao A: ADR-006 merged + expansao do insert de identidade (5 colunas da 0047) no mesmo ciclo SDD. ADR congela payload nao-sensivel; sem ADR novo para insert.",
+      "data": "2026-11-17T13:21:54.086888+00:00"
+    },
+    {
+      "portao": "H2-pre-delegation-flake-concorrente",
+      "motivo": "Pre-delegation gate: 1a rodada 6 falhas em accounts/budgets (modulos de agente concorrente), 2a 1 falha, 3a/4a verdes. Contagem subiu 869->877 durante medicao; 11 arquivos src/ alterados em 30 min (bank-accounts/accounts/dashboard/pill-toggle). Usuario aprovou seguimento com baseline verde nas 2 ultimas rodadas. Risco de colisao registrado; credit-cards nao tocado pelo agente concorrente.",
+      "data": "2026-11-17T13:26:05.898345+00:00"
+    },
+    {
+      "portao": "P6-cartoes-evidencia",
+      "motivo": "Usuario escolheu opcao B: arquivar follow-up e MANTER os 7 cartoes de evidencia no Supabase local como dados de teste (nao limpar). Follow-up P3 CART-VERIFY-DADOS-EVIDENCIA permanece registrado.",
+      "data": "2026-11-17T15:11:16.048486+00:00"
+    },
+    {
+      "portao": "P0-refactor-veredito-consolidado",
+      "motivo": "Usuario aprovou interpretacao A no prompt gate (visual identico a imagem do template, rotulos honestos ADR-004). Alvo so o modo consolidado em CardsView.tsx:229-260. Refactor visual sem regra de negocio nova.",
+      "data": "2026-11-17T15:49:02.176133+00:00"
+    },
+    {
+      "portao": "UX-veredito-touch-44px",
+      "motivo": "ux-designer vinculante: min-h-11 sobre h-10/h-9 do template — a11y WCAG 2.1 AA prevalece sobre medida literal da referência.",
+      "data": "2026-11-17T15:52:17.203165+00:00"
+    },
+    {
+      "portao": "UX-veredito-text-xs",
+      "motivo": "ux-designer vinculante: text-xs no rodapé do painel sobre text-[10px] do template — legibilidade/contraste AA.",
+      "data": "2026-11-17T15:52:17.203165+00:00"
+    },
+    {
+      "portao": "UX-veredito-raio-card",
+      "motivo": "ux-designer vinculante: rounded-2xl + p-5 sm:p-6 neste card específico — fidelidade à imagem aprovada pelo usuário; restante do sistema mantém rounded-xl + p-4 sm:p-5.",
+      "data": "2026-11-17T15:52:17.203165+00:00"
+    },
+    {
+      "portao": "UX-veredito-refinamento-geometria",
+      "motivo": "Usuario forneceu 2 fotos (sistema vs template) e pediu refinamento: card mais baixo, badge+titulo na mesma linha, datas em 1 linha formato dd/mm/yyyy, painel de limite compacto sem quebra, botoes 1 primario largo + 2 secundarios lado a lado. Sobrescreve parecer ux-designer anterior (3 botoes empilhados desktop). Rotulos ADR-004 e demais regras mantidos.",
+      "data": "2026-11-17T17:16:50.553520+00:00"
+    },
+    {
+      "portao": "template-reuse-rule-pendente-aplicacao-humana",
+      "motivo": "Usuario determinou reutilizar componentes do template (nao recriar em modulo), evoluir no catalogo e enviar issue upstream. Escrita em .agents/rules/** negada por gate (I9); proposta salva em .spec/governance/template-reuse-rule/RULE-PROPOSTA.md para aplicacao humana. Usuario informou que outro agente altera credit-cards — orquestrador NAO tocou codigo.",
+      "data": "2026-11-17T18:15:19.371423+00:00"
+    },
+    {
+      "portao": "template-reuse-card-selector-bar",
+      "motivo": "Usuario autorizou evoluir src/components/shadcn/credit-card/card-selector-bar.tsx (mantendo layout) e usa-lo no CardsView no lugar da versao do modulo. Atualizar ALLOWED_REUSABLE no boundary spec. Usuario assumiu coordenacao com agente concorrente. Dinheiro permanece BIGINT cents (formatCentsBRL), sem /100.",
+      "data": "2026-11-17T18:23:01.770675+00:00"
+    },
+    {
+      "portao": "baseline-concorrente-923",
+      "motivo": "Baseline caiu 943->923 (144 arq) por agente concorrente alterando CardsView.tsx/card-invoice-header.tsx/verdict-consolidated.spec.tsx e o catalogo shadcn/credit-card as 14:40-15:23. Arquivos de teste presentes (22), reducao dentro de arquivos. Repo sem git sem diff. Usuario autorizou assumir edicao.",
+      "data": "2026-11-17T18:23:40.837294+00:00"
+    },
+    {
+      "portao": "P0-cadastro-lancamentos-cartao",
+      "motivo": "Usuario aprovou PICCO: modal (nao drawer), somente leitura+criacao (1x e parcelada), reaproveitando SPEC cartoes-lancamentos-drawer adaptada ao modulo credit-cards. Sem antecipacao/edicao/exclusao (0018). Backend migrations 0001-0018 intactas.",
+      "data": "2026-11-17T20:01:17.863587+00:00"
+    },
+    {
+      "portao": "bugfix-categorias-modal-cartao",
+      "motivo": "Usuario reportou que modal de compra nao traz categorias. Causa raiz: CardsScreen.tsx le state.categories mas efeito de mount nao chama loadCategories (TransactionsScreen:36 faz). Correcao via developer-engineer, 1 linha + teste.",
+      "data": "2026-11-17T21:22:10.600964+00:00"
+    },
+    {
+      "portao": "template-reuse-regra-aplicada",
+      "motivo": "Humano confirmou que moveu a proposta para .agents/rules/template-reuse.md. Regra agora auto-carregada. Override anterior 'template-reuse-rule-pendente-aplicacao-humana' fica resolvido.",
+      "data": "2026-11-17T21:34:57.530720+00:00"
+    },
+    {
+      "portao": "bugfix-exibicao-categoria-cartao",
+      "motivo": "Usuario reportou 'nao ta salvando a categoria'. Diagnostico R1/R3: categoria ESTA salva no banco (Mercado->Alimentacao), mas ExpenseRow descarta row.category_id e CardExpensesTable renderiza sempre cards.purchase.noCategory. Bug de EXIBICAO, nao de persistencia. Correcao via dev: propagar categoryName no mapeamento e renderizar badge.",
+      "data": "2026-11-17T21:39:00.799944+00:00"
+    },
+    {
+      "portao": "P0→P1-cartoes-month-tabs",
+      "motivo": "Usuario aprovou opcao A (proposta A do ux-designer): janela derivada do ativo + scrollIntoView + setas coladas + disclosure com contagem. Refactor visual, sem regra de negocio nova. Conflito \"chip fundo branco\" resolvido com bg-primary text-primary-foreground (DESIGN.md §1.3).",
+      "data": "2026-11-18T00:28:24.460Z"
+    },
+    {
+      "portao": "H2-baseline-cartoes-month-tabs",
+      "motivo": "Pre-delegation gate: 1a rodada 5 timeouts/pointer em accounts/landing/budgets/transactions (agentes concorrentes), zero em credit-cards; isolados 39/39 verdes; 2a rodada cheia 150 arq/999 testes verdes + typecheck 0 + build OK. Baseline limpa confirmada.",
+      "data": "2026-11-18T00:28:24.460Z"
+    },
+    {
+      "portao": "I6-batch-ux-correcao-month-tabs",
+      "motivo": "Usuario aprovou opcao A apos CHANGES_REQUESTED: consultar ux-designer (parecer vinculante) e corrigir com Opcao 1 (setas mudam o periodo ativo, eliminando windowStart_orfa). Portao humano explicito autoriza nova delegacao apos developer+reviewer do batch anterior.",
+      "data": "2026-11-18T00:51:26.760Z"
+    },
+    {
+      "portao": "E1-fatura-aberta-primeiro",
+      "motivo": "Usuario classificou como Melhoria e decidiu via Prompt Gate (2 rodadas): reordenar chips com fatura aberta (open/partial) primeiro, demais decrescente. Decisao do usuario, nao deduzida pela IA; parecer ux anterior preservado para o restante do seletor.",
+      "data": "2026-11-18T01:12:55.689Z"
+    },
+    {
+      "portao": "I6-qa-h3-fatura-aberta",
+      "motivo": "Usuario aprovou \"pode iniciar\" para a melhoria E1; code review APPROVED mas H3 pendente por ambiente (chrome-devtools preso a profile alheio, browse relay 19988 falhou, desktop browser desconectado). Nova delegacao ao qa-engineer para recaptura visual isolada; portas alheias nao serao mortas.",
+      "data": "2026-11-18T01:22:21.918Z"
+    },
+    {
+      "portao": "SEC-01-S2-artefatos-na-raiz",
+      "motivo": "Humano aceitou manter .harness-install.json, .harness-backup/ (13MB) e .env* na raiz, bloqueados por fs.deny (403 medido). Backups de frontend foram movidos para fora.",
+      "data": "2026-11-18T13:27:14.753Z"
+    },
+    {
+      "portao": "verify.sh-template-overrides",
+      "motivo": "Humano/orquestrador aceita verify.sh vermelho APENAS no step template-overrides (13 problemas pre-existentes, SEC-DEBT-03). Nao rodar --update: abencoaria mudancas do agente concorrente em credit-card/kanban/data-table. Os demais steps de verify.sh passam.",
+      "data": "2026-11-18T17:25:12.121Z"
+    },
+    {
+      "portao": "protected-path-harness-gate",
+      "motivo": "HUMANO autorizou explicitamente (2026-11-18) alterar .opencode/plugins/gate.js + harness.config.json + package.json para corrigir falso negativo de isHarnessScoped (path absoluto) e ligar testes de gate ao suiteFull. Repo sem git: trailer Harness-Gate-Change N/A; autorizacao registrada aqui.",
+      "data": "2026-11-18T18:19:03.074Z"
+    },
+    {
+      "portao": "template-overrides-update-direcionado",
+      "motivo": "Batch A do P2 landing: autorizado atualizar SOMENTE os hashes de pricing-table.tsx e pricing-types.ts (arquivos gerenciados que evoluimos com *Key? aditivo). --update global segue proibido para nao legitimar drift do agente concorrente.",
+      "data": "2026-11-18T18:51:35.603Z"
+    },
+    {
+      "portao": "migration-aplicada-0054-edit-in-place",
+      "motivo": "Humano autorizou editar 0054 in-place para corrigir C1 (bloqueio indevido de usuario com tenant canceled + tenant gravavel). Justificativa: migration criada e aplicada apenas neste ambiente na mesma sessao, repo sem git, zero drift externo. T08 adicionado.",
+      "data": "2026-11-19T01:45:58.428Z"
+    },
+    {
+      "portao": "migration-0059-edit-in-place",
+      "motivo": "Review P5 apontou 2 criticos de dinheiro (payment_refunded marca fatura mais recente em vez da do evento; renovacao ignora pending_plan_slug e cobra plano antigo). Autorizado por precedente da 0054: migration criada neste ciclo, aplicada apenas localmente, sem git/remote/deploy. Reversivel pelo humano.",
+      "data": "2026-11-19T11:09:59.508Z"
+    },
+    {
+      "portao": "UX-shell-template",
+      "motivo": "Usuario (dono do produto) sobrepos o parecer de UX: console interno deve usar o menu do AtlasTemplate (AtlasAdminTemplate/AppSidebar/SiteHeader), nao rail proprio. Parecer anterior revogado nesse ponto.",
+      "data": "2026-11-19T19:24:55.150Z"
+    }
+  ],
+  "p0_p1_gate": {
+    "classificacao": "Feature+UX",
+    "aprovado_em": "2026-11-04T22:47:24.881Z",
+    "decisoes": [
+      "categoria opcional NULL",
+      "menu ... overflow",
+      "drawer local por invoice_id"
+    ]
+  },
+  "ux_designer": {
+    "status": "passed",
+    "em": "2026-11-04T22:47:24.881Z",
+    "tenants_mvp": {
+      "status": "parecer-vinculante",
+      "decisoes": [
+        "toggle radiogroup PF-default",
+        "ordem identidade-contato-acesso-aceite",
+        "CTA F1 bg-emerald-500/600 + tenant-submit",
+        "Sheet md 2col + nota dono-operador + plano readonly ciano",
+        "aceite operador readonly",
+        "retry pendente idempotente"
+      ],
+      "cta_fix": "bg-emerald-600/700 atual -> 500/600"
+    },
+    "backoffice_p0": {
+      "status": "parecer-vinculante",
+      "em": "2026-11-08T01:56:49.538622Z",
+      "decisoes": [
+        "detail como pagina /admin/tenants/:id, nao Drawer",
+        "TenantTable -> DataTable server-driven + aria-sort + 44px",
+        "audit table readonly PII final-4 + deep-link query",
+        "CTA criar accent ambar unico, nao success",
+        "data-testid freeze C5"
+      ]
+    },
+    "contas_filtros": {
+      "status": "parecer-vinculante",
+      "em": "2026-11-16",
+      "decisoes": [
+        "ToggleGroup Radix",
+        "search+label sr-only",
+        "Variante A (ativa neutra)",
+        "min-h-8 desktop / min-h-11 mobile",
+        "i18n 3 chaves aria",
+        "zero cor semantica nas pills"
+      ]
+    },
+    "cartoes_veredito_consolidado": {
+      "status": "parecer-vinculante",
+      "em": "2026-11-17T15:52:17.203165+00:00",
+      "decisoes": [
+        "limite consolidado = soma(totalLimitCents) - totalOpenCents; % = aberto/soma",
+        "fechamento = period_end do ciclo; vencimento = menor effective entre nao-pagas",
+        "R$0 mantido + badge/CTA desabilitado com motivo visivel",
+        "grid 5/4/3; 3 slots honestos; token primary; sem QrCode"
+      ]
+    },
+    "cartoes_month_tabs": {
+      "status": "parecer-vinculante",
+      "em": "2026-11-18T00:28:24.460Z",
+      "decisoes": [
+        "Proposta A: janela derivada do active + scrollIntoView inline nearest",
+        "Remover flex-1 do tablist; setas coladas ao trilho e desabilitadas nos extremos",
+        "Disclosure \"ver todas as N faturas\" com contagem",
+        "Ativo bg-primary text-primary-foreground + font-semibold (sem bg-white)",
+        "APG: foco inicial no ativo, setas esquerda/direita navegam tabs",
+        "reduced-motion => behavior auto"
+      ],
+      "emenda": {
+        "em": "2026-11-18T00:52:48.693Z",
+        "veredito": "Opcao 1 APROVADA com emenda; Opcoes 2/3 rejeitadas",
+        "decisoes": [
+          "Setas = atalhos de selecao de periodo (mesmo handler, activeIndex +-1), fora do tablist",
+          "Eliminar windowStart: janela = derivacao pura de effectiveActiveIndex com clamp",
+          "Exatamente 1 tabIndex=0 e 1 aria-selected=true em todo instante",
+          "←/→ movem foco E selecionam SEM wrap; Home/End nas pontas",
+          "useLayoutEffect + focus({preventScroll:true}) + scrollIntoView nearest",
+          "Foco so em interacao interna; troca externa nao rouba foco",
+          "aria-label Fatura anterior / Proxima fatura + aria-controls no tablist",
+          "Teste de regressao 10 periodos active=0 -> seta -> ativo visivel e focado"
+        ]
+      }
+    }
+  },
+  "design_system": {
+    "status": "passed",
+    "componentes": 9
+  },
+  "architect_validation": {
+    "veredito": "apto-com-ajustes",
+    "feature": "cartoes-cadastro-lancamentos",
+    "ajustes": [
+      "A1 inventariar funcoes ausentes + adapter Card",
+      "A2 PurchaseInvoicePaidError sem colidir",
+      "A3 guard 0021 mapeado",
+      "A4 fatura vazia idempotente",
+      "A5 retroativa fora da UI",
+      "A6 refresh loadTransactions+loadInvoices; listInvoiceTransactions fora de escopo"
+    ],
+    "em": "2026-11-17T20:05:53.023931+00:00"
+  },
+  "code_review": {
+    "last_invoked_at": "2026-11-20T14:03:18.125Z",
+    "last_status": "passed",
+    "critical_issues": 0,
+    "attention_issues": 2,
+    "reviewer_notes": "F7 batch1: zero 🔴; 4 🟡 corrigidos (prova de 0 escrita por pg_stat_xact, 3 rotulos, contagens por fixture); restam 2 endurecimentos (delta sem n_tup_del; 16b sem assert de 0 linhas)."
+  },
+  "harness_status": "passed",
+  "verify": {
+    "status": "F4 aprovada e fechada (shell corrigido)",
+    "security": "pass (sem PAN/CVV; ADR-004; boundary)",
+    "visual": "PASS light+dark 1280/375",
+    "security_p1": ".spec/bugs/security-p1-hardening/VERIFY.md",
+    "control_plane_planning": "PRD-01/ADR-01/ADR-02 PASS; 6 ADRs merged; .spec/prd/control-plane-billing/PLANNING-SUMMARY.md",
+    "security_debts_49_50": ".spec/bugs/security-debts-49-50/VERIFY.md",
+    "subscription_billing": ".spec/backend/subscription-billing/VERIFY.md",
+    "tenant_onboarding": ".spec/backend/tenant-onboarding/VERIFY.md",
+    "tenant_quota": ".spec/backend/tenant-quota/VERIFY.md",
+    "internal_control_plane": ".spec/frontend/internal-control-plane/VERIFY.md"
+  },
+  "verify2": {
+    "status": "approved_with_notes",
+    "security": "partial 12/15"
+  },
+  "fase1_freeze": {
+    "gaps": "I1-I9 fechados D1-D10"
+  },
+  "fase2_gaps": [
+    "G1-G7 fechados; G6 corrigido (pagamento via invoice_id)"
+  ],
+  "fase2_arch": {
+    "veredito": "apto-pos-correcao-G6"
+  },
+  "fase2_templates": {
+    "status": "passed",
+    "componentes": 5
+  },
+  "follow_ups": [
+    {
+      "id": "SEC-01",
+      "item": "RESOLVIDO 2026-11-04: CSP por header em public/_headers + check-dist no build",
+      "prioridade": "done",
+      "created_at": "2026-11-01T23:17:16.192931Z"
+    },
+    {
+      "id": "SEC-02",
+      "item": "RESOLVIDO 2026-11-04: zod 4.6.7 (high) + vitest/happy-dom/tinypool (3 critical) — audit 0 critical",
+      "prioridade": "done",
+      "created_at": "2026-11-01T23:17:16.192931Z"
+    },
+    {
+      "id": "PERF-01",
+      "item": "RESOLVIDO 2026-11-04: code-split: AppShell lazy + manualChunks por vendor",
+      "prioridade": "done",
+      "created_at": "2026-11-01T23:17:16.192931Z"
+    },
+    {
+      "id": "AUTH-01",
+      "item": "PARCIAL 2026-11-04: Max-Age 8h + runbook §8; HttpOnly pleno segue M4 (exige @supabase/ssr/BFF)",
+      "prioridade": "M4",
+      "created_at": "2026-11-01T23:17:16.192931Z"
+    },
+    {
+      "id": "P3-a11y-form",
+      "item": "RESOLVIDO 2026-11-04: ja resolvido (form-field com id/name)",
+      "prioridade": "done",
+      "created_at": "2026-11-01T23:17:16.192931Z"
+    },
+    {
+      "id": "P2-i18n-pagina",
+      "item": "FECHADO: interpolacao ja coberta por sec0-i18n-page.spec.tsx e nos 3 call sites",
+      "prioridade": "done",
+      "created_at": "2026-11-02T00:36:41.663276Z"
+    },
+    {
+      "id": "P2-rls-insert-status",
+      "item": "FECHADO antes da Frente A: 0005_sec_hardening cobre role+subscription_status no INSERT e UPDATE, com search_path fixo (provado por probe SQL)",
+      "prioridade": "done",
+      "created_at": "2026-11-02T01:00:00.589891Z"
+    },
+    {
+      "id": "M4-csp-headers",
+      "item": "RESOLVIDO 2026-11-04: headers pg COOP/HSTS/XFO/Referrer/Permissions + artefato verificado",
+      "prioridade": "done",
+      "created_at": "2026-11-02T01:38:53.168534Z"
+    },
+    {
+      "id": "P3-ledger-rows-required",
+      "item": "RESOLVIDO 2026-11-04: rows obrigatorias + cobertura de ids + limpeza de selecao",
+      "prioridade": "done",
+      "created_at": "2026-11-02T02:04:36.027438Z"
+    },
+    {
+      "id": "P3-palette-auth",
+      "item": "RESOLVIDO 2026-11-04: paleta oculta auth:false com sessao",
+      "prioridade": "done",
+      "created_at": "2026-11-02T02:11:52.246774Z"
+    },
+    {
+      "id": "P3-palette-admin",
+      "item": "RESOLVIDO 2026-11-04: paleta oculta /admin* para nao-admin (sinal unico, fail-closed)",
+      "prioridade": "done",
+      "created_at": "2026-11-02T02:11:52.246775Z"
+    },
+    {
+      "id": "P3-chart-hex",
+      "item": "RESOLVIDO 2026-11-04: tokens CSS em SpendingCurve/CashflowChart (incl. grid/eixos)",
+      "prioridade": "done",
+      "created_at": "2026-11-02T12:28:19.964478Z"
+    },
+    {
+      "id": "P2-sort-server",
+      "item": "RESOLVIDO 2026-11-04: ordenacao no servidor com desempate por id",
+      "prioridade": "done",
+      "created_at": "2026-11-02T12:45:14.700211Z"
+    },
+    {
+      "id": "P3-cards-tabs-a11y",
+      "item": "RESOLVIDO 2026-11-04: ja resolvido (PeriodRuler)",
+      "prioridade": "done",
+      "created_at": "2026-11-02T13:33:10.698744Z"
+    },
+    {
+      "id": "P3-drawer-duplo-mobile",
+      "item": "RESOLVIDO 2026-11-04: ja resolvido (render exclusivo)",
+      "prioridade": "done",
+      "created_at": "2026-11-02T14:05:46.667539Z"
+    },
+    {
+      "id": "P3-mrr-active-only",
+      "item": "RESOLVIDO 2026-11-04: MRR active-only + trial separado",
+      "prioridade": "done",
+      "created_at": "2026-11-02T14:49:52.513332Z"
+    },
+    {
+      "id": "P2-total-client",
+      "item": "RESOLVIDO em 20261104-rf03-p2-saneamento (RPC + grants)",
+      "prioridade": "done",
+      "created_at": "2026-11-04T13:34:17.753Z"
+    },
+    {
+      "id": "P2-delete-card-orfaos",
+      "item": "RESOLVIDO em 20261104-rf03-p2-saneamento (guards 0015-0018)",
+      "prioridade": "done",
+      "created_at": "2026-11-04T13:34:17.753Z"
+    },
+    {
+      "id": "P2-rn035-nx",
+      "item": "RESOLVIDO em 20261104-rf03-p2-saneamento (realocacao para ciclo aberto)",
+      "prioridade": "done",
+      "created_at": "2026-11-04T13:34:17.753Z"
+    },
+    {
+      "id": "P2-flake-rtl",
+      "item": "RESOLVIDO em 20261104-rf03-p2-saneamento (causa raiz)",
+      "prioridade": "done",
+      "created_at": "2026-11-04T13:34:17.753Z"
+    },
+    {
+      "id": "P3-sheet-last4",
+      "item": "RESOLVIDO 2026-11-04: header do sheet sem bullet duplo",
+      "prioridade": "done",
+      "created_at": "2026-11-04T13:34:17.753Z"
+    },
+    {
+      "id": "P3-viewport-sheet",
+      "item": "RESOLVIDO 2026-11-04: selecao preservada na troca de viewport",
+      "prioridade": "done",
+      "created_at": "2026-11-04T13:34:17.753Z"
+    },
+    {
+      "id": "P3-delta-specs",
+      "item": "APLICADO 2026-11-04: DELTA-SPECS + ADDENDUM em supabase-postgres-standards.md e DESIGN.md (autorizacao humana)",
+      "prioridade": "done",
+      "created_at": "2026-11-04T13:34:17.753Z"
+    },
+    {
+      "id": "P3-invoice-deeplink",
+      "item": "RESOLVIDO 2026-11-04: deeplink ?invoice= funcional",
+      "prioridade": "done",
+      "created_at": "2026-11-04T13:34:17.753Z"
+    },
+    {
+      "id": "P3-partial-dashboard",
+      "item": "RESOLVIDO 2026-11-04: passivo correto no dashboard, fila e sino",
+      "prioridade": "done",
+      "created_at": "2026-11-04T13:34:17.753Z"
+    },
+    {
+      "id": "P3-theme-button-40px",
+      "item": "RESOLVIDO 2026-11-04: botao de tema 44x44",
+      "prioridade": "done",
+      "created_at": "2026-11-04T15:13:33.113Z"
+    },
+    {
+      "id": "OPS-purge-guc",
+      "item": "RESOLVIDO 2026-11-04: runbook .doc/runbook-operacoes.md criado",
+      "prioridade": "done",
+      "created_at": "2026-11-04T15:13:33.113Z"
+    },
+    {
+      "id": "P3-desing-duplicado",
+      "item": "RESOLVIDO 2026-11-04: DESING.md virou ponteiro para DESIGN.md (562 bytes, aplicado pelo humano)",
+      "prioridade": "done",
+      "created_at": "2026-11-04T16:50:01.384Z"
+    },
+    {
+      "id": "P3-frontend-destructive-block",
+      "item": "RESOLVIDO 2026-11-04: bloco de acoes destrutivas aplicado em frontend-react-coding-standards.md",
+      "prioridade": "done",
+      "created_at": "2026-11-04T16:50:01.384Z"
+    },
+    {
+      "id": "P3-theme-locale-sr-only",
+      "item": "RESOLVIDO 2026-11-04: idioma visivel 44px + aria com idioma atual",
+      "prioridade": "done",
+      "created_at": "2026-11-04T17:55:28.632Z"
+    },
+    {
+      "id": "P3-runbook-path",
+      "item": ".agents/rules/supabase-postgres-standards.md cita runbook sem path .doc/runbook-operacoes.md (protected path)",
+      "prioridade": "P3",
+      "created_at": "2026-11-04T17:55:28.632Z"
+    },
+    {
+      "id": "P3-console-baseline",
+      "item": "RESOLVIDO 2026-11-04: flags futuras do router aplicadas; sem warning",
+      "prioridade": "done",
+      "created_at": "2026-11-04T17:55:28.632Z"
+    },
+    {
+      "id": "SEC-03-admin-audit",
+      "item": "admin_audit 0019 aplicado; refletir no DELTA-SPECS de supabase standards (protected)",
+      "prioridade": "P3",
+      "created_at": "2026-11-04T18:46:17.587Z"
+    },
+    {
+      "id": "P2-react-router-7",
+      "item": "react-router 6: 2 moderate (open redirect) — bump 7.18.5 e breaking; guard getSafeRedirect mitiga",
+      "prioridade": "P2",
+      "created_at": "2026-11-04T19:07:31.332Z"
+    },
+    {
+      "id": "P3-registrar-regra-audit",
+      "item": "addendum 2 gerado (5 blocos + checklist + mapa de prova); aguarda aplicacao humana nas rules",
+      "prioridade": "P3",
+      "created_at": "2026-11-04T19:21:44.572Z"
+    },
+    {
+      "id": "P3-admin-pii-audit",
+      "item": "auditar leitura de tenants e alteracao de full_name por admin (ASVS 7.1.3 residual)",
+      "prioridade": "P3",
+      "created_at": "2026-11-04T19:21:44.572Z"
+    },
+    {
+      "id": "G-1-suitefull",
+      "item": "ADIADO por decisao do usuario (2026-11-04): suiteFull deve incluir test:run. Receita pronta (selo 97dcb33b…). Enquanto nao aplicado, o gate aprova build que compila e nao testa.",
+      "prioridade": "P2",
+      "created_at": "2026-11-04T19:21:44.572Z",
+      "deferred": true,
+      "deferred_at": "2026-11-04T22:21:59.246Z"
+    },
+    {
+      "id": "P3-landing-supabase-vendor",
+      "item": "RESOLVIDO 2026-11-04: guard lazy: landing nao baixa supabase-vendor",
+      "prioridade": "done",
+      "created_at": "2026-11-04T20:03:16.353Z"
+    },
+    {
+      "id": "P3-recharts-chunk",
+      "item": "RESOLVIDO 2026-11-04: decisao medida de NAO extrair (clsx arrastaria vendor para a landing)",
+      "prioridade": "done",
+      "created_at": "2026-11-04T20:03:16.353Z"
+    },
+    {
+      "id": "P3-shell-flash-guard",
+      "item": "RESOLVIDO 2026-11-04: RequireSession acima do shell, sem flash",
+      "prioridade": "done",
+      "created_at": "2026-11-04T20:03:16.353Z"
+    },
+    {
+      "id": "P3-chart-tokens-hex",
+      "item": "RESOLVIDO 2026-11-04: --chart-1..5 convertidos para oklch (mesma cor percebida)",
+      "prioridade": "done",
+      "created_at": "2026-11-04T22:17:54.580Z"
+    },
+    {
+      "id": "P3-ocultar-saldo-a11y",
+      "item": "RESOLVIDO 2026-11-04: botao Ocultar saldo 44x44 + i18n + aria com estado",
+      "prioridade": "done",
+      "created_at": "2026-11-04T22:17:54.580Z"
+    },
+    {
+      "id": "P4-skip-link-40px",
+      "item": "RESOLVIDO 2026-11-04: skip-link 44px ao focar nos 3 layouts",
+      "prioridade": "done",
+      "created_at": "2026-11-04T22:17:54.580Z"
+    },
+    {
+      "id": "SEC-04-first-access-bypass",
+      "item": "complete_first_access() retorna 204 so com auth.uid()+flag (sem prova de troca de senha no Auth); updateUser foi negado com insufficient_aal (MFA exige aal2) e a trava caiu mesmo assim — contradiz comentario de 0034:21-25. Seed nasce com senha conhecida.",
+      "prioridade": "P2",
+      "created_at": "2026-11-10T02:50:00.000Z"
+    },
+    {
+      "id": "INFRA-01-edge-envfile-supabase-prefix",
+      "item": "supabase functions serve --env-file ignora vars com prefixo SUPABASE_ ('Env name cannot start with SUPABASE_, skipping'); funciona porque o runtime injeta SUPABASE_URL/SERVICE_ROLE_KEY sozinho. Runbook deve documentar isso (APP_URL e demais nao-prefixadas entram normalmente).",
+      "prioridade": "P3",
+      "created_at": "2026-11-10T02:50:00.000Z"
+    },
+    {
+      "id": "CARTões-3D-FOLLOWUP",
+      "item": "Falso verde: VERIFY.md do ciclo 20261117-cartoes-identidade-template declarou PASS 100% mas modal 3D/wallet 3D/preview ausentes; PRD aprovado exige. Follow-up SDD curto com ADR novo para contrato visual do preview 3D; lista sem mudanca obrigatoria.",
+      "prioridade": "P1",
+      "created_at": "2026-11-17T13:12:44.127912+00:00"
+    },
+    {
+      "id": "CART-VERIFY-DADOS-EVIDENCIA",
+      "item": "7 cartoes de evidencia criados via UI no Supabase local (conta 'Conta Evidencia Review') durante loop de correcao visual. Dados de teste, nao codigo. Limpeza a decidir pelo humano antes do commit/fechamento.",
+      "prioridade": "P3",
+      "created_at": "2026-11-17T14:54:42.105041+00:00"
+    },
+    {
+      "id": "CART-COMPRA-CONSOLIDADO-HINT",
+      "item": "UX: 'Nova compra' no modo consolidado (selectedCardId==='') submete e lanca select-card-first generico mapeado para cards.installmentError. Sugestao: desabilitar botao no consolidado ou mapear erro tipado -> cards.purchase.selectCardFirst. Nao bloqueante.",
+      "prioridade": "P3",
+      "created_at": "2026-11-17T21:14:51.674107+00:00"
+    },
+    {
+      "id": "PILLTOGGLE-SIZE-CONCORRENCIA",
+      "item": "Agente concorrente mudou PillToggle size='lg'->'sm' em CardExpensesTable.tsx as 18:33 (quebra 44px touch target). Dev do bugfix restaurou 'lg'. Conferir com usuario se a mudanca para 'sm' era intencional antes de aceitar.",
+      "prioridade": "P2",
+      "created_at": "2026-11-17T21:50:00.496702+00:00"
+    },
+    {
+      "id": "E2E-DADO-COMPRA-DETALHE",
+      "item": "1 compra real criada via UI no DB dev para cobrir categoria no E2E do detalhe: 'Mercado E2E detalhe' R$42,50. Dado de teste, nao codigo — decidir limpeza.",
+      "prioridade": "P3",
+      "created_at": "2026-11-17T22:14:23.756724+00:00"
+    },
+    {
+      "id": "P2-UPSTREAM-01",
+      "title": "Issue upstream: *Key? + i18n.exists em PricingTable",
+      "detail": "template-reuse.md §3: enviar evolucao aditiva do componente gerenciado ao repo do template",
+      "created_at": "2026-11-18T18:51:35.603Z"
+    },
+    {
+      "id": "GAP-dashboard-real",
+      "title": "Dashboard do tenant e mock do template",
+      "detail": "OverviewPage usa app/dashboard/data.json; backup tinha KPI/cashflow/due queue/budget vs actual",
+      "source": "INVENTORY control-plane-billing",
+      "created_at": "2026-11-18T22:41:52.936Z"
+    },
+    {
+      "id": "GAP-lancamentos-stub",
+      "title": "/lancamentos e PlaceholderPage",
+      "detail": "modulo real vive em /transacoes; rota canonica precisa ser decidida",
+      "source": "INVENTORY control-plane-billing",
+      "created_at": "2026-11-18T22:41:52.936Z"
+    },
+    {
+      "id": "GAP-config-hub",
+      "title": "/config stub + regras/perfil ausentes",
+      "detail": "RulesConfigPage/RuleDrawer e AccountConfigPage do backup nao existem",
+      "source": "INVENTORY control-plane-billing",
+      "created_at": "2026-11-18T22:41:52.936Z"
+    },
+    {
+      "id": "GAP-mfa-tenant",
+      "title": "Telas MFA do tenant ausentes",
+      "detail": "MfaSetupPage/MfaVerifyPage do backup; i18n sobreviveu",
+      "source": "INVENTORY control-plane-billing",
+      "created_at": "2026-11-18T22:41:52.936Z"
+    },
+    {
+      "id": "GAP-termos",
+      "title": "Pagina de termos ausente",
+      "detail": "TermsPage do backup; necessaria para consentimento/links legais",
+      "source": "INVENTORY control-plane-billing",
+      "created_at": "2026-11-18T22:41:52.936Z"
+    },
+    {
+      "id": "GAP-backoffice-real",
+      "title": "Backoffice/compliance e mock",
+      "detail": "11 arquivos sem supabase; nenhuma tabela de casos/gateways no banco",
+      "source": "INVENTORY control-plane-billing",
+      "created_at": "2026-11-18T22:41:52.936Z"
+    },
+    {
+      "id": "PIPE-DEBT-01",
+      "title": "ADR-INDEX nao aceita ADRs planejados",
+      "detail": "ADR-01 exige dir + ADR.md no disco; linha todo reprova por construcao. Fluxo real: escrever ADR-001 junto do indice (1 in-progress)",
+      "source": "RESEARCH control-plane-billing",
+      "created_at": "2026-11-18T22:48:48.849Z"
+    },
+    {
+      "id": "PIPE-DEBT-02",
+      "title": "prd-adr-pipeline.md superestima garantia dos checks",
+      "detail": "documento diz checks 🟢 neste repo, mas scripts/static-checks.mjs nao existe e test:gate roda so specs de plugin => 🟡 processo",
+      "source": "RESEARCH control-plane-billing",
+      "created_at": "2026-11-18T22:48:48.849Z"
+    },
+    {
+      "id": "PIPE-DEBT-03",
+      "title": "admin_audit tem 5 acoes, PRD dizia 4",
+      "detail": "0028:53-60 adiciona mfa_enrolled; PRD §3 corrigido",
+      "source": "RESEARCH control-plane-billing",
+      "created_at": "2026-11-18T22:48:48.849Z"
+    },
+    {
+      "id": "PIPE-DEBT-04",
+      "title": "parseIndex do checks.mjs agrega toda linha com pipe",
+      "detail": "segunda tabela markdown no ADR-INDEX reprova ADR-01/ADR-02; contornado com lista, defeito permanece",
+      "source": "ADR-002",
+      "created_at": "2026-11-18T23:07:00.331Z"
+    },
+    {
+      "id": "ADR004-O1",
+      "title": "O1 formula MRR/inadimplencia (Financeiro)",
+      "detail": "Aberto levantado no ADR-004",
+      "source": "ADR-004",
+      "created_at": "2026-11-18T23:48:41.329Z"
+    },
+    {
+      "id": "ADR004-O2",
+      "title": "O2 retencao tenant_switches (Compliance)",
+      "detail": "Aberto levantado no ADR-004",
+      "source": "ADR-004",
+      "created_at": "2026-11-18T23:48:41.329Z"
+    },
+    {
+      "id": "ADR004-O3",
+      "title": "O3 data de morte dos redirects (Produto)",
+      "detail": "Aberto levantado no ADR-004",
+      "source": "ADR-004",
+      "created_at": "2026-11-18T23:48:41.329Z"
+    },
+    {
+      "id": "ADR004-O4",
+      "title": "O4 APP_URL de producao (SRE)",
+      "detail": "Aberto levantado no ADR-004",
+      "source": "ADR-004",
+      "created_at": "2026-11-18T23:48:41.329Z"
+    },
+    {
+      "id": "ADR004-O5",
+      "title": "O5 durabilidade do lockout 30s (Seguranca)",
+      "detail": "Aberto levantado no ADR-004",
+      "source": "ADR-004",
+      "created_at": "2026-11-18T23:48:41.329Z"
+    },
+    {
+      "id": "ADR004-O6",
+      "title": "O6 codigos de recuperacao em /internal/mfa (Seguranca/UX)",
+      "detail": "Aberto levantado no ADR-004",
+      "source": "ADR-004",
+      "created_at": "2026-11-18T23:48:41.329Z"
+    },
+    {
+      "id": "ADR004-O7",
+      "title": "O7 backoffice como epico proprio (Produto)",
+      "detail": "Aberto levantado no ADR-004",
+      "source": "ADR-004",
+      "created_at": "2026-11-18T23:48:41.329Z"
+    },
+    {
+      "id": "DEBT-I3",
+      "title": "test:edge fora de qualquer gate",
+      "detail": "36 testes de Edge sao manuais; suiteFull nao invoca; sem CI. Incluir exige regenerar selo (seal.mjs)",
+      "source": "review security-debts-49-50",
+      "created_at": "2026-11-19T01:55:46.783Z"
+    },
+    {
+      "id": "DEBT-I4",
+      "title": "Testes da Edge exercitam so core.ts",
+      "detail": "wiring de index.ts (select profiles, internal_operators, env) sem teste; erro de coluna passaria verde",
+      "source": "review security-debts-49-50",
+      "created_at": "2026-11-19T01:55:46.783Z"
+    },
+    {
+      "id": "DEBT-S1",
+      "title": "subscription-canceled-readonly sem mapeamento no cliente",
+      "detail": "usuario de tenant canceled recebe erro cru do Postgres; mapear na UI de billing",
+      "source": "review security-debts-49-50",
+      "created_at": "2026-11-19T01:55:46.783Z"
+    },
+    {
+      "id": "P6-O1",
+      "title": "Motivo do override sem truncar no GUC app.tenant_reason",
+      "detail": "trilha do espelho pode passar de 200 chars (precedente 0028)",
+      "source": "review P6",
+      "created_at": "2026-11-19T11:55:54.511Z"
+    },
+    {
+      "id": "P6-O2",
+      "title": "pending_plan em assinatura canceled nunca sera aplicado",
+      "detail": "roll_period devolve subscription-canceled; dado morto",
+      "source": "review P6",
+      "created_at": "2026-11-19T11:55:54.511Z"
+    },
+    {
+      "id": "P6-O3",
+      "title": "resolve_user_tenant BASE ignora pin de user_active_tenants",
+      "detail": "multi-tenant le tenant owner/mais antigo no billing; 0061 corrige",
+      "source": "review P6",
+      "created_at": "2026-11-19T11:55:54.511Z"
+    },
+    {
+      "id": "P6-O4",
+      "title": "->active nao limpa cancel_at_period_end",
+      "detail": "inerte hoje (ninguem seta o flag); limpar quando rota de cancelamento existir",
+      "source": "review P6",
+      "created_at": "2026-11-19T11:55:54.511Z"
+    },
+    {
+      "id": "PRICE-01",
+      "title": "Landing duplica precos em vez de ler plan_catalog",
+      "detail": "pricing-types.ts + catalog.ts hardcodam 1990/3990/6990; plan_catalog (0030) e a fonte. Divergencia silenciosa quando o preco mudar no banco",
+      "source": "P7 gate G2",
+      "created_at": "2026-11-19T12:00:42.251Z"
+    },
+    {
+      "id": "F2-T04C",
+      "title": "T04c (corrida real de provisionamento) pendente",
+      "detail": "REQ-07 declarado 🟢 sem teste; PLAN marcava [x] falso; review provou comportamento correto com 2 sessoes, falta o artefato",
+      "source": "review P1/P2 F2",
+      "created_at": "2026-11-19T12:25:34.097Z"
+    },
+    {
+      "id": "F2-PERF-01",
+      "title": "admin_resolve_invited_user usa lower(email) sem indice funcional",
+      "detail": "predicado prescrito pela SPEC; auth.users.email e case-sensitive => seq scan no caminho de convite; avaliar indice funcional em auth (fora do nosso schema)",
+      "source": "BE-27 H4",
+      "created_at": "2026-11-19T13:16:53.325Z"
+    },
+    {
+      "id": "F3-O7",
+      "title": "Pin da 0070 nao resolve atribuicao x status",
+      "detail": "pin escolhe tenant mas nao impede cair em canceled; resolve_writable_tenant cobre o caso agora; revisar quando 0070 existir",
+      "source": "review 0061 I1",
+      "created_at": "2026-11-19T15:09:20.152Z"
+    }
+  ],
+  "fase3_gaps": [
+    "G1 limite",
+    "G2 OFX variants",
+    "G3 CSV",
+    "G4 locale",
+    "G5 FITID",
+    "G6 conta-alvo",
+    "G7 categoria",
+    "G8 bulk delete",
+    "G9 reconciled",
+    "G10 regra inline"
+  ],
+  "fase3_ux": {
+    "status": "passed",
+    "em": "2026-11-01T23:47:07.204769Z",
+    "templates_candidatos": 4
+  },
+  "fase3_templates": {
+    "status": "passed",
+    "em": "2026-11-01T23:48:41.606763Z",
+    "componentes": 4
+  },
+  "fase3_arch": {
+    "veredito": "nao-apto-com-ressalvas",
+    "em": "2026-11-01T23:50:36.472260Z",
+    "bloqueante": "B1 (0003 ausente — resolvido via SPEC-freeze + batch 1, precedente Fase 2/0002)"
+  },
+  "harness3": {
+    "qa03": "passed",
+    "tests": "196/196",
+    "e2e": "wizard ponta-a-ponta com commit real"
+  },
+  "verify3": {
+    "status": "approved_with_notes",
+    "em": "2026-11-02T00:37:42.080143Z",
+    "security": "partial 13/16"
+  },
+  "fase4_gaps": [
+    "G1 admin policy",
+    "G2 plans mock",
+    "G3 RequireAdmin UX",
+    "G4 telemetria",
+    "G5 landing fora AppShell"
+  ],
+  "fase4_ux": {
+    "status": "passed",
+    "em": "2026-11-02T00:47:09.221817Z",
+    "templates_candidatos": 5
+  },
+  "fase4_templates": {
+    "status": "passed",
+    "em": "2026-11-02T00:49:21.811774Z",
+    "componentes": 5
+  },
+  "fase4_arch": {
+    "veredito": "apto-condicional",
+    "em": "2026-11-02T00:51:02.708558Z",
+    "achado": "bypass subscription_status próprio (sem trigger); 0004 barra role + status p/ client"
+  },
+  "harness4": {
+    "qa04": "passed",
+    "tests": "229/229",
+    "e2e": "landing + admin user/admin"
+  },
+  "verify4": {
+    "status": "approved_with_notes",
+    "em": "2026-11-02T01:19:00.769089Z",
+    "security": "partial 14/17"
+  },
+  "premium_templates": {
+    "status": "passed",
+    "em": "2026-11-02T01:30:11.078547Z",
+    "componentes": 10
+  },
+  "harnessP": {
+    "qap": "passed",
+    "tests": "389/389",
+    "e2e_public": "13 rotas",
+    "e2e_auth": "6/6 telas sessão real"
+  },
+  "fase5_gaps": [
+    "G0 fonte única planos",
+    "G1 copy anti-cobrança",
+    "G2 contrato ?plano=",
+    "G3 invariantes",
+    "G4 tokens",
+    "PM slugs corrigidos p/ free|standard|pro|full"
+  ],
+  "fase5_ux": {
+    "status": "passed",
+    "em": "2026-11-02T15:28:42.069825Z",
+    "templates_candidatos": 4
+  },
+  "fase5_templates": {
+    "status": "passed_com_ressalva",
+    "em": "2026-11-02T15:34:59.176535Z",
+    "componentes": 4,
+    "divergencia": "spec sugere 3 planos (livre/pro/export); brief exige 4 (free/standard/pro/full)"
+  },
+  "fase5_arch": {
+    "veredito": "apto-condicional",
+    "em": "2026-11-02T15:36:36.330568Z",
+    "decisoes": "V1-V8 (catálogo 4 planos, toggle, ?plano=, CTA/Em breve, copy, templates, i18n/a11y, sem token)"
+  },
+  "harness5": {
+    "qa05": "passed",
+    "tests": "556/556",
+    "a1_a8": "verdes",
+    "e2e": "landing + cadastro ?plano="
+  },
+  "fase5_paused": "sim — retomar P4→P5 VERIFY após bugfix (QA-05 556/556 + BG-54 616/616)",
+  "bugLancamentos": {
+    "status": "fechado-bug01-decisaoA",
+    "decisao": "A bloquear com aviso claro (ME-57 entregue)"
+  },
+  "harnessBG54": {
+    "qa": "passed",
+    "tests": "616/616",
+    "e2e": "entrada/saida/agendada 1280+375",
+    "screenshots": [
+      "harness/e2e-bg54-1280.png",
+      "harness/e2e-bg54-375.png"
+    ]
+  },
+  "harnessBG55": {
+    "qa": "passed",
+    "tests": "636/636",
+    "e2e": "saldo soma/subtrai/futura-nao-move/edit-incorpora 1280+375",
+    "screenshots": [
+      "harness/e2e-bg55-1280.png",
+      "harness/e2e-bg55-375.png"
+    ],
+    "desvio": "chrome-devtools MCP indisponivel, CDP direto com browser real"
+  },
+  "harnessBG56": {
+    "qa": "passed",
+    "tests": "644/644",
+    "e2e": "TOTAL imediato mesma tela 1280+375",
+    "screenshots": [
+      "harness/e2e-bg56-1280.png",
+      "harness/e2e-bg56-375.png"
+    ]
+  },
+  "verify5": {
+    "status": "passed",
+    "date": "2026-11-02T21:17:11.086639Z",
+    "security": "passed 13/14 + 1 release-pendente",
+    "traceability": "100%"
+  },
+  "harnessBG57": {
+    "qa": "passed",
+    "tests": "651/651",
+    "e2e": "agendada sem categoria em Receitas 1280+375",
+    "screenshots": [
+      "harness/e2e-bg57-1280.png",
+      "harness/e2e-bg57-375.png"
+    ]
+  },
+  "harnessRF51": {
+    "qa": "passed",
+    "tests": "663/663",
+    "e2e": "drawer create/edit/delete + TOTAL 1280+375"
+  },
+  "harnessRF52": {
+    "qa": "passed",
+    "tests": "674/674",
+    "e2e": "drawer create/edit/delete + toggle 1280+375"
+  },
+  "harnessRF53": {
+    "qa": "passed",
+    "tests": "686/686",
+    "e2e": "drawer create/edit/delete + ciclo invalido 1280+375"
+  },
+  "harnessRF54r": {
+    "qa": "passed",
+    "tests": "698/698",
+    "e2e": "drawer create/edit/delete + keyword vazia 1280+375"
+  },
+  "harnessRF55o": {
+    "qa": "passed",
+    "tests": "713/713",
+    "e2e": "drawer create/edit/duplicate/delete 1280+375"
+  },
+  "harnessRF56": {
+    "qa": "passed",
+    "tests": "732/732",
+    "e2e": "breadcrumb 9 telas + empty 4el + CTA + q-only 1280+375"
+  },
+  "harnessME56": {
+    "qa": "passed",
+    "tests": "776/776",
+    "e2e": "bloqueio sem persist + mensagem 1280+375"
+  },
+  "harnessME58": {
+    "qa": "passed",
+    "tests": "802/802",
+    "e2e": "3 partes grupo unico + sobra/excesso bloqueiam + parte travada 1280+375"
+  },
+  "harnessME59": {
+    "qa": "passed",
+    "tests": "819/819",
+    "e2e": "N foca valor + Shift intervalo + Tab preserva 1280 (+375 smoke)"
+  },
+  "harnessME60": {
+    "qa": "passed",
+    "tests": "834/834",
+    "e2e": "sheet 70% + swipe concilia/exclui + teclado 375 + 1280 sem regressao"
+  },
+  "harnessRF57t": {
+    "qa": "passed",
+    "tests": "845/845",
+    "e2e": "drawer guardas + 2 lados + inline ausente 1280+375"
+  },
+  "rf03": {
+    "gate": "PICCO 6/6 2026-11-03",
+    "escopo_entra": [
+      "RN-03.1 clamp 29/30/31",
+      "RN-03.2 roteamento+lazy provisioning",
+      "RN-03.3 due nominal + exibicao sab/dom",
+      "RN-03.4 limite consolidado+alerta",
+      "RN-03.5 travamento/reabertura paid",
+      "UX desktop: gauge 60/85, regua 12 meses, pagar fatura",
+      "UX mobile: snap card, bottom sheet, alerta closing->due"
+    ],
+    "escopo_nao_entra": [
+      "feriados nacionais (so sab/dom)",
+      "RN04 reescrita",
+      "RN05 dedup (fase 3)",
+      "backoffice/OFX"
+    ],
+    "lacunas_medidas": {
+      "RN-03.1": "existe invoice-routing.ts:39-56",
+      "RN-03.2": "existe service.ts:67-93",
+      "RN-03.3": "nominal existe; ajuste sab/dom ausente",
+      "RN-03.4": "sumOpenByCard inclui nao-pagas; sem disponivel/alertar; CardTile 70/90 vs spec 60/85",
+      "RN-03.5": "ausente; invoices.status CHECK open|closed|paid sem partial",
+      "provisionamento_no_cadastro": "ausente (createCard so insere credit_cards)",
+      "conta_credit_card_no_cadastro": "credit_cards.account_id NOT NULL - conflita com Gherkin 1",
+      "transicao_open_closed": "ausente"
+    },
+    "decisoes_humanas": {
+      "gherkin1": "releitura: conta pagadora + provisionar fatura do ciclo (sem conta-espelho)",
+      "rn035_page": "reabrir nao estorna; paid_cents guarda o pago; status partial",
+      "f2_saldo": "corrigir agora (compra de cartao nao debita caixa)",
+      "ux": "ambar vira Pagar fatura quando ha fatura fechada; vencida usa data efetiva sab/dom; saldo insuficiente nao bloqueia; adotar Radix Dialog em Dialog/Drawer"
+    },
+    "adrs_aprovados": [
+      "ADR-001 releitura conta",
+      "ADR-002 paid_cents+partial",
+      "ADR-003 closed derivado",
+      "ADR-004 comprometido puro TS",
+      "ADR-005 settlementDueDate display-only",
+      "ADR-006 trigger guard invoice",
+      "ADR-007 migrations 0008+0009"
+    ],
+    "achados_criticos": [
+      "F1 upsert reabre fatura paga",
+      "F2 compra de cartao debita caixa",
+      "F3 sem compra 1x",
+      "F4 payInvoice nao recalcula conta",
+      "F5 invoice_id cross-tenant",
+      "F7 1 bg-amber-500 na tela"
+    ],
+    "ux_analysis": {
+      "status": "passed",
+      "em": "2026-11-03T23:52:33.299Z",
+      "templates_candidatos": 10
+    },
+    "arch_analysis": {
+      "status": "passed",
+      "em": "2026-11-03T23:52:33.299Z"
+    },
+    "artifacts": {
+      "proposal": ".spec/frontend/fase-6-rf03-cartoes/PROPOSAL.md",
+      "spec": ".spec/frontend/fase-6-rf03-cartoes/SPEC.md",
+      "design_system": ".spec/frontend/fase-6-rf03-cartoes/DESIGN-SYSTEM.md"
+    },
+    "design_system": {
+      "status": "passed",
+      "em": "2026-11-03T23:55:38.957Z",
+      "templates": 9
+    },
+    "spec": {
+      "status": "generated",
+      "rf": 20,
+      "score": "92%",
+      "gaps_sec": [
+        "SEC-G1 RPC ownership",
+        "SEC-G2 transicao status/paid_cents",
+        "SEC-G3 mensagens",
+        "SEC-G4 auditoria"
+      ]
+    },
+    "acessibilidade": {
+      "contrato": "progressbar+aria-valuetext; tablist roving; radix-dialog"
+    },
+    "plan": {
+      "batches": 6,
+      "tasks": 40
+    },
+    "batches": {
+      "B1": "done",
+      "B2": "done",
+      "B3": "done",
+      "B4": "done",
+      "B5": "done",
+      "B6": "done",
+      "B3-fix": "in-progress",
+      "B3-fix2": "done",
+      "B3-fix3": "done",
+      "B4-fix": "done",
+      "B6-fix": "done"
+    },
+    "tests": "1151/1151",
+    "novo_pre_requisito": "MIG-06 mark_invoice_paid (guard bloqueia partial->paid direto)",
+    "pendencias": [
+      "recalcAccount best-effort (teste dedicado cobre ordem)",
+      "UI ainda consome usageByCard alias, bordas green/red e abas antigas"
+    ],
+    "code_review": "approved_with_notes",
+    "debitos": [
+      {
+        "id": "P2-contaminacao-invoices",
+        "item": "settleInvoice troca lista de outro cartao (DS-09)"
+      },
+      {
+        "id": "P2-total-client",
+        "item": "total_cents gravavel pelo cliente e confiado pela pay_invoice"
+      },
+      {
+        "id": "P2-delete-card-orfaos",
+        "item": "deleteCard deixa compras orfas que debitam caixa em dobro"
+      },
+      {
+        "id": "P2-total-trigger",
+        "item": "total_cents derivado no cliente; trigger AFTER ON transactions pendente"
+      },
+      {
+        "id": "P3-t7-dblink",
+        "item": "teste de concorrencia nao reproduzivel no ambiente; SQL fora do suiteFull"
+      },
+      {
+        "id": "P3-invoice-deeplink",
+        "item": "/cartoes?invoice= nao consumido"
+      },
+      {
+        "id": "P3-partial-dashboard",
+        "item": "partial exibido como total no dashboard"
+      },
+      {
+        "id": "P3-build-payment-morto",
+        "item": "buildInvoicePayment sem uso"
+      },
+      {
+        "id": "P3-flake-rtl",
+        "item": "flake intermitente de RTL"
+      },
+      {
+        "id": "P2-cards-limit-key",
+        "item": "cards.limit (string do form) colide com cards.limit.*; B4 usou cards.limitGauge.* — renomear no B5"
+      }
+    ],
+    "templates": {
+      "status": "passed",
+      "componentes": 9,
+      "chaves_i18n": 78,
+      "dependencia": "@radix-ui/react-dialog@1.3.1"
+    },
+    "review_final": {
+      "status": "approved",
+      "criticos": 0,
+      "atencao": 2,
+      "notas": [
+        "datas fixas no spec da regua (bomba-relogio 2027)",
+        "sem teste de render para partial/closedAwaiting"
+      ]
+    },
+    "status": "archived",
+    "archived_at": "2026-11-04T13:34:17.753Z"
+  },
+  "harnessRF03b1b2": {
+    "qa": "passed",
+    "tests": "897/897",
+    "migrations": "0008+0009 aplicadas e idempotentes",
+    "trigger_tests": "T1-T8 ok",
+    "brain": "sessoes/projeto/atlas-financeiro/2026-11-03-rf03-b1b2"
+  },
+  "harnessRF03b3": {
+    "qa": "passed",
+    "tests": "919/919",
+    "migrations": "0001-0010 aplicam",
+    "rpc": "mark_invoice_paid T1-T6 ok",
+    "brain": "sessoes/projeto/atlas-financeiro/2026-11-03-rf03-b3"
+  },
+  "harnessRF03b3fix2": {
+    "qa": "passed",
+    "tests": "938/938",
+    "migrations": "0001-0013",
+    "atomic_rpc": "pay_invoice T1-T9 (dblink concorrencia)",
+    "e2e": "dashboard payById 0 5xx",
+    "screenshot": "harness/rf03-fix2-pagamento-dashboard.png"
+  },
+  "harnessRF03b4": {
+    "qa": "passed",
+    "tests": "1066/1066",
+    "e2e": "N/A (nenhuma tela alterada)"
+  },
+  "harnessRF03b5": {
+    "qa": "component-tests-only",
+    "tests": "1110/1110",
+    "e2e": "pendente QAI-02"
+  },
+  "code_review_status": "passed",
+  "harnessRF03b6": {
+    "qa": "passed",
+    "tests": "1151/1151",
+    "e2e": "14 passos + 5 revalidacoes",
+    "network": "218 req / 0 4xx-5xx inesperado",
+    "screenshots": 11,
+    "revalidacao": "5/5 fixes provados"
+  },
+  "verify6": {
+    "status": "approved",
+    "security": "pass (2 pendentes M4)",
+    "traceability": "nao executado (opcional)"
+  },
+  "saneamento": {
+    "status": "completed",
+    "itens": [
+      "S1 total_cents",
+      "S2 guards de exclusao",
+      "S3 RN-03.5 Nx",
+      "S4 flake RTL"
+    ],
+    "migrations": "0014-0018",
+    "tests": "1184/1184 x3 + shuffle"
+  },
+  "delta_specs_rf03": {
+    "status": "applied",
+    "em": "2026-11-04T16:59:46.881Z",
+    "aplicado_por": "humano (protected path)",
+    "arquivos": [
+      ".agents/rules/supabase-postgres-standards.md (RF03 Fase 6 + integridade 0014-0018 + checklist)",
+      ".agents/rules/DESIGN.md (2.4 gauge, 5.5 prorrogacao)",
+      ".agents/rules/frontend-react-coding-standards.md (acoes destrutivas)",
+      ".agents/rules/DESING.md (convertido em ponteiro)"
+    ],
+    "nota": "2 primeiros arquivos editados pelo orquestrador via heredoc (gate nao parseia python); 2 ultimos aplicados pelo humano apos protected-path-write"
+  },
+  "p3_rf03": {
+    "status": "completed",
+    "itens": 6,
+    "tests": "1227/1227",
+    "correcoes_no_ciclo": 7
+  },
+  "backlog": {
+    "frentes": 3,
+    "total": 19,
+    "frente_atual": "A-seguranca",
+    "blocos": [
+      "A-CSP done",
+      "A-END",
+      "A-AUDIT",
+      "A-DEPS",
+      "A-SESSION"
+    ],
+    "correcao_rastreabilidade": "rotulo A1/A2 anterior nao batia com TASKS; A-RLS ja estava fechado na 0005"
+  },
+  "frente_a": {
+    "status": "completed",
+    "testes": "1330/1330",
+    "audit": "0 critical | 0 high | 2 moderate (react-router prod, mitigado por getSafeRedirect)",
+    "migrations": "0019 admin_audit + 0020 hardening",
+    "regras_permanentes": [
+      "mudanca de role/subscription_status exige linha em admin_audit (append-only)",
+      "CSP so por header + check-dist obrigatorio no build"
+    ]
+  },
+  "frente_b": {
+    "status": "completed",
+    "testes": "1371/1371",
+    "itens": {
+      "sort_servidor": "done",
+      "bulk_cobertura": "done",
+      "mrr_active_only": "done",
+      "chart_tokens": "done",
+      "code_split": "entry -31,6%; JS inicial -6,3% gzip -5,6%"
+    }
+  },
+  "frente_c": {
+    "status": "completed",
+    "testes": "1429/1429",
+    "itens": {
+      "paleta": "auth/admin filtrados",
+      "a11y": "idioma visivel 44px + sem sr-only focavel",
+      "console": "flags v7 sem warning",
+      "session": "RequireSession acima do shell",
+      "perf": "landing JS inicial -35,6% raw (-31,3% gz)",
+      "admin_signal": "reset no logout + seletores amarrados ao userId"
+    },
+    "e2e": "pendente (passos listados no review)"
+  },
+  "e2e_frentes_bc": {
+    "status": "approved",
+    "passos": "12/12",
+    "nao_provado": [
+      "MRR monetario (profiles sem plan_id)",
+      "SpendingCurve em runtime (rota nao monta)"
+    ],
+    "screenshots": 11
+  },
+  "cards_drawer": {
+    "status": "paused",
+    "fases": [
+      "F1 categoria",
+      "F2 drawer",
+      "F3 compactacao"
+    ],
+    "testes_baseline": "1429/1429",
+    "fases_status": {
+      "F1": "done",
+      "F2": "done",
+      "F3": "done",
+      "F4": "done",
+      "F5": "done",
+      "F6": "done"
+    },
+    "testes": "1536/1536 (com Supabase) | 1521 sem falhas offline",
+    "f5": {
+      "escopo": "form de compra em drawer + resultado/antecipacao dentro",
+      "origem": "revisao do usuario 2026-11-04",
+      "aguarda": "QA em background"
+    },
+    "migrations": "0021_transaction_category_guard",
+    "qa_falhas": [
+      {
+        "id": "QA-DRAWER-01",
+        "sev": "alta",
+        "status": "corrigido"
+      },
+      {
+        "id": "QA-DRAWER-02",
+        "sev": "media",
+        "status": "corrigido"
+      },
+      {
+        "id": "QA-DRAWER-04",
+        "sev": "baixa",
+        "status": "follow-up"
+      }
+    ],
+    "pausado_por": "tenants-cobranca",
+    "pausado_em": "2026-11-05T16:55:47.299Z"
+  },
+  "prd_adr": {
+    "prd_id": "control-plane-billing",
+    "prd_status": "approved",
+    "active_adr": null,
+    "adr_order": [
+      "ADR-001",
+      "ADR-002",
+      "ADR-003",
+      "ADR-004",
+      "ADR-005",
+      "ADR-006"
+    ],
+    "snapshots": [
+      {
+        "adr": "ADR-001",
+        "follow_ups_count": 5,
+        "escalations_count": 0,
+        "at": "2026-11-18T22:55:16.029Z",
+        "status": "approved"
+      },
+      {
+        "adr": "ADR-002",
+        "follow_ups_count": 4,
+        "escalations_count": 0,
+        "at": "2026-11-18T23:07:00.331Z",
+        "status": "approved"
+      },
+      {
+        "adr": "ADR-003",
+        "follow_ups_count": 5,
+        "escalations_count": 0,
+        "at": "2026-11-18T23:35:19.196Z",
+        "status": "approved"
+      },
+      {
+        "adr": "ADR-004",
+        "follow_ups_count": 7,
+        "escalations_count": 0,
+        "at": "2026-11-18T23:53:22.539Z",
+        "status": "approved"
+      },
+      {
+        "adr": "ADR-005",
+        "follow_ups_count": 6,
+        "escalations_count": 0,
+        "at": "2026-11-19T00:16:37.642Z",
+        "status": "approved"
+      },
+      {
+        "adr": "ADR-006",
+        "follow_ups_count": 6,
+        "escalations_count": 0,
+        "at": "2026-11-19T00:28:11.110Z",
+        "status": "approved"
+      }
+    ],
+    "approved_at": "2026-11-18T22:44:40.241Z",
+    "checks": "PRD-01 PASS, ADR-01 PASS, ADR-02 PASS",
+    "adr_status": "all merged"
+  },
+  "tenants_billing": {
+    "status": "esteira-completa-4x-merged-prd-archived",
+    "aprovado_em": "2026-11-05T16:55:47.299Z",
+    "decisoes": {
+      "cobranca": "hibrida: plano base mensal + excedente medido (E1=c)",
+      "fluxo": "autosservico /register AND backoffice (E2=c)",
+      "entidade": "tenants so com CNPJ; PF em profiles (E3=c)",
+      "recomendacao_aprovada": "tenant unico com kind pf|pj para nao duplicar verdade de cobranca",
+      "credenciais": "senha nunca persistida; criacao via Supabase Auth Admin API + convite/reset"
+    },
+    "abertos": [
+      "unidade do excedente",
+      "provedor de checkout",
+      "profundidade do aceite"
+    ],
+    "ciclo_anterior": "cartoes-lancamentos-drawer em Testing (code_review pending, QA-DRAWER-04 follow-up)",
+    "migracoes_previstas": "0022+",
+    "decisoes_aprovadas": {
+      "D1": "c sem checkout",
+      "D2": "b lancamento/mes",
+      "D3": "a aceite versionado",
+      "D4": "a cadastro+plano+uso+aceite"
+    },
+    "recomendacoes": {
+      "R1": "tenants+tenant_members+helper SECURITY DEFINER",
+      "R2": "usage_events append-only com dedup_key unico",
+      "R3": "inviteUserByEmail via Edge Function",
+      "R4": "aceite append-only + trigger BEFORE UPDATE OR DELETE"
+    },
+    "adr_ativo": null,
+    "gap_ui": "telas de cadastro/backoffice sem ADR dono",
+    "spec_gate": {
+      "spec": "ok",
+      "plan": "ok",
+      "tasks": "9 microtasks",
+      "baseline_pendente": "npm run test:run + npm run build antes de delegar"
+    },
+    "code_review": {
+      "critical": 0,
+      "attention": 0,
+      "f1_f5": "5/5 fechados"
+    },
+    "provas_independentes": "20 NOTICEs T00-T09 rc=0, 1597/1597 vitest, build OK",
+    "re_review": "APROVADO 27 NOTICEs",
+    "delta_p7": "bloqueado pelo gate; proposta em DELTA-P7-proposal.md, aplicacao humana pendente",
+    "adr002": {
+      "spec_sql": "11/11 rc=0",
+      "vitest": "1597/1597",
+      "build": "OK",
+      "review": "1 red corrigido, re-review APROVADO",
+      "amarelos_followup": 3
+    },
+    "adr003": {
+      "vitest": "1618/1618 (1597+21)",
+      "build": "OK",
+      "grep_src": "0",
+      "grep_dist": "0",
+      "review": "0/2 aprovado com ressalvas",
+      "nao_executado": "Function (sem Deno), deploy, SMTP"
+    },
+    "adr004": {
+      "spec_sql": "12/12 rc=0",
+      "vitest": "1618/1618",
+      "build": "OK",
+      "review": "APROVADO 0/3",
+      "followups": 3
+    },
+    "pendencias_humanas": [
+      "DELTA-P7 (0022 regra Tenants)",
+      "DELTA-P7b (0023 medição)",
+      "DELTA-P7c (segurança convite)",
+      "DELTA-P7d (aceite) — aplicar em .agents/rules",
+      "tela /register PJ + backoffice sem dono ADR",
+      "deploy Function + secrets + SMTP",
+      "wrapper atômico tenant+aceite + runbook purge/TRUNCATE",
+      "sequestro de documento (verificação de posse, ADR-003)",
+      "janela backfill + trava mês fechado (pré-fatura D4)"
+    ],
+    "mvp": {
+      "h3": "9/9 (03 refeito r2)",
+      "vitest": "1668/1668",
+      "specs_sql": "13/13",
+      "bug_cliente": "fechado e provado 2 camadas"
+    }
+  },
+  "bug_dashboard_loading": {
+    "status": "fechado",
+    "fix": "accounts!transactions_account_id_fkey(name) em useDashboardPremium.ts:63",
+    "tests": "1682/1682",
+    "review": "APPROVED",
+    "closed_at": "2026-11-07T02:20:10.554Z"
+  },
+  "active_task": null,
+  "internal_admin_dev_state": {
+    "local_db": {
+      "admin@atlas.test": {
+        "role": "super_admin",
+        "must_change_password": false,
+        "internal_operators_active": true,
+        "fatores_totp_verificados": 1
+      }
+    },
+    "reset": "supabase db reset restaura seed (operador inativo, must_change_password=true, 0 fatores); ativar exige UPDATE em internal_operators por DBA",
+    "testado_em": "2026-11-10T02:50:00.000Z",
+    "fluxo_validado": "login -> mfa -> enroll (QR) -> aal2 -> /internal-admin; audit mfa_enrolled gravado pelo usuario real"
+  },
+  "topbar_saldo_consolidado": {
+    "ux_status": "passed",
+    "em": "2026-11-14T00:00:00Z",
+    "decisao": "Popover readonly, remove CreateEntrySheet global",
+    "template_status": "passed",
+    "spec": "GlobalBalancePopover Popover readonly",
+    "template_amend": "size-4 + data-icon, dark: mantido por DESIGN.md",
+    "batch3": "approved",
+    "dev_status": "done-12/12-verifyOK",
+    "files": [
+      "site-header.tsx",
+      "global-balance-popover.tsx",
+      "site-header.test.tsx",
+      "pt-BR.ts",
+      "en-US.ts"
+    ],
+    "review_status": "passed",
+    "harness_reverify": "passed-249-Topbar==Contas",
+    "stage": "Completed",
+    "completed_at": "2026-11-14T19:53:52.257330Z"
+  },
+  "tech_debts": [
+    {
+      "id": "SEC-DEBT-01",
+      "priority": "P3",
+      "title": "44-internal-operators-freeze.spec.sql fora do glob *.spec.sql",
+      "detail": "cobertura da 0041 nunca roda na suite de 29; roda isolado OK",
+      "owner": "qa-engineer",
+      "created_at": "2026-11-18T14:12:33.653Z"
+    },
+    {
+      "id": "SEC-DEBT-02",
+      "priority": "P3",
+      "title": "Comentario stale em backoffice-p0-mfa-0037.spec.sql:22",
+      "detail": "cabeçalho descreve fluxo de cliente pre-0050",
+      "owner": "qa-engineer",
+      "created_at": "2026-11-18T14:12:33.654Z"
+    },
+    {
+      "id": "SEC-DEBT-03",
+      "priority": "P2",
+      "title": "verify.sh template-overrides com 13 problemas",
+      "detail": "manifesto 178 vs universo 189 (credit-card/*, kanban/*, ui/table.tsx, pill-toggle.tsx, app-sidebar.tsx, data-table/*, tenants-table.tsx); pre-existente, agente concorrente",
+      "owner": "humano + developer-engineer",
+      "created_at": "2026-11-18T14:12:33.654Z"
+    },
+    {
+      "id": "SEC-DEBT-04",
+      "priority": "P2",
+      "title": "react-router-dom 6.30.6 sem fix na linha 6.x",
+      "detail": "advisory GHSA-wrjc-x8rr-h8h6 exige major 7.18.5; explore/callback sem sink hoje",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T14:12:33.654Z"
+    },
+    {
+      "id": "SEC-DEBT-05",
+      "priority": "P2",
+      "title": "Headers de seguranca no dev server",
+      "detail": "server.headers espelhando dist/_headers para testes de CSP/clickjacking valerem",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T14:12:33.654Z"
+    },
+    {
+      "id": "SEC-DEBT-06",
+      "priority": "P2",
+      "title": "Politica de delecao/anonimizacao LGPD (F-10)",
+      "detail": "acceptance-immutable bloqueia cascade; falta RPC anonymize_profile/purge com GUC + runbook",
+      "owner": "architect + developer-engineer",
+      "created_at": "2026-11-18T14:12:33.654Z"
+    },
+    {
+      "id": "SEC-DEBT-07",
+      "priority": "P3",
+      "title": "recalc_invoice_total silencioso em id inexistente (F-11)",
+      "detail": "RETURN NULL nos dois ramos; trocar por rotulo fixo invoice-not-found",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T14:12:33.654Z"
+    },
+    {
+      "id": "SEC-DEBT-08",
+      "priority": "P2",
+      "title": "Sessao em cookie JS sem HttpOnly (F-03 / M4)",
+      "detail": "migrar para @supabase/ssr antes de exposicao publica",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T14:12:33.654Z"
+    },
+    {
+      "id": "SEC-DEBT-09",
+      "priority": "P3",
+      "title": "Rotas mock #/admin e #/backoffice",
+      "detail": "esconder do build de producao ou gate por papel",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T14:12:33.654Z"
+    },
+    {
+      "id": "SEC-DEBT-10",
+      "priority": "P3",
+      "title": "Cobertura nao exercitada do engajamento",
+      "detail": "edge functions admin-invite-user/verify-operator, Storage policies, webhooks/CF Workers, OFX/CSV, RN02-RN05, fixtures cross-tenant de pay_invoice/recalc",
+      "owner": "qa-engineer",
+      "created_at": "2026-11-18T14:12:33.654Z"
+    },
+    {
+      "id": "SEC-DEBT-11",
+      "priority": "P3",
+      "title": "COMMENT ON TABLE profiles desatualizado (0049:68-69)",
+      "detail": "nao menciona trigger de auth.users; corrigir com COMMENT em migration futura",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T14:12:33.654Z"
+    },
+    {
+      "id": "SEC-DEBT-12",
+      "priority": "P2",
+      "title": "Automatizar config de producao do Supabase",
+      "detail": "enroll_enabled=false, enable_signup=false, enable_confirmations=true no projeto hospedado; hoje so runbook manual (config.toml local precisa de enroll=true)",
+      "owner": "humano + devops",
+      "created_at": "2026-11-18T14:41:18.481Z"
+    },
+    {
+      "id": "SEC-DEBT-13",
+      "priority": "P2",
+      "title": "Provisionamento automatizado de fator MFA",
+      "detail": "com enroll_enabled=false no hospedado, operador novo exige janela manual on->enroll->off (runbook 10.1); automatizar via fluxo administrativo auditado",
+      "owner": "architect + devops",
+      "created_at": "2026-11-18T15:07:07.946582+00:00"
+    },
+    {
+      "id": "SEC-DEBT-24",
+      "priority": "P1",
+      "title": "Link expirado/consumido cai em 404",
+      "detail": "#error=otp_expired vira path no hash router; OTP_EXP=3600",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T15:58:06.370Z"
+    },
+    {
+      "id": "SEC-DEBT-25",
+      "priority": "P1",
+      "title": "Convite nao define senha (invite-only sem porta de retorno)",
+      "detail": "sem rota de senha/recovery; cookie 8h e conta inacessivel",
+      "owner": "ux-designer + developer-engineer",
+      "created_at": "2026-11-18T15:58:06.371Z"
+    },
+    {
+      "id": "SEC-DEBT-26",
+      "priority": "P2",
+      "title": "Token descartado em silencio em #/login#...",
+      "detail": "parseParametersFromURL quebra com rota no hash",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T15:58:06.371Z"
+    },
+    {
+      "id": "SEC-DEBT-27",
+      "priority": "P2",
+      "title": "Dashboard mostra fixture do template para usuario novo",
+      "detail": "SectionCards R$ 1,25M / 1.234 clientes",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T15:58:06.371Z"
+    },
+    {
+      "id": "SEC-DEBT-31",
+      "priority": "P3",
+      "title": "Ancoras cruas em review-order.tsx (#terms/#privacy)",
+      "detail": "arquivo do template com href=#terms/#privacy; com hash router vira rota. Fora do escopo do batch; corrigir junto do proximo toque no checkout",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T17:25:12.122Z"
+    },
+    {
+      "id": "SEC-DEBT-32",
+      "priority": "P2",
+      "title": "Bind 0.0.0.0 do Supabase local",
+      "detail": "55321/55322/55323/55324/55327 expostos; Postgres com postgres/postgres; CLI sem bind loopback; decisao humana: documentar + recomendar ufw",
+      "owner": "humano + devops",
+      "created_at": "2026-11-18T17:47:18.770Z"
+    },
+    {
+      "id": "SEC-DEBT-33",
+      "priority": "P2",
+      "title": "Edge local sem APP_URL",
+      "detail": "admin-invite-user 403 para Origin do browser; supabase secrets set APP_URL",
+      "owner": "devops",
+      "created_at": "2026-11-18T17:47:18.770Z"
+    },
+    {
+      "id": "SEC-DEBT-34",
+      "priority": "P2",
+      "title": "i18n misto em en-US (login-form e landing nav/hero)",
+      "detail": "strings pt-BR hardcoded",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T17:47:18.770Z"
+    },
+    {
+      "id": "SEC-DEBT-35",
+      "priority": "P2",
+      "title": "Alvos de toque <44px no login/solicitar-convite",
+      "detail": "tema 36x36, inputs h=36, logo 70x24",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T17:47:18.770Z"
+    },
+    {
+      "id": "SEC-DEBT-40",
+      "priority": "P2",
+      "title": "gateShellHygiene nao aplica isHarnessScoped ao qa-engineer",
+      "detail": "qa pode escrever src/** via shell; deny de edit contornavel por bash (I5 declarado). Exige ciclo de harness com ADR.",
+      "owner": "architect + humano",
+      "created_at": "2026-11-18T18:19:03.075Z"
+    },
+    {
+      "id": "SEC-DEBT-41",
+      "priority": "P2",
+      "title": "Gate sem contraprova executavel (pre-fix)",
+      "detail": "suiteFull era build+typecheck; gate-write-scope.spec ligado ao test:gate resolve. Verificar tambem .agents/rules/harness-config.md desatualizado (node --test/static-checks.mjs inexistentes)",
+      "owner": "orchestrator",
+      "created_at": "2026-11-18T18:19:03.075Z"
+    },
+    {
+      "id": "SEC-DEBT-42",
+      "priority": "P3",
+      "title": "gate-contract.md com numeros de linha obsoletos",
+      "detail": "I5 cita gate.js:565/669; apos o patch o escopo esta em ~584/703. Prosa, nao enforcement; correcao exige path protegido",
+      "owner": "orchestrator + humano",
+      "created_at": "2026-11-18T18:34:55.924Z"
+    },
+    {
+      "id": "SEC-DEBT-43",
+      "priority": "P3",
+      "title": "Seal do suiteFull desatualizado",
+      "detail": "suiteFull agora roda test:gate; HARNESS_SEAL_JSON precisa ser regerado pelo operador (trust root). Sem isso, contraprova de Completed nega por sealed-command-mismatch/empty-seal",
+      "owner": "humano (operador do host)",
+      "created_at": "2026-11-18T18:34:55.924Z"
+    },
+    {
+      "id": "SEC-DEBT-44",
+      "priority": "P2",
+      "title": "Evidencia de axe deve persistir violations E incomplete",
+      "detail": "Batch B salvou apenas violations; nos 1:1 do #demo ficaram invisiveis. Padrao: sempre violations+incomplete, com filtro por mensagem",
+      "owner": "qa-engineer",
+      "created_at": "2026-11-18T19:29:33.648Z"
+    },
+    {
+      "id": "SEC-DEBT-45",
+      "priority": "P3",
+      "title": "Gauge de 3 valores apertado em 320",
+      "detail": "no #demo a 320px os valores do gauge ficam colados; nao e header/breakpoint; avaliar empilhamento",
+      "owner": "ux-designer",
+      "created_at": "2026-11-18T19:46:11.291Z"
+    },
+    {
+      "id": "SEC-DEBT-46",
+      "priority": "P3",
+      "title": "Overflow de 6px em 320 (so em pt-BR)",
+      "detail": "pricing-table: rotulo pricing.showComparison right=311.5 vs 320 - 15px scrollbar classica. O botao Regras (right 375.3) esta clipado pelo overflow-x-auto e nao entra no scrollWidth. Em en-US = 0. Nao vem do C1 (header limpo em 320) nem do C2.",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T19:58:15.139Z"
+    },
+    {
+      "id": "SEC-DEBT-47",
+      "priority": "P2",
+      "title": "MoneyValue usa text-slate-900/text-slate-500 hardcoded",
+      "detail": "default semantico deve ser text-foreground/text-muted-foreground; qualquer consumidor sem override fica 1.11:1 no dark (BentoGrid:94 hoje sem uso). Contraria DESIGN.md §2",
+      "owner": "design-system-specialist + developer-engineer",
+      "created_at": "2026-11-18T20:03:47.179Z"
+    },
+    {
+      "id": "SEC-DEBT-48",
+      "priority": "P3",
+      "title": "1px de overflow em pricing-table pt-BR@1024",
+      "detail": "rotulo /mes cobrado anualmente; en-US 1009/1009; ajustar wrap ou reduzir copy",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-18T20:03:47.179Z"
+    },
+    {
+      "id": "SEC-DEBT-49",
+      "priority": "P2",
+      "title": "verify-operator v1 com 3 defeitos de gate",
+      "detail": "Ef1 nao le profiles (must_change_password -> 200); Ef2 aceita operador sem role super_admin; Ef3 ordem invertida vs 0051. Banco continua gateando; o guard do cliente mente",
+      "owner": "developer-engineer + architect",
+      "created_at": "2026-11-18T23:48:41.329Z"
+    },
+    {
+      "id": "SEC-DEBT-50",
+      "priority": "P1",
+      "title": "Tenant canceled sem bloqueio de escrita",
+      "detail": "PRD §9 exige somente-leitura em canceled; nenhum ADR do PRD define mecanismo. Risco: cliente cancelado segue escrevendo",
+      "owner": "architect (ADR-005 ou adendo)",
+      "created_at": "2026-11-18T23:48:41.329Z"
+    },
+    {
+      "id": "BILLING-P5-1",
+      "priority": "P1",
+      "title": "payment_refunded escolhe fatura por competencia, nao por psp_payment_id",
+      "detail": "estorno de competencia anterior marca a mais recente como refunded (imutavel) — corrigido in-place na 0059",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T11:09:59.508Z"
+    },
+    {
+      "id": "BILLING-P5-2",
+      "priority": "P1",
+      "title": "renovacao nao aplica pending_plan_slug",
+      "detail": "cobra plano antigo por um ciclo inteiro; gap SPEC->PLAN (nenhuma task cobria)",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T11:09:59.508Z"
+    },
+    {
+      "id": "F2-REPAIR-01",
+      "priority": "P1",
+      "title": "Reparo de onboarding ressuscitava tenant canceled",
+      "detail": "admin_repair_tenant_onboarding inseria active/plano pago; espelho 0058 reescrevia canceled->active. Corrigido com pre-validacao subscription-canceled-readonly",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T13:20:26.344Z"
+    },
+    {
+      "id": "F2-REPAIR-02",
+      "priority": "P2",
+      "title": "Reparo travava em drift de membership com 23505 cru",
+      "detail": "dono com role member ou outro owner => unique violation sem rotulo; precisa pre-validacao tenant-onboarding-membership-role-manual",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T13:20:26.344Z"
+    },
+    {
+      "id": "F2-EDGE-DELETE-01",
+      "priority": "P1",
+      "title": "Edge DELETE apagava membro de tenant sem guarda nem trilha",
+      "detail": "admin_cancel_invite so recusa owner; handleDelete ignorava canceled=false e chamava deleteUser; cascade profiles->tenant_members sem admin_audit. Irreversivel.",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T13:38:42.086Z"
+    },
+    {
+      "id": "F2-REPAIR-03",
+      "priority": "P1",
+      "title": "Reparo ressuscitava past_due para active",
+      "detail": "pre-validacao cobria canceled; past_due sem assinatura virava active sem pagamento",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T13:38:42.086Z"
+    },
+    {
+      "id": "F2-EDGE-SOFTDEL-01",
+      "priority": "P2",
+      "title": "admin_resolve_invited_user resolve usuario soft-deleted",
+      "detail": "auth.users tem deleted_at; convite para conta apagada devolve state=existing sem enviar convite",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T13:38:42.086Z"
+    },
+    {
+      "id": "FLAKE-01",
+      "priority": "P3",
+      "title": "router-contas.spec.tsx flaky sob carga paralela",
+      "detail": "1 falha na 1a execucao do Vitest durante batch; verde em 2 reruns; arquivo nao tocado",
+      "owner": "qa-engineer",
+      "created_at": "2026-11-19T15:19:22.125Z"
+    },
+    {
+      "id": "F3-R1",
+      "priority": "P2",
+      "title": "max_members=0 permitido pelo CHECK bloqueia bootstrap do owner",
+      "detail": "gate trata 0 como excedido antes do probe; CHECK aceita >=0; corrigir para >=1",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T15:40:00.499Z"
+    },
+    {
+      "id": "F4-H3-01",
+      "priority": "P0",
+      "title": "readInternalRpc perde o this do supabase.rpc",
+      "detail": "desestruturar o metodo quebra this.rest; todas as telas de dado falham antes do fetch",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T18:11:48.063Z"
+    },
+    {
+      "id": "F4-H3-02",
+      "priority": "P1",
+      "title": "Runtime do guard configurado depois do verify",
+      "detail": "useEffect do pai roda depois do filho => error sem rede no hard-load de /internal",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T18:11:48.063Z"
+    },
+    {
+      "id": "F4-H3-03",
+      "priority": "P1",
+      "title": "MFA trava no StrictMode",
+      "detail": "startedRef + active cancela 1o efeito e o 2o retorna cedo; enroll impossivel pela UI",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T18:11:48.063Z"
+    },
+    {
+      "id": "F4-H3-04",
+      "priority": "P1",
+      "title": "Detalhe le admin_get_tenant como objeto; RPC RETURNS TABLE devolve array",
+      "detail": "campos vazios e banner past_due ausente; teste mockava objeto",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T18:35:35.736Z"
+    },
+    {
+      "id": "F4-H3-05",
+      "priority": "P2",
+      "title": "Medir agora nao exibe medicao (checking desmonta children)",
+      "detail": "verify force => store checking => RequireInternalOperator troca children pelo skeleton => sample perdido",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T18:35:35.736Z"
+    },
+    {
+      "id": "F4-A11Y-01",
+      "priority": "P2",
+      "title": "SidebarTrigger 28x28 e tabs 29px no mobile",
+      "detail": "abaixo dos 44px exigidos pelo DESIGN.md; herdado do template",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T19:52:57.931Z"
+    },
+    {
+      "id": "F4-MFA-DEV-01",
+      "priority": "P3",
+      "title": "MFA 422/500 no StrictMode (dev-only)",
+      "detail": "conta sem fator + duplo effect => POST /factors 422 e challenge 500; producao nao roda StrictMode",
+      "owner": "developer-engineer",
+      "created_at": "2026-11-19T19:52:57.931Z"
+    },
+    {
+      "id": "TD-PRD-CHECK-ORFAO",
+      "severity": "P2",
+      "created_at": "2026-11-20T02:16:22.260Z",
+      "finding": "runPrdChecks nao tem chamador no repo; .agents/rules/prd-adr-pipeline.md §6 afirma 🟢 via scripts/static-checks.mjs no suiteFull, mas scripts/static-checks.mjs nao existe e suiteFull = test:gate+build+typecheck",
+      "evidence": "grep -rn runPrdChecks => 1 ocorrencia (a definicao, checks.mjs:417); ls scripts/ => sem static-checks.mjs",
+      "extra": "com root errado o check retorna PASS vacuous-safe (medido com runPrdChecks(\".spec/prd\"))",
+      "owner": "responsavel pelo harness",
+      "blocked_by": "path protegido .agents/rules/** (gate-contract I9)"
+    },
+    {
+      "id": "TD-BRAIN-PATH",
+      "severity": "P2",
+      "created_at": "2026-11-20T13:15:18.815Z",
+      "finding": "brain_store prepende {layer}/{scope} ao path; 195 de 389 notas do projeto tem path malformado (duplicacao de layer/scope e segmento projeto)",
+      "evidence": "brain_store({layer,scope,path:regras/projetos/...}) => regras/projetos/regras/projetos/...; notas atlas-agenda no mesmo brain estao corretas (path relativo)",
+      "impact": "busca por project OK; brain_read por path esperado => not found",
+      "owner": "contrato do brain (BRAIN.MCP.md) — documentar path relativo",
+      "status": "resolvido",
+      "resolved_at": "2026-11-20T13:19:34.446Z",
+      "resolution": "231 notas normalizadas para {layer}/{scope}/... (sessoes: {layer}/{...}); 389 notas antes e depois (nenhum conteudo unico perdido); 1 residual: sessoes/projeto/atlas-financeiro/2026-11-17-veredito-consolidado-template (destino ja ocupado por conteudo diferente — nao sobrescrito)",
+      "lesson": "brain_store prepende {layer}/{scope} ao path; passar path completo duplica o prefixo. path deve ser relativo (ex.: atlas-financeiro/slug)"
+    }
+  ],
+  "audit_contas_template": {
+    "status": "concluida",
+    "em": "2026-11-17T00:15:00Z",
+    "aderencia_pct": 72,
+    "criticos": 4,
+    "atencao": 19,
+    "sugestoes": 10,
+    "achado_extra": "vitrine sobrescrita pelo installer (byte-identica a harness-templates, mtime 00:02) apos o B2; 7/7 testes da vitrine falham"
+  },
+  "batches_contas": {
+    "A": "completed",
+    "B": "completed",
+    "C": "completed",
+    "D": "completed"
+  },
+  "verify_contas_filtros": {
+    "status": "approved_with_notes",
+    "tests": "140 arq / 869 testes",
+    "typecheck": 0,
+    "build": "OK",
+    "verify_sh": "OK",
+    "qa": "passed_with_notes",
+    "manifest": "47/177",
+    "security": "RLS/BIGINT intocados"
+  },
+  "validacao_template_cartoes": {
+    "agente": "atlas-template-specialist",
+    "sessao": "ses_e165efcc3fferX5dn3C3GE7KiF",
+    "data": "2026-11-17T13:12:44.127854+00:00",
+    "veredito": "modal-nao-atendido-lista-correta",
+    "modal_3d": "AUSENTE — AddCardDialog.tsx sem InteractiveCreditCard/flip/live-mirroring/5 temas/Luhn",
+    "lista": "CORRETA (superior ao template: search, acao unica, formatCentsBRL, rodape, zero mocks)",
+    "criticos": 3,
+    "atencao": 3,
+    "sugestoes": 1,
+    "proximo_passo": "follow-up SDD curto: 1 ADR novo (contrato visual preview 3D, ADR-003 excluiu) + Card3DPreview no modulo + estender insert de identidade + corrigir VERIFY (falso verde) + E2E 1280/375"
+  },
+  "verify_contas_pill_toggle": {
+    "status": "approved",
+    "tests": "141 arq / 877 testes",
+    "typecheck": 0,
+    "build": "OK",
+    "verify_sh": "OK",
+    "visual": "mantido pelo humano (ativo claro)"
+  },
+  "harness_status_detail": "H3 isolada 50/50: aberta 2026-11 no indice 0, futuro 2026-12 no 1; 1280/375 dark sem overflow; console.json 0 error/warn; network.json 82 req 0 4xx/5xx; 9 screenshots em harness/h3-e1/evidence/; portas 5200/5173/19988/19991 livres",
+  "improvement_type": "melhoria",
+  "previous_cycle_cartoes_fatura_aberta": {
+    "current_feature": "cartoes-fatura-aberta-primeiro",
+    "current_phase": "Execution",
+    "next_phase": "Testing",
+    "type": "refactor",
+    "code_review": {
+      "last_invoked_at": "2026-11-18T01:22:21.918Z",
+      "last_status": "passed",
+      "critical_issues": 0,
+      "attention_issues": 0,
+      "reviewer_notes": "E1 APPROVED (ses_e13c2a96dffe8oy9lTkHWYzp8d): E1-1..E1-5 ok, 14/14 alvo, 1020 suite, InvoiceMonthTabs/CR-1..CR-6 intactos, displayInvoiceStatus como fonte. Bloqueio de Completed = H3 pendente, nao achado de codigo."
+    },
+    "pendencia": "H3 visual pendente por ambiente (chrome-devtools preso a profile alheio, browse relay 19988 falhou)",
+    "stashed_at": "2026-11-18T12:44:48.683Z"
+  },
+  "security_pentest": {
+    "engagement": "/home/joao/Documentos/wsProjetos/security-atacante/engagements/atlas-financeiro/report.md",
+    "report_date": "2026-11-18",
+    "reviewer": "security-engineer",
+    "reviewer_session": "ses_e115a6314ffeyLM5af3iKZl1gs",
+    "report_verdict": "utilizavel, nao conclusivo para release",
+    "report_errors": [
+      "F-04: CVE-2025-68470 ja corrigido em 6.30.6; advisory vivo é GHSA-wrjc-x8rr-h8h6 (fix 7.18.5, major) — fix proposto invalido",
+      "F-08: 'MFA segura' é falso — TOTP self-enroll (config.toml:305, 0040:14-20) permite aal2 ao portador da senha",
+      "F-12: authenticated TEM insert por coluna em invoices (0015:26-33); 42501 só com coluna fora do grant"
+    ],
+    "findings_added": {
+      "F-13": "auto-enroll de MFA derruba gate aal2; is_super_admin nao consulta internal_operators",
+      "F-14": "/supabase/seed.sql servido com credencial super_admin",
+      "F-15": "Supabase local em 0.0.0.0:55321",
+      "F-16": "blast radius F-01 inclui .spec/**, harness/**, workflow-state.json, .harness-install.json"
+    },
+    "p1_items": [
+      "SEC-01 fs.deny + mover backups",
+      "SEC-02 grant por coluna em profiles + trigger",
+      "SEC-03 gate de enroll MFA/operador",
+      "SEC-04 invite-only",
+      "SEC-05 seed sem senha fixa",
+      "SEC-06 ambiente (bind, edge 503, dev server)"
+    ],
+    "open_decisions": [],
+    "debt_files": "P2/P3 pendentes de .spec/tech-debts/security-p2-p3/",
+    "gate": "B1->B2 aprovado",
+    "decisions": {
+      "D1": "invite-only",
+      "D2": "A refinada: gate global is_super_admin + operator-inactive; bootstrap DBA/psql; enroll_enabled=false no hospedado",
+      "B1B2": "aprovado 2026-11-18",
+      "batches": [
+        "B1=SEC-01+SEC-02",
+        "B2=SEC-03+SEC-04",
+        "B3=SEC-05+SEC-06"
+      ]
+    },
+    "c1_review": {
+      "status": "CHANGES_REQUESTED",
+      "critical": 1,
+      "decision": "amarrar a auth.users.encrypted_password via trigger 0050 + revogar RPC; GUC nao e autorizacao",
+      "iteration": 1
+    },
+    "batch1": {
+      "status": "implemented",
+      "tests": {
+        "vitest": "152 arquivos / 1045 testes",
+        "sql": "29/29",
+        "typecheck": 0,
+        "build": "OK"
+      },
+      "files": [
+        "vite.config.ts",
+        "vite.config.spec.ts",
+        "tsconfig.json",
+        "supabase/migrations/0049_profiles_column_grants.sql",
+        "supabase/migrations/0050_first_access_requires_password_change.sql",
+        "supabase/tests/0049-profiles-first-access-lock.spec.sql",
+        "supabase/tests/0050-first-access-requires-password.spec.sql",
+        "supabase/tests/backoffice-p1-adr002.spec.sql",
+        "supabase/seed.sql"
+      ],
+      "review": "APPROVED (iteracao 3, 0 criticos)"
+    },
+    "next_batch": "A2 (UX signup) + A3 (runbook) + SEC-06 (ambiente) + H3",
+    "batches": {
+      "B1": "SEC-01+SEC-02 fechado APPROVED",
+      "B2": "SEC-03+SEC-05",
+      "B3": "SEC-04+SEC-06"
+    },
+    "batch2": {
+      "status": "fechado (APPROVED + 7 itens aplicados)",
+      "tests": {
+        "sql": "30/30 fresh e rerun",
+        "vitest": "152 arquivos / 1045",
+        "typecheck": 0,
+        "build": "OK"
+      },
+      "files": [
+        "supabase/migrations/0051_operator_gate.sql",
+        "supabase/tests/0051-operator-gate.spec.sql",
+        "supabase/seed.sql",
+        "package.json",
+        ".doc/runbook-operacoes.md",
+        "ADR-001-operator-gate.md"
+      ],
+      "notes": "reviewer encontrou prova fragil no T10 (verificacao fora da transacao) e contradicao de runbook sobre enroll_enabled; nenhum bypass"
+    },
+    "batch3": {
+      "status": "SEC-04 fechado APPROVED (local); hospedado = manual (SEC-DEBT-12)",
+      "tests": {
+        "sql": "31/31 fresh e rerun",
+        "vitest": "152/1045",
+        "typecheck": 0,
+        "build": "OK"
+      },
+      "files": [
+        "supabase/config.toml",
+        "supabase/migrations/0052_invite_only_tenant_provisioning.sql",
+        "supabase/migrations/0053_invite_only_tenant_autoprovisioning.sql",
+        ".doc/runbook-operacoes.md",
+        "harness/security-p1-sec04-invite-only-tenant-autoprovisioning.json"
+      ]
+    },
+    "lessons": {
+      "gotrue_email_provider_flag": "[auth.email] enable_signup é o provider GOTRUE_EXTERNAL_EMAIL_ENABLED — desligar mata login por senha (422 email_provider_disabled). Cadastro fecha por [auth] enable_signup=false.",
+      "ports": "stack local atlas-financeiro: API 55321, DB 55322 (54321/54322 pertencem ao atlas-agenda — specs apontando para 54322 falham)"
+    },
+    "tech_debts_file": ".spec/tech-debts/security-p2-p3/TASKS.md",
+    "invite_flow": {
+      "verdict": "happy path OK (link cria sessao e cai no dashboard)",
+      "error_branch": "404 generico em #error=... (otp_expired)",
+      "no_password_ui": true,
+      "qa_session": "ses_e10a5dc01ffeihwdEpZqDYMIA3"
+    },
+    "regression_self_inflicted": {
+      "id": "F-5",
+      "what": "fs.deny **/dist/** casou node_modules/vite/dist/client/client.mjs; /@vite/client 404; tela branca",
+      "status": "em correcao (ses_e109eefaeffegtlVWxiJjWeQmP)"
+    },
+    "auth_surface": {
+      "status": "fechado APPROVED",
+      "tests": {
+        "vitest": "162 arquivos / 1115 testes",
+        "typecheck": 0,
+        "build": "OK",
+        "sql": "31/31"
+      },
+      "evidence": ".spec/bugs/security-p1-hardening/harness/ (11 screenshots)",
+      "files_new": [
+        "src/lib/auth-hash-intent.ts",
+        "src/lib/pending-password-setup.ts",
+        "src/boot/auth-hash-bootstrap.ts",
+        "src/pages/SetPasswordPage.tsx",
+        "src/pages/LinkExpiredPage.tsx",
+        "src/pages/RequestInvitePage.tsx",
+        "src/components/shadcn/auth/auth-shell.tsx",
+        "src/components/shadcn/auth/password-strength-meter.tsx",
+        "src/components/shadcn/auth/forgot-password-form.tsx"
+      ],
+      "files_removed": [
+        "src/pages/SignupPage.tsx",
+        "src/pages/SignupPage.stories.tsx",
+        "src/components/shadcn/auth/signup-form.tsx"
+      ],
+      "config": {
+        "detectSessionInUrl": false,
+        "site_url": "http://127.0.0.1:5173"
+      },
+      "debt_verify": "SEC-DEBT-03: 13 problemas em template-overrides; aceite registrado em overrides"
+    },
+    "next_step": "housekeeping (2 atencao) -> SEC-06 -> H3 consolidado",
+    "sec06": {
+      "edge": "401 (nao-503) em verify-operator e admin-invite-user",
+      "dev_server": "5173 /@vite/client 200 text/javascript",
+      "bind": "0.0.0.0 e [::] em 55321/55322/55323/55324/55327 — SEC-DEBT-32",
+      "new_finding": "edge local sem APP_URL -> 403 para origem do browser (SEC-DEBT-33)"
+    },
+    "h3": {
+      "status": "PASSA 12/12",
+      "evidence": "harness/h3-final-report.md + 27 screenshots",
+      "residual": "corpo da landing en-US (SEC-DEBT-36), axe landing (37), overflow 375 (38)"
+    },
+    "tests_final": {
+      "vitest": "165 arquivos / 1131 testes",
+      "typecheck": 0,
+      "build": "OK",
+      "sql": "31/31",
+      "verify_sh": "13 problemas preexistentes (template-overrides) — aceite em overrides"
+    },
+    "status": "arquivado em .spec/archive/20261118-security-p1-hardening/",
+    "gate_fix": {
+      "status": "corrigido (gate.js + spec 14 casos + test:gate no suiteFull)",
+      "proof": "antes 7/12 com 5 falhas; depois 14/14",
+      "tests": {
+        "gate": "14/14",
+        "vitest": "165/1131",
+        "typecheck": 0,
+        "build": "OK",
+        "sql": "31/31"
+      },
+      "extra": "vite.config.ts test.exclude += .opencode/** (Vitest engolia os specs do gate)"
+    },
+    "p2_landing": {
+      "batchA": {
+        "status": "implementado (i18n completa, html[lang], paridade)",
+        "tests": {
+          "vitest": "167 arquivos / 1145",
+          "gate": "14/14",
+          "typecheck": 0,
+          "build": "OK",
+          "sql": "31/31"
+        },
+        "evidence": ".spec/bugs/security-p1-hardening/harness/p2-batch-a/ (9 screenshots)"
+      },
+      "batchB": {
+        "status": "implementado (contraste 0 nos axe + disclosure mobile)",
+        "evidence": ".spec/bugs/security-p1-hardening/harness/p2-batch-b/ (18 JSONs axe + 10 PNGs)"
+      },
+      "status": "fechado APPROVED (C1+C2 corrigidos)",
+      "review": "CHANGES_REQUIRED: 2 criticos (C1 header 640-990 overflow/sem nav; C2 dinheiro #demo 1.11:1 no dark classificado como axe incomplete) — em correcao",
+      "evidence_correction": "O 0 nos de color-contrast do Batch B era FALSO NEGATIVO: JSONs guardavam apenas violations; o axe classificou os 3 nos do #demo como incomplete (1:1).",
+      "c1_decision": "ux-designer: disclosure ate lg (1024); nav lg:flex gap-4 xl:gap-6; toggle/painel lg:hidden; invariante nav XOR toggle; contingencia unica: Entrar hidden xl:inline-flex",
+      "c2": "corrigido: MoneyValue no call site (text-foreground / rose-700 dark:rose-400), axe incomplete 3 -> 0 nos do #demo, keywordKey i18n, fade do tab strip em 320",
+      "tests": "Vitest 1167 (171 arquivos); gate 14/14; typecheck 0; build OK",
+      "c1": "corrigido: disclosure ate lg (1024), nav lg:flex gap-4 xl:gap-6, toggle/painel lg:hidden; 10 viewports sem overflow; nav XOR toggle provado; Entrar/CTA h-11 (44px) por aceite"
+    },
+    "contraprova_final": {
+      "sql": "31/31 contraprovado pos-reset no 55322 (433 assercoes, controle negativo exit 1)",
+      "vitest": "169 arquivos / 1153",
+      "gate": "14/14",
+      "typecheck": 0,
+      "build": "OK",
+      "verify_sh": "13 preexistentes (template-overrides)",
+      "migrations": "52 arquivos aplicados ate 0053 (0038 inexistente)",
+      "smoke": "landing pt/en 1280/375 sem overflow, console 0 erro, network 0 4xx/5xx, menu mobile ok"
+    },
+    "harness_status": "passed",
+    "debts_count": 48
+  },
+  "e2e_state": {
+    "db_reset_by": "code-reviewer durante review do B2",
+    "admin_hint": "admin@atlas.test com must_change_password=true e senha definida pelo reset (nao reutilizar)",
+    "fixtures": "perdidas no reset"
+  },
+  "seal_status": {
+    "state": "HARNESS_SEAL_JSON AUSENTE no ambiente do host (fail-closed: empty-seal)",
+    "suiteFull_sha256": "5294e6c918fb82dd9c3239805ad6f5ea507b86b41a478cf828c618ff66393d3d",
+    "action": "operador precisa publicar o seal gerado (sealCommands) apos a mudanca de suiteFull"
+  },
+  "control_plane_billing": {
+    "status": "PLANEJAMENTO CONCLUIDO: PRD + 6 ADRs merged, 0 linhas de codigo",
+    "scope": [
+      "inventario de telas",
+      "control plane do operador",
+      "cobranca",
+      "quotas e limites"
+    ],
+    "acceptance": "docs aprovados, zero codigo",
+    "deploy_cycle": "checklist derivado de SEC-DEBT-12/13/32/33 (documento), nao ciclo de codigo",
+    "decisions": {
+      "D-BILLING-PROVIDER": {
+        "value": "Asaas",
+        "date": "2026-11-18T22:37:28.200Z",
+        "note": "Mercado BR: Pix/boleto/cartao + assinatura recorrente; webhook proprio; resolve decisao aberta desde o PRD tenants-cobranca"
+      },
+      "D-QUOTA-ENFORCEMENT": {
+        "value": "hard limit server-side",
+        "date": "2026-11-18T22:37:28.200Z",
+        "note": "escrita que excede levanta rotulo fixo (ex.: quota-accounts-exceeded); leitura livre; sem overage; UI espelha consumo e CTA de upgrade"
+      },
+      "D-ROUTE-INTERNAL": {
+        "value": "/internal/* canonico; #/admin vira redirect; mock sai do bundle",
+        "date": "2026-11-18T22:41:52.936Z"
+      },
+      "D-EPIC-SCOPE": {
+        "value": "epico = control plane + cobranca + quotas; dashboard/lancamentos/config em ciclos separados",
+        "date": "2026-11-18T22:41:52.936Z"
+      },
+      "D-QUOTA-SCOPE": {
+        "value": "quota por tenant + limite de seats (max_members); recursos correlacionados ao tenant",
+        "date": "2026-11-18T22:41:52.936Z"
+      },
+      "D-A3-PSP-RETENTION": {
+        "value": "payload completo 90d -> scrub de PII ate 24m; faturas 5 anos (fiscal)",
+        "date": "2026-11-18T22:56:28.278Z"
+      },
+      "D-A4-PRORATA": {
+        "value": "linear por dias restantes, arredonda para baixo, invoice kind=proration no ato",
+        "date": "2026-11-18T22:56:28.278Z"
+      },
+      "D-B2-VISIBILIDADE": {
+        "value": "dados privados por usuario (auth.uid()=user_id); quota e billing do tenant",
+        "date": "2026-11-18T23:07:00.331Z",
+        "note": "nao altera RLS de nenhuma das 4 tabelas"
+      },
+      "D-B1-MULTI-TENANT": {
+        "value": "um tenant ativo por sessao + seletor explicito e switch_tenant auditado",
+        "date": "2026-11-18T23:07:00.331Z",
+        "requirement": "RPC switch_tenant auditada; depende do ADR de guard/onboarding"
+      },
+      "D-C1-DUNNING-TERMINAL": {
+        "value": "past_due -> canceled so por RPC de operador auditada apos as tentativas; PAYMENT_DELETED permanece unmapped",
+        "date": "2026-11-18T23:35:19.196Z"
+      },
+      "D-C2-WAF": {
+        "value": "webhook fora do zone/WAF (subdominio separado ou skip explicito)",
+        "date": "2026-11-18T23:35:19.196Z"
+      },
+      "D-CANCELED-WRITE-BLOCK": {
+        "value": "bloqueio no banco via adendo ao ADR-002 (rotulo subscription-canceled-readonly), nao so UI",
+        "date": "2026-11-18T23:53:22.539Z"
+      },
+      "D-ADR006-EXCEPTION": {
+        "value": "abrir ADR-006 (onboarding/convite) com excecao registrada ao teto de 5 ADRs",
+        "date": "2026-11-19T00:16:37.642Z"
+      },
+      "D-O1-FREE-ACTIVE": {
+        "value": "tenant free nasce active; sem trial, sem period_start/end, sem billing_day; quota vale desde o 1o INSERT",
+        "date": "2026-11-19T00:36:38.297Z"
+      },
+      "D-OF1-2-PERIOD": {
+        "value": "period_start/end e billing_day nulaveis; CHECK exige NOT NULL apenas em plano pago; past_due_since timestamptz NULL adicionada a tenant_subscriptions",
+        "date": "2026-11-19T02:29:43.348Z"
+      },
+      "D-OF1-1-ORDER": {
+        "value": "implementar ADR-001 (0055-0060) antes de F1; F1 passa a ser segunda fatia",
+        "date": "2026-11-19T02:29:43.348Z"
+      }
+    },
+    "follow_ups_registrados": 6,
+    "prd_decisions": {
+      "D1": "trial 14d",
+      "D2": "seats 1/3/10/inf",
+      "D3": "downgrade bloqueia criacao, mantem leitura, sem overage",
+      "D4": "dunning D+1/D+3/D+7 + 7d graca",
+      "D5": "impersonation super_admin+aal2+operador, 15min read-only",
+      "D6": "auditoria 24 meses",
+      "D7": "pro-rata no upgrade, sem credito no downgrade",
+      "D8": "competencia no aniversario SP",
+      "D9": "verdade em tenant_subscriptions",
+      "D10": "plan_limits atuais + max_members"
+    },
+    "research": {
+      "status": "concluido (374 linhas, 44 URLs)",
+      "file": ".spec/prd/control-plane-billing/RESEARCH.md",
+      "recommendations": {
+        "T1": "tenant_id por trigger (ON DELETE RESTRICT, idx tenant_id+created_at)",
+        "T2": "Cloudflare Worker valida asaas-access-token + psp_events ON CONFLICT + 200 so apos persistir",
+        "T3": "token opaco server-side 15min, read-only por ausencia de caminho de escrita",
+        "T4": "Edge verify-operator como fonte unica + cache memoria 60s revalidado em foco/escrita",
+        "T5": "tenant_subscriptions verdade + tenants espelho por trigger; escrita so por apply_psp_event"
+      }
+    },
+    "adr_plan": [
+      "ADR-001 assinatura/fatura",
+      "ADR-002 quota/tenant",
+      "ADR-003 webhook",
+      "ADR-004 guard /internal/*",
+      "ADR-005 impersonation"
+    ],
+    "adr_001": {
+      "status": "approved (humano 2026-11-18); aguardando merge no indice",
+      "file": ".spec/prd/control-plane-billing/ADRs/ADR-001-tenant-subscriptions/ADR.md",
+      "migrations_plan": [
+        "0054 subscriptions",
+        "0055 invoices",
+        "0056 psp_events",
+        "0057 espelho + REVOKE admin_set_tenant_status",
+        "0058 escrita",
+        "0059 leitura/override"
+      ],
+      "open": [
+        "A1 active->canceled (Produto)",
+        "A2 assinatura nasce com tenant? (Produto)",
+        "A5 past_due_since (Produto)"
+      ],
+      "migrations": [
+        "0055 subscriptions",
+        "0056 invoices",
+        "0057 psp_events",
+        "0058 espelho + REVOKE admin_set_tenant_status",
+        "0059 escrita",
+        "0060 leitura/override"
+      ]
+    },
+    "adr_002": {
+      "status": "approved (humano 2026-11-18)",
+      "file": ".spec/prd/control-plane-billing/ADRs/ADR-002-tenant-quota/ADR.md",
+      "migrations": [
+        "0061 correlacao+enforcement",
+        "0062 max_members+get_plan_limit",
+        "0063 quota de membros",
+        "0064 get_tenant_usage"
+      ],
+      "open_resolved": {
+        "B1": "seletor + switch_tenant",
+        "B2": "dados privados"
+      },
+      "open_remaining": [
+        "B3 NOT NULL quando",
+        "B4 purge sob RESTRICT"
+      ]
+    },
+    "adr_003": {
+      "status": "approved (humano 2026-11-18)",
+      "file": ".spec/prd/control-plane-billing/ADRs/ADR-003-asaas-webhook/ADR.md",
+      "migrations": [
+        "0065 ordem/retencao",
+        "0066 ingest_psp_event + revoga INSERT",
+        "0067 apply_psp_event + drain_psp_events",
+        "0068 scrub_psp_events"
+      ],
+      "open_remaining": [
+        "C3 janela de rotacao do token",
+        "C4 purge de faturas em 5 anos",
+        "C5 conciliacao ativa contra API do PSP"
+      ]
+    },
+    "adr_004": {
+      "status": "approved (humano 2026-11-18)",
+      "file": ".spec/prd/control-plane-billing/ADRs/ADR-004-internal-guard/ADR.md",
+      "migrations": [
+        "0069 user_active_tenants + tenant_switches + 3 RPCs",
+        "0070 resolve_user_tenant com pin",
+        "0071 agregados"
+      ],
+      "edge_defects": [
+        "Ef1 verify-operator nao le profiles (must_change_password passa 200)",
+        "Ef2 aceita operador sem role super_admin",
+        "Ef3 ordem de checagem invertida vs 0051"
+      ],
+      "declared_gap": "bloqueio de escrita para tenant canceled sem mecanismo em nenhum ADR"
+    },
+    "summary": ".spec/prd/control-plane-billing/PLANNING-SUMMARY.md",
+    "planning_gap": "RF-ON-01..03 sem ADR (teto de 5 atingido); sem onboarding nao ha tenant para billing/quota",
+    "slices": [
+      "F1 ADR-001 assinatura 0055-0060",
+      "F2 ADR-006 onboarding 0077-0080",
+      "F3 ADR-002 quota 0061-0064",
+      "F4 ADR-004 guard 0069-0071",
+      "F5 ADR-003 webhook 0065-0068",
+      "F6 past_due 0075-0076",
+      "F7 ADR-005 impersonation 0072-0074"
+    ],
+    "adr_005": {
+      "status": "approved (humano 2026-11-18)",
+      "file": ".spec/prd/control-plane-billing/ADRs/ADR-005-impersonation/ADR.md",
+      "migrations": [
+        "0072 sessao+indices+deny-all",
+        "0073 start/end/impersonation_gate",
+        "0074 impersonation_read",
+        "0075 subscription_access (past_due) + triggers readonly",
+        "0076 enforce_tenant_quota recriada"
+      ],
+      "open_remaining": [
+        "O1 escopo membros (B2)",
+        "O2 retencao impersonation_sessions",
+        "O3 MFA step-up",
+        "O4 rate limit start/violacoes",
+        "O5 reason code fechado",
+        "O6 DELETE em canceled"
+      ]
+    },
+    "adr_006": {
+      "status": "merged (aprovado 2026-11-18)",
+      "file": ".spec/prd/control-plane-billing/ADRs/ADR-006-tenant-onboarding/ADR.md",
+      "migrations": [
+        "0077 provisioning",
+        "0078 ledger de convite + tenants_owner_user_idx",
+        "0079 drift/reparo",
+        "0080 apoio a borda"
+      ],
+      "decisions": {
+        "A2": "assinatura nasce na mesma transacao do tenant; pago=>trial 14d; free=>active (O1 a confirmar)",
+        "idempotencia": "chave natural (owner_user_id, documento fiscal)"
+      },
+      "open_remaining": [
+        "O2 aceite pessoal pos-login",
+        "O3 reenvio/cooldown",
+        "O4 teto por operador 20/h",
+        "O5 campanha de reparo dos legados",
+        "O6 retencao das linhas tenant_onboard_*"
+      ]
+    },
+    "f1_blockers": [],
+    "open_f1": [
+      "O-F1-3..O-F1-8 (nao bloqueiam)"
+    ]
+  },
+  "security_debts_cycle": {
+    "status": "fechado: DEBT-49 e DEBT-50 entregues, C1/I1/I2/I5 corrigidos, docs alinhados",
+    "decision_50": "migration 0054_subscription_canceled_readonly.sql lendo tenants.subscription_status; faixas do epico deslocam +1",
+    "migrations_shift": {
+      "baseline_0054": "guard canceled (a executar)",
+      "ADR_001": "0055-0060",
+      "ADR_002": "0061-0064",
+      "ADR_003": "0065-0068",
+      "ADR_004": "0069-0071",
+      "ADR_005": "0072-0076",
+      "ADR_006": "0077-0080"
+    },
+    "review": "CHANGES_REQUIRED: C1 critico (resolver base bloqueava usuario com tenant gravavel) + I1/I2 contratos + I3-I5 cobertura",
+    "decisions": {
+      "C1": "editar 0054 in-place (autorizado)",
+      "I1": "adendo fixando contrato real (assert sem arg + triggers aa_)",
+      "I2": "repor user_id no 200"
+    },
+    "c1_fix": {
+      "status": "corrigido e provado",
+      "proof": "T08: 0/2 reproduz o C1; 1/2 libera; 2/2 bloqueia quando todos canceled"
+    }
+  },
+  "f1": {
+    "status": "SDD concluido (PROPOSAL/SPEC/PLAN); bloqueios O-F1-1/O-F1-2 resolvidos; aguarda ADR-001 implementado",
+    "source_adr": "ADR-006",
+    "deps": [
+      "0055 tenant_subscriptions",
+      "0057 psp_events?",
+      "0058 espelho"
+    ],
+    "out_of_scope": [
+      "ADR-002 quota",
+      "ADR-003 webhook",
+      "ADR-005 impersonation",
+      "control plane UI"
+    ]
+  },
+  "f1_billing": {
+    "status": "F1 FECHADA: 6 migrations (0055-0060), 54 testes SQL, reviews aprovados",
+    "reqs": 41,
+    "invariants": 15,
+    "sql_tests": "T00-T53",
+    "migrations": "0055-0060",
+    "decisions": {
+      "O_F1_3": "aceito transitorio: dica de payload ate 0065"
+    },
+    "progress": {
+      "P1": "DONE + APPROVED (T00-T04, 11 CHECKs asseridos, prova de regressao por DROP CONSTRAINT)",
+      "P2": "DONE + APPROVED (0056; furos: paid_at mutavel, sem guard DELETE)",
+      "P3": "DONE + APPROVED (0057; furo: sem guard append-only)",
+      "P4": "DONE + APPROVED (0058; REVOKE cria janela ate 0060)",
+      "P5": "DONE + APPROVED (2 rodadas; 2 criticos e TOCTOU/desempate fechados com teste de concorrencia)",
+      "P6": "DONE + APPROVED (0060; 4 RPCs, isolamento e override provados)",
+      "P7": "DONE com ressalva: tipos + delta + G1/G3 passam; G2 (preco hardcoded em src) nao fecha por divida pre-existente da landing",
+      "P8": "DONE (harness/subscription-billing.json + VERIFY.md)"
+    },
+    "legacy_specs_adapted": [
+      "0051-operator-gate (T10 -> 42501)",
+      "backoffice-gaps (T-G2/T-G6 -> 42501 + trilha via tenant_reason)"
+    ],
+    "pending_decisions": [
+      "D-INTEGRITY-FIX: editar 0056/0057 in-place (paid_at imutavel, guard append-only em psp_events, guard DELETE em tenant_invoices) vs nova migration vs P8",
+      "D-REVOKE-WINDOW: mover REVOKE de admin_set_tenant_status da 0058 para a 0060 vs declarar deploy atomico P4+P6"
+    ],
+    "deviations": [
+      {
+        "id": "P6-D1",
+        "what": "p_reason DEFAULT NULL em vez de posicional obrigatorio",
+        "why": "Postgres exige default em todos os params apos o primeiro com default; comportamento preservado (NULL/vazio/<3 => tenant-reason-invalid, 0 escrita)",
+        "status": "aceito"
+      },
+      {
+        "id": "P6-D2",
+        "what": "limiar do motivo = 3, nao 10",
+        "why": "SPEC REQ-33 / ADR-001 6.2 / PRD RF-BL-07 dizem >=3; o TASKS dizia >=10 por erro meu",
+        "status": "TASKS corrigido"
+      }
+    ],
+    "gate_g2": {
+      "decision": "escopar o gate a billing/subscription (0 hits) e abrir divida de frontend para a landing consumir plan_catalog",
+      "hits": {
+        "preco_real": "pricing-types.ts, catalog.ts, landing-fe50.spec.tsx",
+        "falso_positivo": "src/lib/ofx/hash.ts (hex 0xd6990624)"
+      }
+    }
+  },
+  "f2": {
+    "status": "F2 FECHADA: 5 migrations (0077-0081) + Edge v3; 45 testes de borda; riscos abertos no VERIFY",
+    "deps": [
+      "0055",
+      "0058"
+    ],
+    "migrations": "0077-0080",
+    "tasks": 11,
+    "progress": {
+      "P1": "DONE + APPROVED + must-fix fechados (T04c RED->GREEN, guard F12 mecanico, T05b 3/3)",
+      "P2": "DONE",
+      "P3": "DONE + APPROVED apos correcoes (C1 cota nao devolve vaga, A1 fim do convite invisivel, A2 alinhamento, A3/A4)",
+      "P4": "DONE",
+      "P5": "DONE + must-fix F1/F2 fechados (T08e/T08f/T08g RED->GREEN)",
+      "P6": "DONE (T18-T21 isolamento)",
+      "P7": "DONE + ORDER BY deterministico",
+      "P9": "CHANGES_REQUIRED: DELETE apaga membro de tenant sem trilha (must-fix)",
+      "P10": "DONE (E1-E5 + I7)",
+      "P11": "DONE (tipos 8 funcoes; greps RF-ON-03 = 0; DELTA atualizado)",
+      "P12": "DONE (harness + VERIFY)"
+    },
+    "deviations": [
+      "backoffice-gaps.spec.sql editado fora do escopo listado (necessario por contrato); confirmar no review",
+      "REQ-07 concorrencia real nao testada (somente handler)"
+    ],
+    "req07": "🟢 agora (T04c com corrida real via dblink)",
+    "decisions": {
+      "reuse_plan": "reuso ignora p_plan_id por contrato congelado; painel deve reler plano efetivo apos provisionar; troca real = admin_override_subscription (0060)",
+      "D-QUOTA-CANCEL": {
+        "value": "cancelar convite NAO devolve cota; consumo = convites tentados na janela de 1h",
+        "date": "2026-11-19T12:52:16.195Z"
+      },
+      "D-ADR006-8.1": {
+        "value": "camada de operador rebaixada para 🟠 via adendo no ADR-INDEX",
+        "date": "2026-11-19T12:52:16.195Z"
+      }
+    },
+    "blockers": [
+      "prova real da Edge (curl) bloqueada: SUPABASE_ANON_KEY, functions serve com APP_URL, operador aal2 ativo, binario deno ausente"
+    ]
+  },
+  "f3": {
+    "status": "F3 FECHADA: 4 migrations (0061-0064); quota por tenant com seats e consumo",
+    "adr": "ADR-002 + adendo ADR-005",
+    "migrations": "0061-0064",
+    "deps": [
+      "0054 (guard canceled)",
+      "0060 (assinatura/plano espelhado)",
+      "0077 (tenant com assinatura)"
+    ],
+    "reqs": 30,
+    "invariants": 13,
+    "tasks": 7,
+    "open": [
+      "O-F3-1 disable escopado no backfill",
+      "O-F3-2 pin fica na 0070",
+      "O-F3-3 reparo F2 x max_members",
+      "O-F3-4 get_tenant_usage NULL",
+      "O-F3-5 concorrencia 2 sessoes",
+      "O-F3-6 indice antes do backfill"
+    ],
+    "decisions": {
+      "O_F3_2": "pin fica na 0070",
+      "O_F3_3": "risco documentado; painel F4 trata",
+      "O_F3_4": "get_tenant_usage(NULL) sem tenant => 0 linhas",
+      "D-I1-WRITABLE": {
+        "value": "atribuicao usa resolve_writable_tenant (status != canceled); backfill pula orfaos",
+        "date": "2026-11-19T15:09:20.152Z"
+      },
+      "D-I2-USAGE": {
+        "value": "get_tenant_usage(NULL) usa resolve_writable_tenant (mesmo sujeito do gate)",
+        "date": "2026-11-19T15:40:00.499Z"
+      }
+    },
+    "progress": {
+      "P1": "DONE + APPROVED (0061 com resolve_writable_tenant, I1/I5 fechados)",
+      "P2": "DONE (0062 max_members)",
+      "P3": "DONE (0063 quota members)",
+      "P4": "DONE (0064 get_tenant_usage)",
+      "P5": "DONE (harness + VERIFY)"
+    },
+    "legacy_specs_adapted": 10,
+    "deviations": [
+      "created_at de tenant_members nao normalizado (quebraria 0054 T07)",
+      "rotulo tenant-not-member em vez de not-admin (contrato SPEC)",
+      "fixtures de 0042/0061 ajustadas (tenant full; DISABLE condicional)"
+    ]
+  },
+  "f4": {
+    "status": "F4 FECHADA (2a vez): shell sobre AtlasAdminTemplate; 8 telas; gate honesto; H3 passa",
+    "adr": "ADR-004",
+    "migrations": "0069-0071",
+    "deps": [
+      "0060 (billing reads)",
+      "0064 (usage)",
+      "0051 (operator gate)"
+    ],
+    "scope": "guard /internal/*, Edge verify-operator v2, switch_tenant, 7 telas reais",
+    "ux": "parecer vinculante gravado em .spec/frontend/internal-control-plane/UX.md",
+    "ux_decisions": [
+      "detalhe como rota /internal/tenants/:id (nao Sheet)",
+      "sem seletor de tenant na arvore interna",
+      "operator-inactive com copy de denied (anti-enumeracao)",
+      "billing.usage=null e faturas cap 50",
+      "plan_catalog fora da allowlist => so plan_slug"
+    ],
+    "reqs": 56,
+    "tasks": 12,
+    "decisions": {
+      "O_F4_5": "MRR = soma de plan_catalog das assinaturas active; past_due em overdue_cents separado"
+    },
+    "progress": {
+      "E1": "DONE (0069 switch_tenant + trilha)",
+      "E2": "DONE (0070 pin nas duas resolucoes; T-usage 0->1->2)",
+      "E3": "DONE (0071; MRR active-only provado)",
+      "E4": "DONE (tipos 7 objetos)",
+      "E5": "DONE (paridade 16/16, edge 62/62)",
+      "E6": "DONE (guard 7 estados, fail-closed provado)",
+      "E7": "DONE (data client, allowlist, write gated)",
+      "E8": "DONE (H3 PASSA na 3a passagem; B-01..B-05 em 1280/375 x claro/escuro)",
+      "E9": "DONE (router /internal lazy + redirects legados)",
+      "E10": "DONE (check-internal G-01..G-10 + self-test)",
+      "E11": "DONE (harness + VERIFY, pos-correcao de direcao)"
+    },
+    "gaps": [
+      "sem Convidar tenant (O-F4-11)",
+      "sem e-mail de convidado",
+      "sem filtro de data na auditoria",
+      "sem total na auditoria (sem RPC de contagem)",
+      "sem nome do operador no shell",
+      "cancelar convite sem motivo (RPC nao recebe)"
+    ],
+    "correction": {
+      "what": "usar AtlasAdminTemplate completo (AppSidebar+SiteHeader) com itens internos",
+      "why": "parecer de UX proibiu AppSidebar/SiteHeader; usuario apontou erro de direcao; template-reuse.md manda usar catalogo",
+      "scope": "shell + nav + H3 das 8 telas",
+      "ux_revision": "UX.md atualizado: shell usa AtlasAdminTemplate/AppSidebar/SiteHeader; GlobalBalanceSlot obrigatorio; mobile offcanvas"
+    }
+  },
+  "f5": {
+    "status": "FECHADA (exceto deploy BE-60, bloqueado por B8)",
+    "adr": "ADR-003",
+    "migrations": "0065-0068",
+    "deps": [
+      "0055 (subscriptions)",
+      "0059 (apply_psp_event)",
+      "0060 (leitura)"
+    ],
+    "scope": "Worker Cloudflare + ingest_psp_event + apply com marca d agua + drain + scrub",
+    "reqs": 44,
+    "invariants": 12,
+    "tasks": 9,
+    "blocked": [
+      "BE-60 deploy (B8: conta Cloudflare)"
+    ],
+    "measured_correction": "0059 NAO tem marca d agua/ordem — 0067 e trabalho real",
+    "decisions": {
+      "B8": "sem conta Cloudflare agora; Worker+wrangler placeholders; deploy = 🟡 processo"
+    },
+    "batch1": "FECHADO: BE-54/55 + 3 correcoes; SQL 38/38; review passed; zero 🔴",
+    "amendments": {
+      "A1": "REQ-07 mantem STRICT + COALESCE obrigatorio no chamador (SPEC emendada)",
+      "A2": "0067 revoga EXECUTE de apply_psp_event para service_role",
+      "A3": "0067 grava marca d agua como LEAST(psp_event_at, now())",
+      "A4": "REQ-20/I10/4.8 corrigidos: prosa mentia sobre noop de matriz, rejected por key-conflict e attempts; 4 rotulos reservados documentados",
+      "A5": "24m = piso de disponibilidade; retencao efetiva indefinida; purge fora da v1",
+      "A6": "replay de evento so nos primeiros 90 dias",
+      "A8": "log de cron inclui result.data (sem isso REQ-44/A7 sem fonte)",
+      "A9": "[observability] obrigatorio no wrangler.toml",
+      "A10": "timeouts separados: 5s admissao, 30s cron",
+      "A11": "divergencia 64KiB medida (texto 55058 vs binario 110070, razao 2,0x): 400 psp-event-invalid => 400 sem retry"
+    },
+    "next": "BE-56 (0067 apply com ordem + drain + A1/A2/A3)",
+    "batch2": "BE-56 concluido; 0067 aprovada; 3 🟡 tratados (T28 deterministico, T27b/T28b, REQ-29 declarado); A4 emendado",
+    "gaps_declared": 10,
+    "batch3": "BE-57 concluido: 0068 aprovada + whitelist por tipo + COMMENT piso; 4/4 migrations",
+    "docs_fixed": [
+      "TASKS:43 (ate 24m -> piso)",
+      "ADR-INDEX adendo A1-A6",
+      "SPEC A5 residual whitelist chave+tipo"
+    ],
+    "batch4": "BE-58/59 Worker + wrangler; 5 🟡 corrigidos (batch5) + 4 (batch6)",
+    "worker": {
+      "files": "workers/asaas-webhook/{src/core.js,src/index.js,src/core.test.js,src/index.test.js,wrangler.toml}",
+      "deploy": "BLOQUEADO (B8: sem conta Cloudflare) — BE-60"
+    },
+    "measurements": {
+      "divergencia_64kib": {
+        "texto_utf8": 55058,
+        "binario": 110070,
+        "razao": 2,
+        "probe": "ingest_psp_event => ERROR psp-event-invalid"
+      }
+    },
+    "closed_at": "2026-11-20T03:01:45.648Z",
+    "artifacts": {
+      "spec": ".spec/backend/asaas-webhook/SPEC.md",
+      "plan": ".spec/backend/asaas-webhook/PLAN.md",
+      "tasks": ".spec/backend/asaas-webhook/TASKS.md",
+      "verify": ".spec/backend/asaas-webhook/VERIFY.md",
+      "report": "harness/asaas-webhook.json"
+    },
+    "final_counts": {
+      "sql": "38/38",
+      "vitest": "203 arquivos / 1476 testes",
+      "edge": "62/62",
+      "gate": "14/14",
+      "typecheck": 0,
+      "build": "OK"
+    }
+  },
+  "f6": {
+    "status": "FECHADA",
+    "adr": "adendo ADR-005 -> ADR-002 §16.1",
+    "migrations": "0075-0076",
+    "scope": "private.subscription_access + ramo past_due em assert_subscription_writable + enforce_tenant_quota com status antes de quota",
+    "out_of_scope": [
+      "dunning D+1/D+3/D+7",
+      "UI de billing",
+      "impersonation (F7)",
+      "DELETE (O6 aberta)"
+    ],
+    "decisions": {
+      "O_F6_1": "adotar REQ-18 (demover readonly em resolve_writable_tenant)",
+      "O_F6_2": "linha 8 (past_due_since IS NULL => grace)",
+      "O_F6_7": "autorizado reapontar 0054 T06/T06b; ordem vira prova de catalogo"
+    },
+    "batch1": "BE-62..66 aprovado (0075+0076); 1 🔴 corrigido (T05 vacuo) + O-F6-7 estendido a 0061",
+    "docs_fixed": [
+      "REQ-27 lista 3 edicoes autorizadas",
+      "nota: defesa em profundidade e INSERT-only",
+      "ADR-INDEX: O-F6-7 estendido"
+    ],
+    "closed_at": "2026-11-20T13:15:18.815Z",
+    "artifacts": {
+      "spec": ".spec/backend/subscription-access/SPEC.md",
+      "plan": ".spec/backend/subscription-access/PLAN.md",
+      "tasks": ".spec/backend/subscription-access/TASKS.md",
+      "verify": ".spec/backend/subscription-access/VERIFY.md",
+      "report": "harness/subscription-access.json",
+      "delta": ".spec/backend/subscription-access/DELTA-rules-proposal.md"
+    },
+    "final_counts": {
+      "sql": "39/39",
+      "vitest": "203 arquivos / 1476 testes",
+      "edge": "62/62",
+      "gate": "14/14",
+      "typecheck": 0,
+      "build": "OK"
+    },
+    "gaps_declared": 9
+  },
+  "f7": {
+    "status": "FECHADA",
+    "adr": "ADR-005",
+    "migrations": "0072-0074",
+    "tasks": 9,
+    "decisions": {
+      "O_F7_4": "redacao mecanica de PII no reason de scope=audit",
+      "O_F7_5": "target_id derivado da sessao, inclusive na violacao"
+    },
+    "findings": [
+      "src/components/shadcn/internal-admin/ nao existe (ADR cita arquivos mortos)",
+      "0069-0071:568-575 quebra com 0072-0074",
+      "nenhum GUC de impersonation existe"
+    ],
+    "batch1": "0072+0073 aprovados; gate STABLE sem escrita (prova por pg_stat_xact + 3 mutacoes); REQ-48 sweep",
+    "design_change": "auditoria nao sobrevive ao RAISE (medido PG17.11) -> opcao C: gate nao grava, trilha assincrona",
+    "batch2": "aberto: BE-73..BE-75 (0074)",
+    "closed_at": "2026-11-20T14:26:18.100Z",
+    "artifacts": {
+      "spec": ".spec/backend/impersonation/SPEC.md",
+      "plan": ".spec/backend/impersonation/PLAN.md",
+      "tasks": ".spec/backend/impersonation/TASKS.md",
+      "verify": ".spec/backend/impersonation/VERIFY.md",
+      "report": "harness/impersonation.json",
+      "delta": ".spec/backend/impersonation/DELTA-rules-proposal.md"
+    },
+    "final_counts": {
+      "sql": "40/40 pos-reset",
+      "vitest": "1476",
+      "edge": "62/62",
+      "gate": "14/14",
+      "typecheck": 0,
+      "build": "OK"
+    },
+    "gaps_declared": 8
+  },
+  "epic": {
+    "name": "control-plane-billing",
+    "status": "FECHADO",
+    "closed_at": "2026-11-20T14:26:18.100Z",
+    "slices": {
+      "F1": "0055-0060",
+      "F2": "0077-0081",
+      "F3": "0061-0064",
+      "F4": "0069-0071",
+      "F5": "0065-0068",
+      "F6": "0075-0076",
+      "F7": "0072-0074"
+    },
+    "final_counts": {
+      "sql": "40/40 pos-reset",
+      "vitest": "1476",
+      "edge": "62/62",
+      "gate": "14/14",
+      "typecheck": 0,
+      "build": "OK"
+    },
+    "not_delivered": [
+      "BE-60 deploy Worker (B8: sem conta Cloudflare)",
+      "HARNESS_SEAL_JSON ausente (Completed negaria por empty-seal)",
+      "suite SQL fora de commands.suiteFull"
+    ]
+  },
+  "rules_delta": {
+    "status": "APLICADO",
+    "applied_at": "2026-11-20T14:31:52.793Z",
+    "files": [
+      ".agents/rules/supabase-postgres-standards.md (+51: bloco Excecoes/prova de 0 escrita/redacao de PII)",
+      ".agents/rules/security-standard.md (+19: §6.1 superficie impersonada)"
+    ],
+    "source": ".spec/backend/impersonation/DELTA-rules-proposal.md",
+    "authorization": "usuario, 2026-11-20, nesta sessao",
+    "pending": "commit exige trailer Harness-Gate-Change (path protegido, gate-contract I9)",
+    "level": "🟠 parcial (mecanismo = spec SQL, nao gate.js)"
+  }
+}

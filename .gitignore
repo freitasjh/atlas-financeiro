@@ -1,0 +1,32 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+out/
+
+# Specs and planning artifacts (project policy)
+.spec/
+
+# Harness evidence (screenshots, reports, backups)
+harness/
+.harness-backup/
+.harness-install.json
+
+# OS / editor
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Logs
+*.log
