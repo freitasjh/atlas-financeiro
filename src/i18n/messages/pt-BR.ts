@@ -1245,7 +1245,7 @@ const ptBR = {
     forecastTitle: 'Previsto — próximos 30 dias',
     forecastWindow: '{{start}} a {{end}}',
     projectedBalance: 'Saldo projetado',
-    projectedBreakdown: 'Liquidez {{liquidity}} + receitas previstas {{income}} − despesas previstas {{spent}} − faturas em aberto {{invoices}}',
+    projectedBreakdown: 'Liquidez {{liquidity}} + receitas previstas {{income}} − despesas previstas {{spent}}',
     overdue: 'Atrasados',
     overdueCount: '{{count}} faturas em atraso',
     committed: 'Comprometido',
@@ -1281,6 +1281,8 @@ const ptBR = {
     updatedMins: 'há {{count}} min',
     budgetMonth: 'Orçado do mês {{month}}',
     emptyPremium: 'Sem movimentos ainda — crie sua primeira conta ou importe um extrato para ver o painel ganhar vida.',
+    loadError: 'Não foi possível carregar o painel. Tente novamente.',
+    retry: 'Tentar novamente',
     srTotals: 'Totais: liquidez {{liquidity}}, receitas {{income}}, gastos {{spent}}.',
     range: {
       label: 'Período',
