@@ -259,3 +259,96 @@ BEGIN
   END IF;
 END
 $$;
+
+-- ============ TENANT DO USUÁRIO DEMO (quota por tenant: 0061/0076) ============
+-- Replica, como DBA no seed, o caminho de provisionamento da RPC
+-- create_tenant_for_invited_user (0077:174-259): GUCs de escrita/motivo,
+-- tenant pf + membership owner + aceite + assinatura free ACTIVE na MESMA
+-- transação + trilha admin_audit. Sem isto, INSERT de accounts/transactions
+-- com JWT do demo falha com `quota-tenant-missing` (nenhum membership
+-- resolvível para private.resolve_writable_tenant).
+-- Idempotente: tenant do dono com mesmo CPF entre não-cancelados ⇒ no-op.
+-- Sem segredo novo (senha continua via GUC) e sem PII real (CPF de teste).
+DO $$
+DECLARE
+  v_demo_id uuid;
+  v_existing uuid;
+  v_tenant_id uuid := '00000000-0000-4000-8000-0000000000d1';
+  v_document text := '52998224725';
+BEGIN
+  SELECT u.id INTO v_demo_id FROM auth.users AS u
+  WHERE u.email = 'demo@atlasfinanceiro.com';
+
+  IF v_demo_id IS NULL THEN
+    RAISE NOTICE 'seed: demo@atlasfinanceiro.com ausente — tenant demo no-op';
+    RETURN;
+  END IF;
+
+  -- Chave de reuso da 0077: (owner, documento) entre tenants não cancelados.
+  SELECT t.id INTO v_existing
+  FROM public.tenants AS t
+  WHERE t.owner_user_id = v_demo_id
+    AND t.subscription_status <> 'canceled'
+    AND t.cpf = v_document
+  ORDER BY t.created_at, t.id
+  LIMIT 1;
+
+  IF v_existing IS NOT NULL THEN
+    RAISE NOTICE 'seed: tenant demo já existe (%) — no-op', v_existing;
+    RETURN;
+  END IF;
+
+  -- Defesa extra: documento de teste pertence a outro dono (não cancelado) ⇒
+  -- nunca duplicar CPF nem estourar tenants_cpf_active_uq; aborta com NOTICE.
+  IF EXISTS (
+    SELECT 1 FROM public.tenants AS t
+    WHERE t.cpf = v_document AND t.subscription_status <> 'canceled'
+  ) THEN
+    RAISE NOTICE 'seed: CPF demo em uso por outro tenant — tenant demo no-op';
+    RETURN;
+  END IF;
+
+  -- UUID fixo só quando livre; colisão ⇒ UUID aleatório (não falha o reset).
+  IF EXISTS (SELECT 1 FROM public.tenants AS t WHERE t.id = v_tenant_id) THEN
+    v_tenant_id := gen_random_uuid();
+  END IF;
+
+  -- Caminho de escrita intencional (0028) + motivo do espelho (0058).
+  PERFORM pg_catalog.set_config('app.tenant_write', 'on', true);
+  PERFORM pg_catalog.set_config('app.tenant_reason', 'onboarding', true);
+
+  INSERT INTO public.tenants (
+    id, kind, owner_user_id, cpf, razao_social, phone,
+    endereco_cep, endereco_logradouro, endereco_numero,
+    endereco_bairro, endereco_cidade, endereco_uf, plan_id
+  ) VALUES (
+    v_tenant_id, 'pf', v_demo_id, v_document, 'Demonstração Atlas', '11999999999',
+    '01310100', 'Avenida Paulista', '1000',
+    'Bela Vista', 'São Paulo', 'SP', 'free'
+  )
+  RETURNING id INTO v_tenant_id;
+
+  INSERT INTO public.tenant_members (tenant_id, user_id, role)
+  VALUES (v_tenant_id, v_demo_id, 'owner');
+
+  -- Constraint trigger diferida 0024 exige aceite no COMMIT.
+  INSERT INTO public.contract_acceptances (tenant_id, contract_version, accepted_at, user_id)
+  VALUES (v_tenant_id, 'termos-2026-11-v1', pg_catalog.now(), v_demo_id);
+
+  -- free ⇒ active sem ciclo, sem trial, sem billing_day (0077:222-256).
+  INSERT INTO public.tenant_subscriptions (
+    tenant_id, plan_slug, status, trial_ends_at, billing_day,
+    period_start, period_end, psp_subscription_id, psp_customer_id,
+    past_due_since, pending_plan_slug, pending_plan_at, cancel_at_period_end
+  ) VALUES (
+    v_tenant_id, 'free', 'active', NULL, NULL,
+    NULL, NULL, NULL, NULL,
+    NULL, NULL, NULL, false
+  );
+
+  INSERT INTO public.admin_audit (actor_id, target_id, tenant_id, action, reason)
+  VALUES (v_demo_id, v_tenant_id, v_tenant_id, 'other', 'tenant_onboard_provisioned');
+
+  RAISE NOTICE 'seed: tenant demo free provisionado (%) para demo@atlasfinanceiro.com', v_tenant_id;
+END
+$$;
