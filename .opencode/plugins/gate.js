@@ -52,7 +52,7 @@
 //   value) (auditConfigGates, MODO-03). resolveGateMode itself stays pure.
 import { readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
-import { join } from "node:path";
+import { isAbsolute, join, relative, resolve, sep } from "node:path";
 import { verifySeal, sha256 } from "./lib/seal.mjs";
 import { loadHarnessConfig, REPO_ROOT } from "./lib/config.mjs";
 import * as core from "./lib/gate-core.mjs";
@@ -66,6 +66,15 @@ export const isKillSwitchOff = core.isKillSwitchOff;
 export const resolveGateMode = core.resolveGateMode;
 export const modeForGate = core.modeForGate;
 export const normalizePath = core.normalizePath;
+
+export function toRepoRelative(path) {
+  if (typeof path !== "string") return "";
+  const normalized = normalizePath(path);
+  if (!isAbsolute(path)) return normalized;
+  const rel = relative(REPO_ROOT, resolve(path));
+  if (rel === "" || rel === ".." || rel.startsWith(`..${sep}`) || isAbsolute(rel)) return normalized;
+  return rel.split(sep).join("/");
+}
 
 // ADR-001 item 4 (MODO-06): the legacy config→mode resolver is gone. The
 // config never decides a mode (RF-01); the effective mode comes from the
@@ -516,15 +525,16 @@ export function isOrchAllowlisted(path) {
   );
 }
 
-export function isHarnessScoped(path) {
-  const normalized = normalizePath(path);
-  return normalized === "harness" || normalized.startsWith("harness/");
+export function isHarnessScoped(path, evidenceRoot = "harness/") {
+  const relativePath = toRepoRelative(path);
+  const root = normalizePath(evidenceRoot).replace(/\/+$/, "");
+  return relativePath === root || relativePath.startsWith(`${root}/`);
 }
 
 export function isProtectedPath(path, protectedPaths = []) {
-  const normalized = normalizePath(path);
-  if (!normalized) return false;
-  return (protectedPaths ?? []).some((pattern) => matchGlob(normalized, pattern));
+  const relativePath = toRepoRelative(path);
+  if (!relativePath) return false;
+  return (protectedPaths ?? []).some((pattern) => matchGlob(relativePath, pattern));
 }
 
 const WRITE_TOOLS = new Set(["write", "edit", "apply_patch", "patch"]);
@@ -598,7 +608,7 @@ export function sanitizePathForDetails(path) {
 
 export function checkWriteAccess({ agent, tool, targets = [], protectedPaths = [] } = {}) {
   for (const target of targets) {
-    const normalized = normalizePath(target.path);
+    const normalized = toRepoRelative(target.path);
     if (!normalized || normalized === "dev/null") continue;
     if (isProtectedPath(normalized, protectedPaths)) {
       // Sole exception: implementation roles under delegation; the trailer

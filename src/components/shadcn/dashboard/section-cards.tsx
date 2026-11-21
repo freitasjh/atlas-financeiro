@@ -1,117 +1,227 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
+import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 import { Badge } from "@/components/shadcn/ui/badge"
+import { Button } from "@/components/shadcn/ui/button"
 import {
   Card,
-  CardAction,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/shadcn/ui/card"
+import { Skeleton } from "@/components/shadcn/ui/skeleton"
 import { cn } from "@/lib/cn"
+import { formatCents, resolveDashboardLocale } from "@/lib/dashboard/format"
+import type { DashboardKpiValues } from "@/lib/dashboard/types"
 
-type Stat = {
-  label: string
-  value: string
-  badge: string
-  direction: "up" | "down"
-  trend: string
-  note: string
-  nowrap?: boolean
+export type SectionCardsProps = {
+  /** `null` = ausência de linhas (empty global), nunca "valor zero". */
+  kpis: DashboardKpiValues | null
+  loading?: boolean
+  error?: boolean
+  onRetry?: () => void
 }
 
-const stats: Stat[] = [
-  {
-    label: "Receita operacional",
-    value: "R$ 1,25M",
-    badge: "+12,5%",
-    direction: "up",
-    trend: "Em alta neste mês",
-    note: "Receita dos últimos 6 meses",
-    nowrap: true,
-  },
-  {
-    label: "Novos clientes",
-    value: "1.234",
-    badge: "-20%",
-    direction: "down",
-    trend: "Queda de 20% no período",
-    note: "Aquisição pede atenção",
-  },
-  {
-    label: "Contas ativas",
-    value: "45.678",
-    badge: "+12,5%",
-    direction: "up",
-    trend: "Retenção forte de usuários",
-    note: "Engajamento acima da meta",
-  },
-  {
-    label: "Taxa de crescimento",
-    value: "4,5%",
-    badge: "+4,5%",
-    direction: "up",
-    trend: "Performance em alta constante",
-    note: "Dentro das projeções",
-  },
-]
+type Tone = "rose" | "emerald" | "muted"
 
-function StatCard({ stat }: { stat: Stat }) {
-  const TrendIcon = stat.direction === "up" ? IconTrendingUp : IconTrendingDown
-  const isUp = stat.direction === "up"
+const TONE_CLASS: Record<Tone, string> = {
+  rose: "text-rose-700 dark:text-rose-300",
+  emerald: "text-emerald-700 dark:text-emerald-300",
+  muted: "text-muted-foreground",
+}
 
+type Delta = { tone: Tone; label: string; icon: typeof ArrowUpRight }
+
+function computeDelta(
+  kind: "expense" | "income",
+  current: bigint,
+  previous: bigint,
+  locale: string,
+  flatLabel: string,
+): Delta | null {
+  // UX E2: base zero não tem variação percentual definida — sem badge.
+  if (previous === 0n) return null
+  if (current === previous) {
+    return { tone: "muted", label: flatLabel, icon: Minus }
+  }
+  const up = current > previous
+  const favorable = kind === "expense" ? !up : up
+  const basisPoints = (((current - previous) * 10000n) / previous).toString()
+  const ratio = Number(basisPoints) / 10000
+  const label = new Intl.NumberFormat(locale, {
+    style: "percent",
+    maximumFractionDigits: 1,
+    signDisplay: "exceptZero",
+  }).format(ratio)
+  return {
+    tone: favorable ? "emerald" : "rose",
+    label,
+    icon: up ? ArrowUpRight : ArrowDownRight,
+  }
+}
+
+function KpiCard({
+  label,
+  value,
+  hint,
+  delta,
+  testId,
+}: {
+  label: string
+  value: string
+  hint: string
+  delta?: Delta | null
+  testId: string
+}) {
+  const Icon = delta?.icon
   return (
-    <div className="rounded-[calc(var(--radius)+0.375rem)] border border-border/50 bg-muted/30 p-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)] dark:border-border/40 dark:bg-muted/15">
-      <Card className="relative h-full gap-4 overflow-hidden rounded-[var(--radius)] border-border/60 bg-card shadow-[0_1px_3px_0_rgba(0,0,0,0.03),0_6px_16px_0_rgba(0,0,0,0.02)] transition-shadow hover:shadow-[0_2px_6px_0_rgba(0,0,0,0.05),0_10px_24px_0_rgba(0,0,0,0.04)] dark:border-border/50 dark:shadow-none dark:hover:border-border/80">
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/15 to-transparent dark:via-white/20"
-        />
-        <CardHeader>
-          <CardDescription className="text-xs font-medium uppercase tracking-wider text-muted-foreground/90">
-            {stat.label}
+    <div
+      data-slot="kpi-card"
+      data-kpi={testId}
+      className="min-w-0 rounded-[calc(var(--radius)+0.375rem)] border border-border/50 bg-muted/30 p-1.5"
+    >
+      <Card className="relative h-full min-h-36 gap-3 overflow-hidden rounded-[var(--radius)] border-border/60 bg-card">
+        <CardHeader className="gap-1">
+          <CardDescription className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            {label}
           </CardDescription>
-          <CardTitle
-            className={cn(
-              "text-2xl font-semibold tracking-tight tabular-nums @[250px]/card:text-3xl",
-              stat.nowrap && "whitespace-nowrap @[250px]/card:text-2xl"
-            )}
-          >
-            {stat.value}
+          <CardTitle className="font-mono text-xl font-semibold tracking-tight whitespace-nowrap tabular-nums @[250px]/card:text-2xl">
+            {value}
           </CardTitle>
-          <CardAction>
-            <Badge
-              variant="outline"
-              className={cn(
-                "gap-1 rounded-full px-2 py-0.5 text-xs font-medium transition-colors",
-                isUp
-                  ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300"
-                  : "border-amber-500/25 bg-amber-500/10 text-amber-700 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-300"
-              )}
-            >
-              <TrendIcon className="size-3.5" />
-              {stat.badge}
-            </Badge>
-          </CardAction>
+          {delta ? (
+            <div data-slot="kpi-delta" className="pt-0.5">
+              <Badge
+                variant="outline"
+                data-testid="kpi-delta-chip"
+                className={cn("gap-1 rounded-full px-2 py-0.5 text-xs font-medium", TONE_CLASS[delta.tone])}
+              >
+                {Icon ? <Icon className="size-3.5" aria-hidden="true" /> : null}
+                {delta.label}
+              </Badge>
+            </div>
+          ) : null}
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex items-center gap-1.5 font-medium text-foreground/90">
-            {stat.trend}
-          </div>
-          <div className="text-xs text-muted-foreground">{stat.note}</div>
-        </CardFooter>
+        <CardFooter className="pt-0 text-xs text-muted-foreground">{hint}</CardFooter>
       </Card>
     </div>
   )
 }
 
-export function SectionCards() {
+function LoadingGrid() {
   return (
-    <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-      {stats.map((stat) => (
-        <StatCard key={stat.label} stat={stat} />
+    <>
+      {Array.from({ length: 5 }, (_, index) => (
+        <div key={index} className="min-w-0 rounded-[var(--radius)] border border-border/50 p-1.5">
+          <Skeleton className="min-h-36 w-full motion-reduce:animate-none" />
+        </div>
       ))}
+    </>
+  )
+}
+
+function StatePanel({
+  message,
+  onRetry,
+  retryLabel,
+}: {
+  message: string
+  onRetry?: () => void
+  retryLabel: string
+}) {
+  return (
+    <div
+      role={onRetry ? "alert" : "status"}
+      className="col-span-full flex min-h-36 flex-col items-start justify-center gap-3 rounded-[var(--radius)] border border-border/60 bg-card p-6"
+    >
+      <p className="text-sm text-muted-foreground">{message}</p>
+      {onRetry ? (
+        <Button type="button" onClick={onRetry} className="min-h-11 px-4">
+          {retryLabel}
+        </Button>
+      ) : null}
+    </div>
+  )
+}
+
+/** K1–K5 (ADR §4.2). Δ apenas em K2/K3, com favorabilidade por tipo. */
+export function SectionCards({ kpis, loading = false, error = false, onRetry }: SectionCardsProps) {
+  const { t, i18n } = useTranslation()
+  const locale = resolveDashboardLocale(i18n.language)
+  const format = (cents: bigint) => formatCents(cents, locale)
+
+  const expenseDelta = kpis
+    ? computeDelta(
+        "expense",
+        kpis.realizedExpenseCents,
+        kpis.previousExpenseCents,
+        locale,
+        t("dashboard.deltaFlat"),
+      )
+    : null
+  const incomeDelta = kpis
+    ? computeDelta(
+        "income",
+        kpis.realizedIncomeCents,
+        kpis.previousIncomeCents,
+        locale,
+        t("dashboard.deltaFlat"),
+      )
+    : null
+
+  return (
+    <div
+      data-slot="kpi-grid"
+      aria-busy={loading || undefined}
+      className="grid grid-cols-1 gap-4 px-4 sm:grid-cols-2 lg:grid-cols-5 lg:px-6"
+    >
+      {loading ? <LoadingGrid /> : null}
+      {!loading && error ? (
+        <StatePanel
+          message={t("dashboard.loadError")}
+          retryLabel={t("dashboard.retry")}
+          onRetry={onRetry}
+        />
+      ) : null}
+      {!loading && !error && kpis === null ? (
+        <StatePanel message={t("dashboard.emptyPremium")} retryLabel={t("dashboard.retry")} />
+      ) : null}
+      {!loading && !error && kpis ? (
+        <>
+          <KpiCard
+            testId="liquidity"
+            label={t("dashboard.liquidity")}
+            value={format(kpis.liquidityCents)}
+            hint={t("dashboard.balanceFirst")}
+          />
+          <KpiCard
+            testId="expense"
+            label={t("dashboard.spent")}
+            value={format(kpis.realizedExpenseCents)}
+            hint={t("dashboard.realizedHint")}
+            delta={expenseDelta}
+          />
+          <KpiCard
+            testId="income"
+            label={t("dashboard.income")}
+            value={format(kpis.realizedIncomeCents)}
+            hint={t("dashboard.realizedHint")}
+            delta={incomeDelta}
+          />
+          <KpiCard
+            testId="invoices"
+            label={t("dashboard.openInvoices")}
+            value={format(kpis.openInvoicesCents)}
+            hint={t("dashboard.openInvoicesCount")}
+          />
+          <KpiCard
+            testId="projected"
+            label={t("dashboard.projectedBalance")}
+            value={format(kpis.projectedBalanceCents)}
+            hint={t("dashboard.forecastedHint")}
+          />
+        </>
+      ) : null}
     </div>
   )
 }

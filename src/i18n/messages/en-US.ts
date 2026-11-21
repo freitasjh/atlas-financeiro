@@ -1235,7 +1235,7 @@ const enUS = {
     forecastTitle: 'Forecast — next 30 days',
     forecastWindow: '{{start}} to {{end}}',
     projectedBalance: 'Projected balance',
-    projectedBreakdown: 'Liquidity {{liquidity}} + forecast income {{income}} − forecast spending {{spent}} − open invoices {{invoices}}',
+    projectedBreakdown: 'Liquidity {{liquidity}} + forecast income {{income}} − forecast spending {{spent}}',
     overdue: 'Overdue',
     overdueCount: '{{count}} overdue invoices',
     committed: 'Committed',
@@ -1271,6 +1271,8 @@ const enUS = {
     updatedMins: '{{count}} min ago',
     budgetMonth: 'Monthly budget {{month}}',
     emptyPremium: 'No activity yet — create your first account or import a statement to bring the dashboard to life.',
+    loadError: 'Could not load the dashboard. Please try again.',
+    retry: 'Try again',
     srTotals: 'Totals: liquidity {{liquidity}}, income {{income}}, spending {{spent}}.',
     range: {
       label: 'Range',
