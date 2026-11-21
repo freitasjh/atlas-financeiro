@@ -19,7 +19,7 @@ describe("RequestInvitePage", () => {
       </I18nextProvider>,
     )
     expect(screen.getByRole("heading", { name: /acesso por convite/i })).toBeTruthy()
-    expect(container.textContent).toContain("O Atlas é por convite")
+    expect(container.textContent).toContain("O Estica Grana é por convite")
     expect(container.querySelector("form")).toBeNull()
     expect(container.querySelector("input")).toBeNull()
     expect(container.textContent).not.toMatch(/prazo|em até|dias úteis/i)

@@ -21,7 +21,11 @@
 // Deploy: `supabase functions deploy verify-operator` (verify_jwt=true,
 // gateway nega sem JWT antes da borda; a borda revalida via auth.getUser)
 // + secrets SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, APP_URL (obrigatório —
-// sem APP_URL nenhum Origin é confiável: fail-closed, nunca `*`).
+// sem APP_URL nenhum Origin é confiável: fail-closed, nunca `*`) e
+// APP_URL_ALIASES (opcional; origens extras separadas por vírgula, ex.:
+// `http://localhost:5173` quando o dev server também serve nesse host).
+// APP_URL permanece um único valor: `admin-invite-user` compara por igualdade
+// exata e uma lista quebraria aquela borda (fora deste escopo).
 // Lógica pura em ./core.ts (testável offline); aqui só deps reais + serve.
 
 import { serve } from 'https://deno.land/std@0.208.0/http/server.ts'
@@ -59,6 +63,7 @@ function buildDeps(): VerifyDeps {
       return (data as { active?: unknown } | null)?.active === true
     },
     appUrl: Deno.env.get('APP_URL') ?? '',
+    appUrlAliases: Deno.env.get('APP_URL_ALIASES') ?? '',
     deadlineMs: 5000,
   }
 }

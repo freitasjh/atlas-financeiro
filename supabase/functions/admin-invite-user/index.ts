@@ -27,8 +27,10 @@
 // gateway nega sem JWT; a Function revalida via auth.getUser) + secrets
 // `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_ANON_KEY` (cota/trilha
 // com JWT do chamador), `APP_URL` (obrigatório — sem ele a borda responde 403
-// para qualquer Origin: fail-closed, nunca `*`). Qualquer secret ausente ⇒ 500
-// `invite-failed` (fail-closed, nunca convite sem trilha).
+// para qualquer Origin: fail-closed, nunca `*`) e `APP_URL_ALIASES` (opcional;
+// origens extras separadas por vírgula, ex.: `http://localhost:5173` quando o
+// dev server também serve nesse host). APP_URL permanece um único valor.
+// Qualquer secret ausente ⇒ 500 `invite-failed` (nunca convite sem trilha).
 //
 // Throttle invite (SPEC §4, BE-07): 10 POSTs/min por IP → `429` com
 // `Retry-After` (in-memory por isolate; prod usa WAF/rate-limit da borda
@@ -43,20 +45,24 @@ import {
   handleInvite,
   isCallerOperator,
   extractBearer,
+  allowedOrigin as coreAllowedOrigin,
 } from './core.ts'
 import type { EdgeResult, InviteEdgeDeps } from './core.ts'
 
 const FAILURE = { error: 'invite-failed' } as const
 const RATE_LIMITED = { error: 'invite-rate-limited' } as const
 
-// Fail-closed: APP_URL ausente ⇒ nenhuma Origin é confiável.
+// Helper local da borda: lê APP_URL + APP_URL_ALIASES do ambiente e delega a
+// comparação exata em ./core.ts (puro, testável offline). APP_URL permanece UM
+// valor; aliases extras vêm de APP_URL_ALIASES (split ',', trim, descarta '',
+// '*' e 'null'). Fail-closed: sem origens válidas ⇒ nenhuma Origin confiável.
 // Requisições sem Origin (curl/server-to-server) seguem para o gate admin.
 function allowedOrigin(req: Request): string | null {
-  const appUrl = Deno.env.get('APP_URL') ?? ''
-  if (appUrl === '') return null
-  const origin = req.headers.get('Origin')
-  if (origin === null) return null // sem Origin: sem CORS, sem ACA
-  return origin === appUrl ? appUrl : null
+  return coreAllowedOrigin(
+    req,
+    Deno.env.get('APP_URL') ?? '',
+    Deno.env.get('APP_URL_ALIASES') ?? '',
+  )
 }
 
 function corsHeaders(req: Request): HeadersInit {

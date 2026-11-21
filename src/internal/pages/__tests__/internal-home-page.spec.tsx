@@ -1,10 +1,18 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
-import { cleanup, render, screen } from "@testing-library/react"
+import { cleanup, fireEvent, render, screen } from "@testing-library/react"
 
-const { readInternalRpc } = vi.hoisted(() => ({ readInternalRpc: vi.fn() }))
+const { readInternalRpc, recoveryCodesService } = vi.hoisted(() => ({
+  readInternalRpc: vi.fn(),
+  recoveryCodesService: {
+    generate: vi.fn(),
+    status: vi.fn(),
+    regenerate: vi.fn(),
+  },
+}))
 
 vi.mock("@/internal/data/internal-client", () => ({ readInternalRpc, writeInternalRpc: vi.fn() }))
+vi.mock("@/internal/data/mfa-recovery-codes.service", () => ({ recoveryCodesService }))
 
 import "@/i18n"
 import { InternalHomePage } from "../internal-home-page"
@@ -36,6 +44,20 @@ function mockHome() {
 
 beforeEach(() => {
   readInternalRpc.mockReset()
+  recoveryCodesService.status.mockReset()
+  recoveryCodesService.regenerate.mockReset()
+  recoveryCodesService.status.mockResolvedValue({
+    ok: true,
+    data: {
+      total: 10,
+      remaining: 2,
+      low: true,
+      codes: Array.from({ length: 10 }, (_, index) => ({
+        id: `00000000-0000-4000-8000-${String(index).padStart(12, "0")}`,
+        used_at: index < 8 ? "2026-11-21T00:00:00Z" : null,
+      })),
+    },
+  })
 })
 
 afterEach(() => cleanup())
@@ -82,6 +104,52 @@ describe("whenSummaryFails_thenErrorStateOffersExplicitRetry", () => {
     expect(alerts[0].textContent).toContain("Não foi possível carregar")
     expect(alerts[0].textContent).not.toContain("boom")
     expect(container.textContent).toContain("Tentar novamente")
+  })
+})
+
+describe("whenRecoveryManagementOpens_thenStatusAndRevocationAreFetchedFromTheInternalEdge", () => {
+  it("gestão exibe X/10, banner ≤2 e códigos usados", async () => {
+    mockHome()
+    render(<InternalHomePage />)
+    await screen.findByText(/assinaturas ativas/i)
+
+    fireEvent.click(
+      screen.getByRole("button", { name: /gerenciar códigos de recuperação/i }),
+    )
+
+    expect(await screen.findByText(/2 de 10 códigos restantes/i)).toBeTruthy()
+    expect(screen.getByRole("status").textContent).toMatch(/restam 2/i)
+    expect(screen.getAllByText("(Usado)")).toHaveLength(8)
+    expect(recoveryCodesService.status).toHaveBeenCalledTimes(1)
+  })
+
+  it("regeneração envia confirmação textual e exibe nova lista uma vez", async () => {
+    mockHome()
+    const codes = Array.from(
+      { length: 10 },
+      (_, row) =>
+        Array.from({ length: 24 }, (_, column) =>
+          "abcdefghijklmnopqrstuvwxyz"[(row + column) % 26],
+        ).join(""),
+    )
+    recoveryCodesService.regenerate.mockResolvedValue({
+      ok: true,
+      data: { set_id: "00000000-0000-4000-8000-000000000009", codes },
+    })
+    render(<InternalHomePage />)
+    await screen.findByText(/assinaturas ativas/i)
+
+    fireEvent.click(screen.getByRole("button", { name: /gerenciar códigos de recuperação/i }))
+    await screen.findByText(/2 de 10 códigos restantes/i)
+    fireEvent.click(screen.getByRole("button", { name: /gerar novos códigos/i }))
+    fireEvent.change(screen.getByLabelText(/digite revogar_codigos_atuais/i), {
+      target: { value: "REVOGAR_CODIGOS_ATUAIS" },
+    })
+    fireEvent.click(screen.getByRole("button", { name: /revogar e gerar/i }))
+
+    expect(await screen.findByText(/novos códigos de recuperação/i)).toBeTruthy()
+    expect(recoveryCodesService.regenerate).toHaveBeenCalledWith("REVOGAR_CODIGOS_ATUAIS")
+    expect(screen.getByText("abcd-efgh-ijkl-mnop-qrst-uvwx")).toBeTruthy()
   })
 })
 

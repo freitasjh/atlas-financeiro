@@ -27,14 +27,14 @@ const ptBR = {
       invalidEmail: 'Informe um e-mail válido.',
       shortPassword: 'A senha deve ter pelo menos 6 caracteres.',
     },
-    coverAlt: 'Atlas Financeiro — Controle de Finanças Pessoais e Patrimônio',
+    coverAlt: 'Estica Grana — Controle de Finanças Pessoais e Patrimônio',
     coverEyebrow: 'Gestão Financeira & Patrimônio',
     coverTagline:
       'Acompanhe fluxo de caixa, cartões, metas orçamentárias e crescimento patrimonial com clareza radical.',
     setPassword: {
       inviteTitle: 'Crie sua senha',
       inviteSubtitle:
-        'Você recebeu um convite para o Atlas. Defina uma senha para entrar nas próximas vezes.',
+        'Você recebeu um convite para o Estica Grana. Defina uma senha para entrar nas próximas vezes.',
       recoveryTitle: 'Crie uma nova senha',
       recoverySubtitle:
         'Defina a nova senha da sua conta. Este link vale para uma única troca.',
@@ -102,7 +102,7 @@ const ptBR = {
     requestInvite: {
       title: 'Acesso por convite',
       body:
-        'O Atlas é por convite. Se você precisa de acesso, peça um convite a quem administra sua conta. Se já recebeu o convite, use o link que chegou no seu e-mail.',
+        'O Estica Grana é por convite. Se você precisa de acesso, peça um convite a quem administra sua conta. Se já recebeu o convite, use o link que chegou no seu e-mail.',
       goToLogin: 'Ir para o login',
       backToSite: 'Voltar ao site',
     },
@@ -144,7 +144,7 @@ const ptBR = {
     verified: 'Verificação confirmada.',
   },
   shell: {
-    appName: 'Atlas Financeiro',
+    appName: 'Estica Grana',
     home: 'Início',
     transactions: 'Lançamentos',
     cards: 'Cartões',
@@ -1489,7 +1489,7 @@ const ptBR = {
     invitePill1: 'Acesso por convite',
     inviteStep1Title: 'Receba seu convite',
     inviteStep1Desc:
-      'O acesso ao Atlas é por convite. Defina sua senha pelo link que chega no seu e-mail.',
+      'O acesso ao Estica Grana é por convite. Defina sua senha pelo link que chega no seu e-mail.',
     inviteFinalBody:
       'Solicite um convite a quem administra sua conta. Se você já recebeu o link, defina sua senha e entre.',
     inviteFaqAnswer1:
@@ -1513,13 +1513,13 @@ const ptBR = {
     demoMockDesc2: 'Mensalidade exemplo',
     demoMockDesc3: 'Salário exemplo',
     compareTitle: 'Por que sair da planilha',
-    compareSubtitle: 'Comparativo honesto do que o Atlas organiza para você.',
+    compareSubtitle: 'Comparativo honesto do que o Estica Grana organiza para você.',
     compareFeatureHeader: 'Recurso',
     compareRow1: 'Lançamentos com conta e categoria',
     compareRow2: 'Faturas de cartão por ciclo',
     compareRow3: 'Teto mensal por categoria',
     compareRow4: 'Importação de extrato com revisão',
-    colAtlas: 'No Atlas',
+    colAtlas: 'No Estica Grana',
     colSheet: 'Na planilha',
     plansTitle: 'Planos simples',
     plansSubtitle: 'Base local de demonstração — sem cobrança nesta fase. Escolha e crie sua conta.',
@@ -1581,7 +1581,7 @@ const ptBR = {
       'Sim. Seus dados são totalmente isolados por conta e protegidos com criptografia. O sistema nunca compartilha ou mistura registros financeiros com outros usuários.',
     faqQ3: 'Como funciona a importação de extratos bancários (OFX e CSV)?',
     faqA3:
-      'Basta exportar o arquivo OFX ou CSV do seu internet banking e fazer o upload no Atlas. Você pode revisar todos os lançamentos antes de confirmar e aplicar regras de categorização automática.',
+      'Basta exportar o arquivo OFX ou CSV do seu internet banking e fazer o upload no Estica Grana. Você pode revisar todos os lançamentos antes de confirmar e aplicar regras de categorização automática.',
     faqQ4: 'Posso cadastrar múltiplos cartões de crédito e contas bancárias?',
     faqA4:
       'Sim! Você pode cadastrar contas correntes, poupanças, carteiras e cartões de crédito, configurando seus limites e dias de fechamento e vencimento de fatura.',
@@ -1712,7 +1712,7 @@ const ptBR = {
     footerLinkTerms: 'Termos de Uso',
     footerLinkPrivacy: 'Privacidade',
     footerLinkSupport: 'Suporte ao Usuário',
-    footerCopyright: '© {{year}} Atlas Financeiro. Todos os direitos reservados.',
+    footerCopyright: '© {{year}} Estica Grana. Todos os direitos reservados.',
     footerEnvNote: 'Ambiente de testes — sem cobrança nesta fase.',
   },
   pricing: {
@@ -2083,6 +2083,9 @@ const ptBR = {
       title: 'Segundo fator',
       hint: 'Confirme o código de 6 dígitos do seu aplicativo autenticador.',
       preparing: 'Preparando o desafio…',
+      qrLabel: 'QR code',
+      qrHint: 'Escaneie com seu aplicativo autenticador.',
+      qrAlt: 'QR code para configurar o segundo fator',
       manualKey: 'Chave manual',
       manualKeyHint: 'Use esta chave se não conseguir ler o QR code no aplicativo.',
       codeLabel: 'Código de 6 dígitos',
@@ -2092,6 +2095,59 @@ const ptBR = {
       lockedCountdown: 'Bloqueado. Tente novamente em {{seconds}}s.',
       unavailable: 'Não foi possível iniciar a verificação. Recarregue e tente novamente.',
       retry: 'Recarregar e tentar novamente',
+      recovery: {
+        enrollTitle: 'Salve seus códigos de recuperação',
+        enrollHint:
+          'Guarde estes 10 códigos em local seguro. Esta é a única vez em que eles serão exibidos.',
+        manageTitle: 'Códigos de recuperação MFA',
+        manageHint:
+          'Use um código de recuperação se perder o acesso ao aplicativo autenticador.',
+        loading: 'Carregando códigos…',
+        copy: 'Copiar códigos',
+        download: 'Baixar arquivo (.txt)',
+        copied: 'Códigos copiados.',
+        copyFailed: 'Não foi possível copiar. Selecione os códigos manualmente.',
+        downloaded: 'Arquivo baixado.',
+        downloadFailed: 'Não foi possível baixar o arquivo.',
+        txtHeader: 'Códigos de recuperação MFA — 10 códigos de uso único',
+        txtFile: 'codigos-recuperacao-mfa.txt',
+        confirmCheckbox:
+          'Confirmo que copiei ou baixei meus 10 códigos de recuperação em um local seguro',
+        done: 'Concluir',
+        remaining: '{{remaining}} de {{total}} códigos restantes',
+        lowBanner: 'Restam {{value}} códigos. Gere uma nova lista.',
+        codeItem: 'Código {{index}}',
+        availableLabel: 'Disponível',
+        usedLabel: '(Usado)',
+        regenerate: 'Gerar novos códigos',
+        manageAction: 'Gerenciar códigos de recuperação',
+        manageCardDescription:
+          'Confira quantos códigos restam e renove a lista antes de ficar sem ela.',
+        revokeWarning:
+          'Todos os códigos anteriores serão imediatamente revogados. Esta ação não pode ser desfeita.',
+        confirmationLabel: 'Confirmação',
+        confirmationHint: 'Digite REVOGAR_CODIGOS_ATUAIS para confirmar.',
+        confirmRegenerate: 'Revogar e gerar',
+        newCodesTitle: 'Novos códigos de recuperação',
+        newCodesHint: 'Esta é a única vez em que a nova lista será exibida.',
+        regenerationFailed: 'Não foi possível gerar novos códigos.',
+        enrollmentUnavailable:
+          'Não foi possível gerar seus códigos de recuperação. Recarregue e tente novamente.',
+        error: 'Não foi possível concluir: {{value}}.',
+        challenge: {
+          fallbackLink: 'Usar código de recuperação',
+          codeLabel: 'Código de recuperação',
+          codeHint: 'Digite um dos seus códigos de recuperação de uso único.',
+          submit: 'Verificar código',
+          attempts: 'Tentativas restantes: {{value}}.',
+          invalidOrUsed: 'Código inválido ou já utilizado. Verifique outra cópia.',
+          locked: 'Muitas tentativas. Aguarde antes de tentar novamente.',
+          lockedRetry: 'Bloqueado. Tente novamente em {{minutes}} min.',
+          promotionFailed: 'Não foi possível elevar a sessão. Tente novamente.',
+          sessionMismatch: 'Sessão inválida. Recarregue a página e tente novamente.',
+          genericError: 'Não foi possível verificar o código. Tente novamente.',
+        },
+      },
     },
     actions: {
       cancel: 'Cancelar',

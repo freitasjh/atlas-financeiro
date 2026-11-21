@@ -131,3 +131,131 @@ BEGIN
   END IF;
 END
 $$;
+
+-- ============ DEMO USER (demonstração) ============
+-- Roda só em `supabase db reset` local. Idempotente por e-mail.
+-- Senha via GUC `seed.demo_password` (SEED_DEMO_PASSWORD) ou aleatória (notice).
+-- must_change_password=false para login direto de demonstração.
+DO $$
+DECLARE
+  v_seed_id uuid := '00000000-0000-4000-8000-0000000000c1';
+  v_existing uuid;
+  v_password text;
+  v_generated boolean := false;
+BEGIN
+  SELECT u.id INTO v_existing FROM auth.users AS u
+  WHERE u.email = 'demo@atlasfinanceiro.com';
+
+  IF v_existing IS NOT NULL THEN
+    RAISE NOTICE 'seed: demo@atlasfinanceiro.com já existe — no-op';
+    RETURN;
+  END IF;
+
+  v_password := NULLIF(pg_catalog.current_setting('seed.demo_password', true), '');
+  IF v_password IS NULL THEN
+    v_password := encode(gen_random_bytes(18), 'base64');
+    v_generated := true;
+  END IF;
+
+  INSERT INTO auth.users (
+    id, instance_id, aud, role, email, encrypted_password,
+    email_confirmed_at, confirmation_token, recovery_token,
+    email_change_token_new, email_change, email_change_token_current,
+    phone_change_token, phone_change, reauthentication_token,
+    created_at, updated_at,
+    raw_app_meta_data, raw_user_meta_data
+  )
+  VALUES (
+    v_seed_id,
+    '00000000-0000-0000-0000-000000000000',
+    'authenticated',
+    'authenticated',
+    'demo@atlasfinanceiro.com',
+    crypt(v_password, gen_salt('bf', 10)),
+    now(), '', '', '', '', '', '', '', '',
+    now(), now(),
+    '{"provider":"email","providers":["email"]}'::jsonb,
+    '{}'::jsonb
+  );
+
+  UPDATE public.profiles
+  SET role = 'user', must_change_password = false
+  WHERE id = v_seed_id;
+
+  IF v_generated THEN
+    RAISE NOTICE 'seed: SEED_DEMO_PASSWORD ausente — senha aleatória de demo@atlasfinanceiro.com (exibida UMA única vez): %', v_password;
+  ELSE
+    RAISE NOTICE 'seed: demo@atlasfinanceiro.com criado com a senha de SEED_DEMO_PASSWORD (must_change_password=false)';
+  END IF;
+END
+$$;
+
+-- ============ ADMIN CONTROL PLANE (esticagrana) ============
+-- Roda só em `supabase db reset` local. Idempotente por e-mail.
+-- Senha via GUC `seed.admin_password` (SEED_ADMIN_PASSWORD) ou aleatória (notice).
+DO $$
+DECLARE
+  v_seed_id uuid := '00000000-0000-4000-8000-0000000000b1';
+  v_existing uuid;
+  v_role text;
+  v_password text;
+  v_generated boolean := false;
+BEGIN
+  SELECT u.id INTO v_existing FROM auth.users AS u
+  WHERE u.email = 'admin@esticagrana.com';
+
+  IF v_existing IS NOT NULL THEN
+    SELECT p.role INTO v_role FROM public.profiles AS p
+    WHERE p.id = v_existing;
+    IF v_role IS DISTINCT FROM 'super_admin' THEN
+      RAISE EXCEPTION 'seed-admin-conflict';
+    END IF;
+    INSERT INTO public.internal_operators (user_id, active, disabled_at)
+    VALUES (v_existing, true, NULL)
+    ON CONFLICT (user_id) DO UPDATE SET active = true, disabled_at = NULL;
+    RAISE NOTICE 'seed: admin@esticagrana.com já existe — operador garantido ativo';
+    RETURN;
+  END IF;
+
+  v_password := NULLIF(pg_catalog.current_setting('seed.admin_password', true), '');
+  IF v_password IS NULL THEN
+    v_password := encode(gen_random_bytes(18), 'base64');
+    v_generated := true;
+  END IF;
+
+  INSERT INTO auth.users (
+    id, instance_id, aud, role, email, encrypted_password,
+    email_confirmed_at, confirmation_token, recovery_token,
+    email_change_token_new, email_change, email_change_token_current,
+    phone_change_token, phone_change, reauthentication_token,
+    created_at, updated_at,
+    raw_app_meta_data, raw_user_meta_data
+  )
+  VALUES (
+    v_seed_id,
+    '00000000-0000-0000-0000-000000000000',
+    'authenticated',
+    'authenticated',
+    'admin@esticagrana.com',
+    crypt(v_password, gen_salt('bf', 10)),
+    now(), '', '', '', '', '', '', '', '',
+    now(), now(),
+    '{"provider":"email","providers":["email"]}'::jsonb,
+    '{}'::jsonb
+  );
+
+  UPDATE public.profiles
+  SET role = 'super_admin', must_change_password = true
+  WHERE id = v_seed_id;
+
+  INSERT INTO public.internal_operators (user_id, active, disabled_at)
+  VALUES (v_seed_id, true, NULL)
+  ON CONFLICT (user_id) DO UPDATE SET active = true, disabled_at = NULL;
+
+  IF v_generated THEN
+    RAISE NOTICE 'seed: SEED_ADMIN_PASSWORD ausente — senha aleatória de admin@esticagrana.com (exibida UMA única vez): %', v_password;
+  ELSE
+    RAISE NOTICE 'seed: admin@esticagrana.com criado com a senha de SEED_ADMIN_PASSWORD (must_change_password=true)';
+  END IF;
+END
+$$;

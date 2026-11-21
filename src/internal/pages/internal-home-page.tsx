@@ -5,12 +5,17 @@
  * ou projeção: a RPC não devolve série histórica de MRR (REQ-32).
  */
 
-import { AlertTriangle, Building2, CircleDollarSign, Users } from "lucide-react"
+import { useState } from "react"
+import { AlertTriangle, Building2, CircleDollarSign, KeyRound, Users } from "lucide-react"
 
+import { Button } from "@/components/shadcn/ui/button"
 import { Card, CardContent } from "@/components/shadcn/ui/card"
 import { useInternalRead } from "@/internal/ui/use-internal-read"
 import type { MrrSummary, UsageSeriesRow } from "@/internal/data/internal-types"
+import type { RecoveryStatus } from "@/internal/data/mfa-recovery-codes"
+import { recoveryCodesService } from "@/internal/data/mfa-recovery-codes.service"
 import { formatCount, formatCurrency, formatDate } from "@/internal/ui/format"
+import { MfaRecoveryCodesDialog } from "@/internal/ui/mfa-recovery-codes-dialog"
 import { InternalPageHeader } from "@/internal/ui/page-header"
 import { InternalErrorState, InternalLoadingState } from "@/internal/ui/state-blocks"
 import { useInternalT } from "../ui/use-internal-t"
@@ -58,6 +63,34 @@ export function InternalHomePage() {
   const summary = useInternalRead<MrrSummary>("admin_mrr_summary", {})
   const tenants = useInternalRead<number>("admin_count_tenants", {})
   const series = useInternalRead<UsageSeriesRow[]>("admin_usage_series", {})
+
+  const [manageOpen, setManageOpen] = useState(false)
+  const [recoveryStatus, setRecoveryStatus] = useState<RecoveryStatus | null>(null)
+  const [newCodes, setNewCodes] = useState<string[] | null>(null)
+  const [recoveryLoading, setRecoveryLoading] = useState(false)
+  const [recoveryError, setRecoveryError] = useState<string | null>(null)
+
+  const openManagement = () => {
+    setManageOpen(true)
+    setNewCodes(null)
+    setRecoveryError(null)
+    setRecoveryLoading(true)
+    void recoveryCodesService.status().then((result) => {
+      setRecoveryLoading(false)
+      if (result.ok) setRecoveryStatus(result.data)
+      else setRecoveryError(result.error)
+    })
+  }
+
+  const regenerate = async (confirmation: string) => {
+    const result = await recoveryCodesService.regenerate(confirmation)
+    if (!result.ok) {
+      setRecoveryError(result.error)
+      return
+    }
+    setRecoveryStatus(null)
+    setNewCodes([...result.data.codes])
+  }
 
   const competencia = summary.data?.competencia ?? null
   const rows = series.data ?? []
@@ -165,6 +198,41 @@ export function InternalHomePage() {
           ) : null}
         </CardContent>
       </Card>
+
+      <Card className="border-border/70 shadow-xs">
+        <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-2">
+            <KeyRound className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+            <div className="flex flex-col gap-0.5">
+              <span className="text-sm font-semibold text-foreground">
+                {t("internalAdmin.mfa.recovery.manageTitle")}
+              </span>
+              <span className="text-xs text-muted-foreground">
+                {t("internalAdmin.mfa.recovery.manageCardDescription")}
+              </span>
+            </div>
+          </div>
+          <Button type="button" variant="outline" className="min-h-11" onClick={openManagement}>
+            {t("internalAdmin.mfa.recovery.manageAction")}
+          </Button>
+        </CardContent>
+      </Card>
+
+      <MfaRecoveryCodesDialog
+        open={manageOpen}
+        mode="manage"
+        status={recoveryStatus}
+        newCodes={newCodes}
+        loading={recoveryLoading}
+        error={recoveryError}
+        onRegenerate={(confirmation) => regenerate(confirmation)}
+        onDone={() => {
+          setManageOpen(false)
+          setNewCodes(null)
+          setRecoveryStatus(null)
+          setRecoveryError(null)
+        }}
+      />
     </div>
   )
 }

@@ -7,12 +7,14 @@ import {
   IconCreditCard,
   IconDashboard,
   IconDatabase,
-  IconInnerShadowTop,
   IconListDetails,
   IconPigMoney,
   IconSettings,
   IconTags,
 } from "@tabler/icons-react"
+
+import { EsticaGranaMark } from "@/components/brand/EsticaGranaLogo"
+import { useAuthStore } from "@/store/auth-store"
 
 import { NavMain, type NavMainItem, type NavQuickCreate } from "@/components/shadcn/navigation/nav-main"
 import { NavSecondary } from "@/components/shadcn/navigation/nav-secondary"
@@ -34,11 +36,6 @@ import {
 export type DashboardViewId = "overview" | "transactions" | "cards" | "accounts" | string
 
 const data = {
-  user: {
-    name: "Atlas Admin",
-    email: "admin@atlas.com.br",
-    avatar: "",
-  },
   navMain: [
     {
       titleKey: "sidebar.overview",
@@ -128,6 +125,17 @@ export function AppSidebar({
   const { t } = useTranslation()
   const navigate = useNavigate()
 
+  const authUser = useAuthStore((s) => s.user)
+  const resolvedUser: NavUserData =
+    user ??
+    (authUser?.email
+      ? {
+          name: authUser.email.split("@")[0] || authUser.email,
+          email: authUser.email,
+          avatar: "",
+        }
+      : { name: "", email: "", avatar: "" })
+
   const navMainItems: NavMainItem[] =
     navMain ??
     data.navMain.map((item) => ({
@@ -145,21 +153,32 @@ export function AppSidebar({
     }))
 
   const resolvedBrand: AppSidebarBrand = brand ?? {
-    title: "Atlas",
+    title: "Estica Grana",
     subtitle: t("sidebar.workspace"),
-    icon: IconInnerShadowTop,
     href: "#/",
   }
-  const BrandIcon = resolvedBrand.icon ?? IconInnerShadowTop
+  const CustomBrandIcon = resolvedBrand.icon
   const brandHref = resolvedBrand.href === undefined ? "#/" : resolvedBrand.href
 
   const brandContent = (
     <>
-      <div className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-xs">
-        <BrandIcon className="size-4" />
-      </div>
+      {CustomBrandIcon ? (
+        <div className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-xs">
+          <CustomBrandIcon className="size-4" />
+        </div>
+      ) : (
+        <EsticaGranaMark className="size-7 rounded-lg shadow-xs" />
+      )}
       <div className="flex flex-col">
-        <span className="text-sm font-semibold tracking-tight">{resolvedBrand.title}</span>
+        <span className="text-sm font-bold tracking-tight">
+          {resolvedBrand.title === "Estica Grana" ? (
+            <>
+              Estica <span className="text-emerald-600 dark:text-emerald-400">Grana</span>
+            </>
+          ) : (
+            resolvedBrand.title
+          )}
+        </span>
         <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
           {resolvedBrand.subtitle}
         </span>
@@ -199,7 +218,7 @@ export function AppSidebar({
       </SidebarContent>
       <SidebarFooter>
         <NavUser
-          user={user ?? data.user}
+          user={resolvedUser}
           userMenuItems={userMenuItems}
           onSignOut={onSignOut}
           showPresence={showPresence}

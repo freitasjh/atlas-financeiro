@@ -324,6 +324,107 @@ Deno.test('whenOptions_then204', async () => {
   assertEq(res.status, 204, 'OPTIONS deve ser 204')
 })
 
+// ---------- CORS: aliases locais (localhost × 127.0.0.1) ----------
+// Dev server Vite escuta nos dois hosts na porta 5173. APP_URL permanece
+// único (admin-invite-user compara por igualdade exata, fora deste escopo);
+// a Edge verifica-original aceita origens extras via APP_URL_ALIASES.
+
+const LOOPBACK_ORIGIN = 'http://127.0.0.1:5173'
+const LOCALHOST_ORIGIN = 'http://localhost:5173'
+
+function localDeps(aliases: string = LOCALHOST_ORIGIN): VerifyDeps {
+  return baseDeps({ appUrl: LOOPBACK_ORIGIN, appUrlAliases: aliases })
+}
+
+Deno.test('whenLocalhostOriginViaAlias_then200EchoesLocalhost', async () => {
+  const res = await handleVerifyOperator(
+    reqWithJwt(OPERATOR_JWT, { origin: LOCALHOST_ORIGIN }),
+    localDeps(),
+  )
+  assertEq(res.status, 200, 'localhost deve ser aceito via APP_URL_ALIASES')
+  assertEq(
+    res.headers.get('Access-Control-Allow-Origin'),
+    LOCALHOST_ORIGIN,
+    'ACAO deve ecoar a origin permitida (MDN: múltiplas origens ⇒ devolver a do cliente)',
+  )
+})
+
+Deno.test('whenLoopbackOriginViaAppUrl_then200EchoesLoopback', async () => {
+  const res = await handleVerifyOperator(
+    reqWithJwt(OPERATOR_JWT, { origin: LOOPBACK_ORIGIN }),
+    localDeps(),
+  )
+  assertEq(res.status, 200, '127.0.0.1 (APP_URL) continua aceito')
+  assertEq(res.headers.get('Access-Control-Allow-Origin'), LOOPBACK_ORIGIN, 'ACAO ecoa APP_URL')
+})
+
+Deno.test('whenBothLocalOrigins_thenSameVerdict', async () => {
+  const loopback = await handleVerifyOperator(
+    reqWithJwt(OPERATOR_JWT, { origin: LOOPBACK_ORIGIN, method: 'POST' }),
+    localDeps(),
+  )
+  const localhost = await handleVerifyOperator(
+    reqWithJwt(OPERATOR_JWT, { origin: LOCALHOST_ORIGIN, method: 'POST' }),
+    localDeps(),
+  )
+  assertEq(loopback.status, localhost.status, 'mesmo status para ambos os hosts')
+  assertEq(await loopback.text(), await localhost.text(), 'mesmo corpo de veredito para ambos os hosts')
+})
+
+Deno.test('whenUnknownOriginWithAliases_then403WithoutCORS', async () => {
+  const res = await handleVerifyOperator(
+    reqWithJwt(OPERATOR_JWT, { origin: 'https://evil.test' }),
+    localDeps(),
+  )
+  assertEq(res.status, 403, 'origin fora da lista continua 403')
+  assert(!res.headers.has('Access-Control-Allow-Origin'), 'nenhum ACAO para origin desconhecida')
+})
+
+Deno.test('whenLocalhostPreflight_then204EchoesLocalhost', async () => {
+  const res = await handleVerifyOperator(
+    reqWithJwt(null, { origin: LOCALHOST_ORIGIN, method: 'OPTIONS' }),
+    localDeps(),
+  )
+  assertEq(res.status, 204, 'preflight do browser em localhost deve passar')
+  assertEq(res.headers.get('Access-Control-Allow-Origin'), LOCALHOST_ORIGIN, 'ACAO do preflight')
+})
+
+Deno.test('whenWildcardAlias_thenUnknownOriginStill403', async () => {
+  const res = await handleVerifyOperator(
+    reqWithJwt(OPERATOR_JWT, { origin: 'https://evil.test' }),
+    localDeps('*'),
+  )
+  assertEq(res.status, 403, 'curinga nunca autoriza origem arbitrária (fail-closed)')
+  assert(!res.headers.has('Access-Control-Allow-Origin'), 'curinga não gera ACAO')
+})
+
+Deno.test('whenAliasListHasEmptyTokens_thenExactMatchOnly', async () => {
+  const deps = localDeps(` , ${LOCALHOST_ORIGIN} ,,`)
+  const ok = await handleVerifyOperator(
+    reqWithJwt(OPERATOR_JWT, { origin: LOCALHOST_ORIGIN }),
+    deps,
+  )
+  assertEq(ok.status, 200, 'tokens vazios não impedem o alias válido')
+  // `reqWithJwt` só seta Origin quando truthy: aqui é preciso o header presente
+  // e vazio (diferente de ausente, que é o caso curl/server-to-server).
+  const emptyOriginReq = new Request('http://localhost/verify-operator', {
+    method: 'GET',
+    headers: new Headers({ Authorization: `Bearer ${OPERATOR_JWT}`, Origin: '' }),
+  })
+  const bad = await handleVerifyOperator(emptyOriginReq, deps)
+  assertEq(bad.status, 403, 'token vazio não autoriza Origin vazia')
+  assert(!bad.headers.has('Access-Control-Allow-Origin'), 'sem ACAO para Origin vazia')
+})
+
+Deno.test('whenNoOriginsConfigured_thenEveryOrigin403', async () => {
+  const res = await handleVerifyOperator(
+    reqWithJwt(OPERATOR_JWT, { origin: LOOPBACK_ORIGIN }),
+    baseDeps({ appUrl: '', appUrlAliases: '' }),
+  )
+  assertEq(res.status, 403, 'sem APP_URL e sem aliases: nenhuma origem confiável')
+  assert(!res.headers.has('Access-Control-Allow-Origin'), 'fail-closed sem ACAO')
+})
+
 // ---------- ausência de PII ----------
 
 Deno.test('when200_thenNoPii', async () => {
@@ -340,7 +441,7 @@ Deno.test('when200_thenNoPii', async () => {
   // exatamente 1 uuid — o dele. Qualquer uuid de terceiro reprova aqui.
   const ids = text.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi) ?? []
   assertEq(ids.length, 1, `body 200 deve conter exatamente o uuid do chamador: ${text}`)
-  assertEq(ids[0].toLowerCase(), OPERATOR_ID, 'o único uuid do corpo é o do próprio chamador')
+  assertEq((ids[0] ?? '').toLowerCase(), OPERATOR_ID, 'o único uuid do corpo é o do próprio chamador')
 })
 
 Deno.test('when403_thenNoPii', async () => {

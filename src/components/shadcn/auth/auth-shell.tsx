@@ -1,9 +1,9 @@
 import type { ReactNode } from "react"
-import { GalleryVerticalEnd } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
 import { cn } from "@/lib/cn"
 import { revealInPageTarget } from "@/lib/in-page-anchor"
+import { EsticaGranaLogo } from "@/components/brand/EsticaGranaLogo"
 import { ModeToggle } from "@/components/shadcn/navigation/mode-toggle"
 
 export interface AuthShellProps {
@@ -48,18 +48,10 @@ export function AuthShell({ children, contentClassName, footer, chrome = true }:
               href="#/landing"
               className="flex max-sm:min-h-11 items-center gap-2 rounded-md font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring max-sm:-my-2.5 max-sm:py-2.5"
             >
-              <span className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                <GalleryVerticalEnd className="size-4" aria-hidden="true" />
-              </span>
-              Atlas
+              <EsticaGranaLogo size="sm" />
             </a>
           ) : (
-            <span className="flex items-center gap-2 font-medium text-foreground">
-              <span className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                <GalleryVerticalEnd className="size-4" aria-hidden="true" />
-              </span>
-              Atlas
-            </span>
+            <EsticaGranaLogo size="sm" />
           )}
         </div>
 

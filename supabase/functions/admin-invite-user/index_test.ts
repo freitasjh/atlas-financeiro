@@ -3,7 +3,7 @@
 // Prova: `role='admin'` stale pós-0035 ignorado; único gate é
 // internal_operators(active=true) + aal2. aal null nega.
 
-import { isCallerOperator } from './core.ts'
+import { isCallerOperator, parseAllowedOrigins, allowedOrigin } from './core.ts'
 import type { OperatorDeps } from './core.ts'
 
 function assert(cond: boolean, msg: string): void {
@@ -348,4 +348,79 @@ Deno.test('whenCancelNotAuthorized_then500AndNoDelete', async () => {
   assertEq(res.status, 500, 'sem cancelamento autorizado ⇒ 500 (fail-closed)')
   assertEq(calls.cancel.length, 1, 'RPC consultada')
   assertEq(calls.delete.length, 0, 'deleteUser não é chamado sem canceled=true')
+})
+
+// ============================================================================
+// CORS fail-closed — APP_URL + APP_URL_ALIASES (mesmo padrão verify-operator).
+// Lógica pura em ./core.ts para teste offline: a borda (index.ts) só lê env
+// e delega. APP_URL permanece UM valor; aliases são extras separados por ','.
+// ============================================================================
+
+const LOOPBACK_ORIGIN = 'http://127.0.0.1:5173'
+const LOCALHOST_ORIGIN = 'http://localhost:5173'
+
+function reqWithOrigin(origin: string | null): Request {
+  const headers = new Headers()
+  if (origin !== null) headers.set('Origin', origin)
+  return new Request('http://localhost/admin-invite-user', { method: 'POST', headers })
+}
+
+Deno.test('whenLocalhostAlias_thenAllowedOriginEchoesLocalhost', () => {
+  const allow = allowedOrigin(
+    reqWithOrigin(LOCALHOST_ORIGIN),
+    LOOPBACK_ORIGIN,
+    LOCALHOST_ORIGIN,
+  )
+  assertEq<string | null>(allow, LOCALHOST_ORIGIN, 'localhost aceito via APP_URL_ALIASES')
+})
+
+Deno.test('whenAppUrlOrigin_thenAllowedOriginEchoesLoopback', () => {
+  const allow = allowedOrigin(
+    reqWithOrigin(LOOPBACK_ORIGIN),
+    LOOPBACK_ORIGIN,
+    LOCALHOST_ORIGIN,
+  )
+  assertEq<string | null>(allow, LOOPBACK_ORIGIN, '127.0.0.1 (APP_URL) continua aceito')
+})
+
+Deno.test('whenUnknownOriginWithAliases_thenAllowedOriginNull', () => {
+  const allow = allowedOrigin(
+    reqWithOrigin('https://evil.test'),
+    LOOPBACK_ORIGIN,
+    LOCALHOST_ORIGIN,
+  )
+  assertEq<string | null>(allow, null, 'origem desconhecida ⇒ null (sem ACAO, 403)')
+})
+
+Deno.test('whenWildcardAlias_thenUnknownOriginStillNull', () => {
+  const allow = allowedOrigin(reqWithOrigin('https://evil.test'), LOOPBACK_ORIGIN, '*')
+  assertEq<string | null>(allow, null, 'curinga nunca autoriza origem arbitrária')
+})
+
+Deno.test('whenEmptyTokens_thenExactMatchOnly', () => {
+  const depsAliases = ` , ${LOCALHOST_ORIGIN} ,,`
+  const ok = allowedOrigin(reqWithOrigin(LOCALHOST_ORIGIN), LOOPBACK_ORIGIN, depsAliases)
+  assertEq<string | null>(ok, LOCALHOST_ORIGIN, 'tokens vazios não impedem alias válido')
+  const empty = allowedOrigin(reqWithOrigin(''), LOOPBACK_ORIGIN, depsAliases)
+  assertEq<string | null>(empty, null, 'token vazio não autoriza Origin vazia')
+})
+
+Deno.test('whenNoOriginsConfigured_thenEveryOriginNull', () => {
+  const allow = allowedOrigin(reqWithOrigin(LOOPBACK_ORIGIN), '', '')
+  assertEq<string | null>(allow, null, 'sem APP_URL e sem aliases: nenhuma origem confiável')
+})
+
+Deno.test('whenNoOriginHeader_thenNull', () => {
+  const allow = allowedOrigin(reqWithOrigin(null), LOOPBACK_ORIGIN, LOCALHOST_ORIGIN)
+  assertEq<string | null>(allow, null, 'sem Origin (curl/server-to-server): sem CORS')
+})
+
+Deno.test('whenParseAllowedOrigins_thenDiscardsWildcardNullAndDuplicates', () => {
+  const parsed = parseAllowedOrigins(
+    `${LOOPBACK_ORIGIN}, *`,
+    `null, ${LOCALHOST_ORIGIN},,${LOOPBACK_ORIGIN} , NULL`,
+  )
+  assertEq(parsed.length, 2, 'descarta *, null/NULL, vazios e duplicatas')
+  assertEq(parsed[0], LOOPBACK_ORIGIN, 'APP_URL é a primeira origem')
+  assertEq(parsed[1], LOCALHOST_ORIGIN, 'alias válido é a segunda origem')
 })

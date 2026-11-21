@@ -9,6 +9,7 @@ const { auth } = vi.hoisted(() => ({
     mfa: {
       listFactors: vi.fn(),
       enroll: vi.fn(),
+      unenroll: vi.fn(),
       challenge: vi.fn(),
       verify: vi.fn(),
     },
@@ -21,11 +22,15 @@ import {
   challengeInternalMfa,
   enrollInternalTotp,
   getInternalAccessToken,
+  INTERNAL_TOTP_FRIENDLY_NAME,
+  InternalMfaEnrollConflictError,
   listInternalMfaFactors,
   readAalFromAccessToken,
   readInternalSession,
   signInInternalOperator,
   signOutInternalOperator,
+  unenrollInternalMfaFactor,
+  unenrollUnverifiedInternalTotpFactors,
   verifyInternalMfa,
 } from "../internal-client"
 
@@ -41,8 +46,16 @@ beforeEach(() => {
   auth.signOut.mockReset()
   auth.mfa.listFactors.mockReset()
   auth.mfa.enroll.mockReset()
+  auth.mfa.unenroll.mockReset()
   auth.mfa.challenge.mockReset()
   auth.mfa.verify.mockReset()
+
+  auth.mfa.listFactors.mockResolvedValue({ data: { totp: [] }, error: null })
+  auth.mfa.enroll.mockResolvedValue({
+    data: { id: "f-2", totp: { secret: "S3CR3T", uri: "otpauth://totp/x" } },
+    error: null,
+  })
+  auth.mfa.unenroll.mockResolvedValue({ error: null })
 })
 
 describe("whenAccessTokenIsDecoded_thenOnlyAalIsRead", () => {
@@ -132,5 +145,107 @@ describe("whenMfaIsUsed_thenFactorsAreMappedWithoutSecretsLeaking", () => {
     expect(await verifyInternalMfa({ factorId: "f", challengeId: "c", code: "000000" })).toEqual({
       ok: false,
     })
+  })
+})
+
+describe("whenInternalTotpEnrollmentIsRetried_thenItStaysIdempotent", () => {
+  const conflict = () => ({
+    code: "mfa_factor_name_conflict",
+    message: 'A factor with the friendly name "" for this user already exists',
+  })
+  const enrolled = () => ({
+    data: { id: "f-2", totp: { secret: "S3CR3T", uri: "otpauth://totp/x" } },
+    error: null,
+  })
+
+  it("enroll usa friendlyName determinístico, nunca nome vazio", async () => {
+    await enrollInternalTotp()
+
+    expect(INTERNAL_TOTP_FRIENDLY_NAME).toBe("Atlas Internal")
+    expect(auth.mfa.enroll).toHaveBeenCalledWith({
+      factorType: "totp",
+      friendlyName: INTERNAL_TOTP_FRIENDLY_NAME,
+    })
+  })
+
+  it("limpa só fatores totp unverified; verified nunca é tocado", async () => {
+    auth.mfa.listFactors.mockResolvedValue({
+      data: {
+        totp: [
+          { id: "stale-empty", status: "unverified", friendly_name: "" },
+          { id: "stale-named", status: "unverified", friendly_name: INTERNAL_TOTP_FRIENDLY_NAME },
+          { id: "kept", status: "verified", friendly_name: "Celular" },
+        ],
+      },
+      error: null,
+    })
+
+    await unenrollUnverifiedInternalTotpFactors(await listInternalMfaFactors())
+
+    expect(auth.mfa.unenroll.mock.calls.map((call) => call[0])).toEqual([
+      { factorId: "stale-empty" },
+      { factorId: "stale-named" },
+    ])
+  })
+
+  it("falha de unenroll é best-effort e não impede o enroll", async () => {
+    auth.mfa.unenroll.mockRejectedValue(new Error("unenroll-boom"))
+    const factors = await listInternalMfaFactors()
+
+    await expect(unenrollUnverifiedInternalTotpFactors(factors)).resolves.toBeUndefined()
+  })
+
+  it("erro de unenroll do GoTrue vira rótulo fixo", async () => {
+    auth.mfa.unenroll.mockResolvedValue({ error: { message: "denied" } })
+    await expect(unenrollInternalMfaFactor("f-1")).rejects.toThrow("internal-mfa-unenroll-failed")
+    expect(auth.mfa.unenroll).toHaveBeenCalledWith({ factorId: "f-1" })
+  })
+
+  it("conflito residual limpa pendência e repete enroll exatamente uma vez", async () => {
+    auth.mfa.listFactors.mockResolvedValue({
+      data: { totp: [{ id: "race", status: "unverified", friendly_name: "" }] },
+      error: null,
+    })
+    auth.mfa.enroll.mockRejectedValueOnce(conflict()).mockResolvedValueOnce(enrolled())
+
+    expect(await enrollInternalTotp()).toEqual({
+      factorId: "f-2",
+      secret: "S3CR3T",
+      uri: "otpauth://totp/x",
+    })
+    expect(auth.mfa.enroll).toHaveBeenCalledTimes(2)
+    expect(auth.mfa.unenroll).toHaveBeenCalledWith({ factorId: "race" })
+  })
+
+  it("conflito persistente falha com erro tipado, sem loop", async () => {
+    auth.mfa.enroll.mockRejectedValue(conflict())
+
+    await expect(enrollInternalTotp()).rejects.toBeInstanceOf(InternalMfaEnrollConflictError)
+    expect(auth.mfa.enroll).toHaveBeenCalledTimes(2)
+  })
+
+  it("erro que não é conflito não dispara retry", async () => {
+    auth.mfa.enroll.mockRejectedValueOnce(new Error("rede-fora"))
+
+    await expect(enrollInternalTotp()).rejects.toThrow("rede-fora")
+    expect(auth.mfa.enroll).toHaveBeenCalledTimes(1)
+  })
+
+  it("chamadas concorrentes compartilham um único POST /factors", async () => {
+    let resolveEnroll!: (value: unknown) => void
+    auth.mfa.enroll.mockReturnValue(
+      new Promise((resolve) => {
+        resolveEnroll = resolve
+      }),
+    )
+
+    const first = enrollInternalTotp()
+    const second = enrollInternalTotp()
+    expect(auth.mfa.enroll).toHaveBeenCalledTimes(1)
+
+    resolveEnroll(enrolled())
+    const [a, b] = await Promise.all([first, second])
+    expect(a).toEqual(b)
+    expect(a.factorId).toBe("f-2")
   })
 })

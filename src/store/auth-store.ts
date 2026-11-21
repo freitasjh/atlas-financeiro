@@ -8,6 +8,8 @@ export type AuthStatus = "idle" | "loading" | "authenticated" | "unauthenticated
 export interface AuthUser {
   id: string
   email: string | null
+  /** Papel em `public.profiles` (ex.: `user` | `super_admin`). Opcional: preenchido quando disponível. */
+  role?: string | null
 }
 
 /** Piso de tempo máximo do boot de sessão: pendurar nunca deixa a tela branca. */

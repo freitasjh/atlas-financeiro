@@ -5,14 +5,15 @@ import userEvent from "@testing-library/user-event"
 import { MemoryRouter, Route, Routes } from "react-router-dom"
 import { I18nextProvider } from "react-i18next"
 
-const { getSession, updateUser, toastSuccess } = vi.hoisted(() => ({
+const { getSession, updateUser, rpc, toastSuccess } = vi.hoisted(() => ({
   getSession: vi.fn(),
   updateUser: vi.fn(),
+  rpc: vi.fn(),
   toastSuccess: vi.fn(),
 }))
 
 vi.mock("@/lib/supabase", () => ({
-  supabase: { auth: { getSession, updateUser } },
+  supabase: { auth: { getSession, updateUser }, rpc },
 }))
 
 vi.mock("sonner", () => ({
@@ -21,6 +22,7 @@ vi.mock("sonner", () => ({
 
 import i18n from "@/i18n"
 import { SetPasswordPage } from "@/pages/SetPasswordPage"
+import { useInternalOperator } from "@/internal/guard/use-internal-operator"
 
 function renderAt(path: string) {
   return render(
@@ -30,6 +32,10 @@ function renderAt(path: string) {
           <Route path="/definir-senha" element={<SetPasswordPage />} />
           <Route path="/link-expirado" element={<div data-testid="link-expired-probe">link-expirado</div>} />
           <Route path="/" element={<div data-testid="dashboard-probe">dashboard</div>} />
+          <Route path="/internal" element={<div data-testid="internal-probe">internal</div>} />
+          <Route
+            path="/internal/tenants"
+            element={<div data-testid="internal-tenants-probe">internal/tenants</div>} />
         </Routes>
       </MemoryRouter>
     </I18nextProvider>,
@@ -41,9 +47,11 @@ const SESSION = { data: { session: { user: { id: "user-1", email: "a@b.com" } } 
 beforeEach(() => {
   getSession.mockReset()
   updateUser.mockReset()
+  rpc.mockReset()
   toastSuccess.mockReset()
   getSession.mockResolvedValue(SESSION)
   updateUser.mockResolvedValue({ data: { user: { id: "user-1" } }, error: null })
+  useInternalOperator.getState().reset()
   document.cookie = "pendingPasswordSetup=; Path=/; Max-Age=0"
 })
 
@@ -53,7 +61,7 @@ describe("SetPasswordPage", () => {
   it("whenOrigemIsInvite_thenShowsInviteCopy", async () => {
     renderAt("/definir-senha?origem=convite")
     expect(await screen.findByRole("heading", { name: /crie sua senha/i })).toBeTruthy()
-    expect(screen.getByText(/você recebeu um convite para o atlas/i)).toBeTruthy()
+    expect(screen.getByText(/você recebeu um convite para o estica grana/i)).toBeTruthy()
     expect(screen.getByText(/mínimo de 6 caracteres/i)).toBeTruthy()
   })
 
@@ -86,6 +94,93 @@ describe("SetPasswordPage", () => {
     await waitFor(() => expect(toastSuccess).toHaveBeenCalled())
     expect(await screen.findByTestId("dashboard-probe")).toBeTruthy()
     expect(document.cookie).not.toContain("pendingPasswordSetup=user-1")
+  })
+
+  it("whenAdminFirstAccessHasRetornoInternal_thenNavigatesToInternalAndNotToTenant", async () => {
+    const user = userEvent.setup()
+    renderAt("/definir-senha?origem=convite&retorno=/internal")
+
+    const input = await screen.findByLabelText(/nova senha/i)
+    await user.type(input, "senha-segura-1")
+    await user.click(screen.getByRole("button", { name: /salvar senha/i }))
+
+    expect(await screen.findByTestId("internal-probe")).toBeTruthy()
+    expect(screen.queryByTestId("dashboard-probe")).toBeNull()
+  })
+
+  it("whenFirstAccessCompletes_thenStaleOperatorVerdictIsInvalidatedBeforeNavigate", async () => {
+    // Regressão do loop: o store guardava `first-access` da verificação feita
+    // antes da troca. Sem reset, o guard reentrava em /internal e redirecionava
+    // de volta para cá sem chamar a Edge de novo.
+    useInternalOperator.setState({
+      state: "first-access",
+      userId: null,
+      aalKey: null,
+      checkedAt: 1_000,
+      lastFailure: null,
+    })
+    const generation = useInternalOperator.getState().generation
+    const user = userEvent.setup()
+    renderAt("/definir-senha?origem=convite&retorno=/internal")
+
+    const input = await screen.findByLabelText(/nova senha/i)
+    await user.type(input, "senha-segura-1")
+    await user.click(screen.getByRole("button", { name: /salvar senha/i }))
+
+    await screen.findByTestId("internal-probe")
+    const store = useInternalOperator.getState()
+    expect(store.state).toBe("unknown")
+    expect(store.generation).toBe(generation + 1)
+    expect(store.checkedAt).toBeNull()
+  })
+
+  it("whenRetornoIsKnownInternalSegment_thenAllowlistKeepsIt", async () => {
+    const user = userEvent.setup()
+    renderAt("/definir-senha?origem=convite&retorno=/internal/tenants")
+
+    const input = await screen.findByLabelText(/nova senha/i)
+    await user.type(input, "senha-segura-1")
+    await user.click(screen.getByRole("button", { name: /salvar senha/i }))
+
+    expect(await screen.findByTestId("internal-tenants-probe")).toBeTruthy()
+  })
+
+  it("whenRetornoIsHostile_thenFallsBackToTenantRoot", async () => {
+    const user = userEvent.setup()
+    renderAt("/definir-senha?origem=convite&retorno=//evil.com")
+
+    const input = await screen.findByLabelText(/nova senha/i)
+    await user.type(input, "senha-segura-1")
+    await user.click(screen.getByRole("button", { name: /salvar senha/i }))
+
+    expect(await screen.findByTestId("dashboard-probe")).toBeTruthy()
+    expect(screen.queryByTestId("internal-probe")).toBeNull()
+  })
+
+  it("whenOrigemIsRecovery_thenRetornoIsIgnoredAndTenantRootIsKept", async () => {
+    const user = userEvent.setup()
+    renderAt("/definir-senha?origem=recuperacao&retorno=/internal")
+
+    const input = await screen.findByLabelText(/nova senha/i)
+    await user.type(input, "senha-segura-1")
+    await user.click(screen.getByRole("button", { name: /salvar senha/i }))
+
+    expect(await screen.findByTestId("dashboard-probe")).toBeTruthy()
+    expect(screen.queryByTestId("internal-probe")).toBeNull()
+  })
+
+  it("whenPasswordChanges_thenClientNeverCallsCompleteFirstAccessRpc", async () => {
+    // Migração 0050/C1: EXECUTE revogado de authenticated; a flag é limpa pelo
+    // trigger em auth.users.encrypted_password, não por decisão do cliente.
+    const user = userEvent.setup()
+    renderAt("/definir-senha?origem=convite&retorno=/internal")
+
+    const input = await screen.findByLabelText(/nova senha/i)
+    await user.type(input, "senha-segura-1")
+    await user.click(screen.getByRole("button", { name: /salvar senha/i }))
+
+    await screen.findByTestId("internal-probe")
+    expect(rpc).not.toHaveBeenCalled()
   })
 
   it("whenNoSession_thenRedirectsToLinkExpiredWithoutSession", async () => {

@@ -29,6 +29,14 @@ import { useInternalOperator } from "@/internal/guard/use-internal-operator"
 import { INTERNAL_NAV_ITEMS, internalNavTitleKey } from "./internal-nav"
 import { useInternalT } from "../ui/use-internal-t"
 
+/**
+ * Wrapper de conteúdo do control plane (DESIGN.md §3, regra 1).
+ * Centralizado aqui: páginas `/internal/*` montadas sob este shell herdam o
+ * alinhamento `px-4 lg:px-6` do SiteHeader sem repetir padding em cada view.
+ * Páginas de tenant fora do shell mantêm o próprio padding — não são afetadas.
+ */
+export const internalContentClassName = "flex flex-col gap-6 px-4 py-4 md:py-6 lg:px-6"
+
 function aalLabel(aalKey: "aal1" | "aal2" | null): string {
   if (aalKey === null) return "—"
   return aalKey
@@ -75,11 +83,12 @@ export function InternalShell() {
       <AtlasAdminTemplate
         mainId="internal-main"
         title={t(internalNavTitleKey(pathname))}
+        contentClassName={internalContentClassName}
         sidebarProps={{
           navMain,
           navSecondary: [],
           brand: {
-            title: "Atlas",
+            title: "Estica Grana",
             subtitle: t("internalAdmin.eyebrow"),
             icon: ShieldCheck,
             href: null,

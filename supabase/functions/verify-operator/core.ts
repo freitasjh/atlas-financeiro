@@ -22,7 +22,9 @@
 //
 // Deadline é TOTAL (default 5000 ms, somando todas as etapas) — não por
 // operação: três etapas de 2 s não podem compor 6 s. Estourou = 403, nunca 200.
-// Origin desconhecida → 403 sem ACAO (fail-closed, nunca `*`).
+// Origin desconhecida → 403 sem ACAO (fail-closed, nunca `*`). Origens
+// confiáveis = APP_URL + APP_URL_ALIASES (cada uma aceita lista separada por
+// vírgula); comparação exata, sem normalização e sem curinga.
 // Sem PII: nenhum e-mail, nenhuma role, nenhum tenant — só is_operator/aal/
 // error e, no 200, `user_id` (contrato herdado do ADR-004: é o id da própria
 // sessão do chamador, usado como chave do cache client-side).
@@ -34,8 +36,10 @@ export interface VerifyDeps {
   getProfile: (userId: string) => Promise<{ role?: unknown; must_change_password?: unknown } | null>
   /** Linha em internal_operators com active=true (borda: service_role). */
   isActiveOperator: (userId: string) => Promise<boolean>
-  /** Origem permitida p/ CORS (borda: APP_URL). '' = nenhum CORS (fail-closed). */
+  /** Origem principal permitida p/ CORS (borda: APP_URL). '' = nenhum CORS (fail-closed). */
   appUrl: string
+  /** Origens extras separadas por vírgula (borda: APP_URL_ALIASES). Opcional. */
+  appUrlAliases?: string
   /** Orçamento TOTAL da checagem em ms. Default 5000. Estourou = nega. */
   deadlineMs?: number
   /** @deprecated alias legado de `deadlineMs` (contrato v1); prefira `deadlineMs`. */
@@ -83,15 +87,35 @@ export function resolveAal(payload: JwtPayload | null): 'aal1' | 'aal2' | null {
   return null
 }
 
-export function allowedOrigin(req: Request, appUrl: string): string | null {
-  if (appUrl === '') return null
-  const origin = req.headers.get('Origin')
-  if (origin === null) return null
-  return origin === appUrl ? appUrl : null
+/**
+ * Lista explícita de origens confiáveis. APP_URL (principal) e
+ * APP_URL_ALIASES (extras) podem conter valores separados por vírgula.
+ * Tokens vazios, `*` e `null` são descartados: nenhum curinga, nenhuma
+ * normalização — a comparação posterior é exata (fail-closed).
+ */
+export function parseAllowedOrigins(appUrl: string, aliases = ''): string[] {
+  const allowed: string[] = []
+  for (const raw of [appUrl, aliases]) {
+    for (const token of raw.split(',')) {
+      const value = token.trim()
+      if (value === '' || value === '*' || value.toLowerCase() === 'null') continue
+      if (!allowed.includes(value)) allowed.push(value)
+    }
+  }
+  return allowed
 }
 
-export function corsHeaders(req: Request, appUrl: string): HeadersInit {
-  const allow = allowedOrigin(req, appUrl)
+/** Devolve a própria Origin quando ela pertence à lista; senão null (sem ACAO). */
+export function allowedOrigin(req: Request, appUrl: string, aliases = ''): string | null {
+  const allowed = parseAllowedOrigins(appUrl, aliases)
+  if (allowed.length === 0) return null
+  const origin = req.headers.get('Origin')
+  if (origin === null) return null
+  return allowed.includes(origin) ? origin : null
+}
+
+export function corsHeaders(req: Request, appUrl: string, aliases = ''): HeadersInit {
+  const allow = allowedOrigin(req, appUrl, aliases)
   const headers: Record<string, string> = {
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Authorization, Content-Type',
@@ -117,17 +141,23 @@ export async function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
 
 export async function handleVerifyOperator(req: Request, deps: VerifyDeps): Promise<Response> {
   const origin = req.headers.get('Origin')
-  if (origin !== null && allowedOrigin(req, deps.appUrl) === null) {
+  if (origin !== null && allowedOrigin(req, deps.appUrl, deps.appUrlAliases) === null) {
     return new Response(JSON.stringify({ is_operator: false }), {
       status: 403,
       headers: { 'Content-Type': 'application/json', Vary: 'Origin' },
     })
   }
   if (req.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: corsHeaders(req, deps.appUrl) })
+    return new Response(null, {
+      status: 204,
+      headers: corsHeaders(req, deps.appUrl, deps.appUrlAliases),
+    })
   }
   const json = (status: number, body: unknown): Response =>
-    new Response(JSON.stringify(body), { status, headers: corsHeaders(req, deps.appUrl) })
+    new Response(JSON.stringify(body), {
+      status,
+      headers: corsHeaders(req, deps.appUrl, deps.appUrlAliases),
+    })
   const deny = (error?: 'first-access' | 'mfa-required' | 'operator-inactive'): Response =>
     json(403, error === undefined ? { is_operator: false } : { is_operator: false, error })
 

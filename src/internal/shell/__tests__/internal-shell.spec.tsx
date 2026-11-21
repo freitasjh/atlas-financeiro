@@ -168,6 +168,19 @@ describe("whenShellRenders_thenItComposesTheTemplateShell", () => {
   })
 })
 
+describe("whenInternalShellRenders_thenAtlasContentHasHorizontalPadding", () => {
+  it("aplica px-4 lg:px-6 no wrapper de conteúdo, alinhando com o SiteHeader", () => {
+    renderShell()
+
+    const content = screen.getByTestId("atlas-content")
+    const classes = (content.className ?? "").split(/\s+/)
+
+    expect(classes).toEqual(expect.arrayContaining(["flex", "flex-col", "gap-6", "px-4", "lg:px-6"]))
+    // padding entra no conteúdo do template, não em wrapper próprio da página
+    expect(content.contains(screen.getByTestId("shell-child"))).toBe(true)
+  })
+})
+
 describe("whenRouteChanges_thenTheActiveInternalItemIsExact", () => {
   it("em /internal/tenants/:id só Tenants fica aria-current=page", () => {
     const { container } = renderShell("/internal/tenants/abc")

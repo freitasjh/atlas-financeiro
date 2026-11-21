@@ -49,6 +49,34 @@ export function resolveAal(payload: JwtPayload | null): 'aal1' | 'aal2' | null {
   return null
 }
 
+/**
+ * Lista explícita de origens confiáveis. APP_URL (principal) e
+ * APP_URL_ALIASES (extras) podem conter valores separados por vírgula.
+ * Tokens vazios, `*` e `null` são descartados: nenhum curinga, nenhuma
+ * normalização — a comparação posterior é exata (fail-closed).
+ * Mesmo contrato de `verify-operator/core.ts` (SEC-DEBT-49).
+ */
+export function parseAllowedOrigins(appUrl: string, aliases = ''): string[] {
+  const allowed: string[] = []
+  for (const raw of [appUrl, aliases]) {
+    for (const token of raw.split(',')) {
+      const value = token.trim()
+      if (value === '' || value === '*' || value.toLowerCase() === 'null') continue
+      if (!allowed.includes(value)) allowed.push(value)
+    }
+  }
+  return allowed
+}
+
+/** Devolve a própria Origin quando ela pertence à lista; senão null (sem ACAO). */
+export function allowedOrigin(req: Request, appUrl: string, aliases = ''): string | null {
+  const allowed = parseAllowedOrigins(appUrl, aliases)
+  if (allowed.length === 0) return null
+  const origin = req.headers.get('Origin')
+  if (origin === null) return null
+  return allowed.includes(origin) ? origin : null
+}
+
 export async function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined
   const timeout = new Promise<never>((_, reject) => {

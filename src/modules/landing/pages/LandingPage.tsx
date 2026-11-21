@@ -26,6 +26,7 @@ import {
 } from "@/components/shadcn/ui/accordion"
 import { ModeToggle } from "@/components/shadcn/navigation/mode-toggle"
 import { PricingTable } from "@/components/shadcn/pricing/pricing-table"
+import { EsticaGranaLogo } from "@/components/brand/EsticaGranaLogo"
 import { ShowcaseTabs } from "@/modules/landing/components/ShowcaseTabs"
 import { revealInPageTarget } from "@/lib/in-page-anchor"
 import { useTranslation } from "react-i18next"
@@ -132,12 +133,7 @@ export function LandingPage() {
               href="#/landing"
               className="flex min-w-0 items-center gap-2.5 font-bold tracking-tight text-foreground transition-opacity hover:opacity-90"
             >
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-xs font-mono font-bold text-base">
-                A
-              </div>
-              <span className="truncate text-base font-extrabold tracking-tight sm:text-lg">
-                Atlas Financeiro
-              </span>
+              <EsticaGranaLogo size="md" />
             </a>
             <span className="hidden sm:inline-flex items-center rounded-full border border-border/80 bg-muted/40 px-2 py-0.5 text-[10px] font-semibold text-foreground/90">
               v2.0
@@ -876,7 +872,7 @@ export function LandingPage() {
 
             {/* Coluna 4 */}
             <div>
-              <p className="font-bold text-foreground text-sm mb-3">Atlas</p>
+              <p className="font-bold text-foreground text-sm mb-3">Estica Grana</p>
               <ul className="space-y-2">
                 <li><a href="#/landing" data-scroll-target="faq" onClick={handleSectionLink("faq")} className="hover:text-foreground transition-colors">{t("landing.footerLinkFaq")}</a></li>
                 <li><span className="hover:text-foreground transition-colors">{t("landing.footerLinkTerms")}</span></li>

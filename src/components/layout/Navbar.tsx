@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Sun, Moon, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { EsticaGranaLogo } from '@/components/brand/EsticaGranaLogo'
 import { supabase } from '@/lib/supabase'
 
 export function Navbar() {
@@ -40,15 +41,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-sm font-bold text-white shadow-xs">
-            A
-          </div>
-          <div className="flex flex-col">
-            <span className="text-base font-bold tracking-tight text-foreground">Atlas Financeiro</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-              Core Engine
-            </span>
-          </div>
+          <EsticaGranaLogo size="lg" subtitle="Finanças Pessoais" />
         </div>
 
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">

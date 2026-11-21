@@ -9,6 +9,7 @@ import { toast } from "sonner"
 
 import { supabase } from "@/lib/supabase"
 import { clearPendingPasswordSetup } from "@/lib/pending-password-setup"
+import { sanitizeReturnTo } from "@/internal/guard/resolve-onboarding"
 import { RouteSkeleton } from "@/routes/route-skeleton"
 
 import { AuthShell } from "@/components/shadcn/auth/auth-shell"
@@ -25,11 +26,39 @@ import { Input } from "@/components/shadcn/ui/input"
 
 type SessionCheck = "checking" | "present" | "absent"
 
+/**
+ * O veredito do guard do control plane vive em memória (sem `persist`). Quem
+ * chega aqui veio de `first-access`; se o store não for limpo, ao voltar para
+ * `/internal` o `RequireInternalOperator` — que só chama `verify()` em
+ * `unknown` — redireciona para esta tela sem consultar a Edge de novo (loop).
+ *
+ * Import dinâmico é obrigatório: esta página está no grafo principal, enquanto
+ * a árvore `/internal` é lazy (REQ-01). Import estático traria o guard para o
+ * bundle principal; o `import()` mantém o isolation e resolve para a **mesma**
+ * instância do store quando o chunk já foi carregado (caso do primeiro acesso).
+ * Devolve `false` se o chunk não carregar — nesse caso a página faz reload
+ * completo, o que também descarta qualquer veredito em memória.
+ */
+async function resetInternalOperatorVerdict(): Promise<boolean> {
+  try {
+    const { useInternalOperator } = await import("@/internal/guard/use-internal-operator")
+    useInternalOperator.getState().reset()
+    return true
+  } catch {
+    return false
+  }
+}
+
 export function SetPasswordPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const origem = searchParams.get("origem") === "recuperacao" ? "recuperacao" : "convite"
+  // `?retorno=` só é honrado no convite (é assim que `firstAccessPath` devolve
+  // o admin a /internal). Fallback "/": tenant/recuperação nunca entram no
+  // control plane. sanitizeReturnTo barra URL livre, //host e travessia.
+  const retorno =
+    origem === "convite" ? sanitizeReturnTo(searchParams.get("retorno"), "/") : "/"
 
   const [sessionCheck, setSessionCheck] = React.useState<SessionCheck>("checking")
   const [showPassword, setShowPassword] = React.useState(false)
@@ -116,11 +145,28 @@ export function SetPasswordPage() {
         return
       }
 
+      // 0050/C1: UPDATE de encrypted_password no Auth dispara
+      // on_auth_user_password_changed, que limpa must_change_password no mesmo
+      // commit. RPC de primeiro acesso não é chamada pelo cliente (EXECUTE
+      // revogado de authenticated) — ver regressão no spec da página.
       clearPendingPasswordSetup()
       toast.success(t("auth.setPassword.successTitle"), {
         description: t("auth.setPassword.successDescription"),
       })
-      navigate("/", { replace: true })
+
+      // 0050/C1: a flag no DB já caiu pelo trigger de encrypted_password.
+      // O cliente apenas descarta o veredito antigo — nunca chama
+      // complete_first_access (EXECUTE revogado de authenticated).
+      if (await resetInternalOperatorVerdict()) {
+        navigate(retorno, { replace: true })
+        return
+      }
+
+      // Chunk do guard indisponível: hard reload é o caminho que garante
+      // veredito novo e segunda chamada a verify-operator no hard-load.
+      const destino = new URL(window.location.href)
+      destino.hash = retorno
+      window.location.replace(destino.toString())
     } catch {
       setServerError(t("auth.setPassword.errors.network"))
     }
