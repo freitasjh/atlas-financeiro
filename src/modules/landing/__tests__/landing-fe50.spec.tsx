@@ -19,7 +19,8 @@ afterEach(() => cleanup())
 
 // FE-50 TDD FIRST — catálogo único + landing v2 + admin alinhado.
 // 4 planos free|standard|pro|full; anual BIGINT sem float; 7 seções;
-// CTAs → /register?plano=; copy anti-cobrança; Em breve sem CTA.
+// CTAs principais → /register?plano=; secundários → /solicitar-convite?plano=;
+// copy anti-cobrança; Em breve sem CTA.
 
 describe('whenCatalogLoaded_thenFourSlugsFeaturedPro', () => {
   it('tem 4 slugs exatos com monthly BIGINT >= 0 e featured=pro', async () => {
@@ -114,20 +115,25 @@ describe('whenLandingV2Rendered_thenSevenSectionsInOrder', () => {
     expect(container.querySelectorAll('h1')).toHaveLength(1)
   })
 
-  it('todo CTA leva para /solicitar-convite?plano= slug válido do catálogo', async () => {
+  it('todo CTA principal leva para /register?plano= slug válido do catálogo', async () => {
     const { LandingPage } = await import('../pages/LandingPage')
     const { container } = renderWithI18n(<LandingPage />)
     const ctas = container.querySelectorAll('[data-testid="landing-cta"]')
     expect(ctas).toHaveLength(5)
     const hrefs = Array.from(ctas).map((cta) => cta.getAttribute('href') ?? '')
     for (const href of hrefs) {
-      expect(href).toMatch(/^#\/solicitar-convite(\?plano=(free|standard|pro|full))?$/)
+      expect(href).toMatch(/^#\/register\?plano=(free|standard|pro|full)$/)
     }
     for (const slug of ['free', 'standard', 'pro', 'full']) {
-      expect(hrefs).toContain(`#/solicitar-convite?plano=${slug}`)
+      expect(hrefs).toContain(`#/register?plano=${slug}`)
     }
-    expect(hrefs, 'CTA genérico de convite ausente').toContain('#/solicitar-convite')
-    expect(new Set(hrefs).size, 'href duplicado infla a contagem de CTAs').toBe(5)
+    expect(new Set(hrefs).size, 'devem existir 4 slugs distintos (hero repete free)').toBe(4)
+    expect(container.querySelectorAll('[data-testid="landing-invite-cta"]')).toHaveLength(6)
+    expect(container.querySelectorAll('[data-testid="landing-final-cta"]')).toHaveLength(1)
+    const finalCta = container.querySelector('[data-testid="landing-final-cta"]')
+    expect(finalCta?.tagName).toBe('A')
+    expect(finalCta?.getAttribute('href')).toBe('#/register?plano=free')
+    expect(container.querySelectorAll('[data-testid="landing-final-band"]')).toHaveLength(1)
   })
 
   it('exportação "Em breve" sem CTA nem link', async () => {

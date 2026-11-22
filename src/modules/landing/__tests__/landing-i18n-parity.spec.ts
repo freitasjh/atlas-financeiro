@@ -1,4 +1,5 @@
 // @vitest-environment happy-dom
+import { readFileSync } from "node:fs"
 import { afterEach, describe, expect, it } from "vitest"
 
 import i18n from "../../../i18n"
@@ -76,6 +77,62 @@ describe("whenTResolves_thenNoKeyIsRenderedRaw", () => {
       const value = i18n.t(path)
       expect(value, `chave crua renderizada: ${path}`).not.toBe(path)
       expect(value.length, `valor vazio: ${path}`).toBeGreaterThan(0)
+    }
+  })
+})
+
+const COPY_KEYS = [
+  "invitePill1",
+  "inviteFinalBody",
+  "inviteStep1Title",
+  "inviteStep1Desc",
+  "inviteFaqAnswer1",
+] as const
+
+describe("whenTwoPathsCopyAudited_thenSignupPrimaryInviteAlternative", () => {
+  it("heroCta é Criar conta/Create account sem interpolação de slug", () => {
+    expect(LANDING_PT.heroCta).toBe("Criar conta")
+    expect(LANDING_EN.heroCta).toBe("Create account")
+    for (const value of [LANDING_PT.heroCta, LANDING_EN.heroCta]) {
+      expect(value).not.toMatch(/\{\{|free|standard|pro|full/)
+    }
+    expect(LANDING_PT.inviteCta).toBe("Solicitar convite")
+    expect(LANDING_EN.inviteCta).toBe("Request an invite")
+  })
+
+  it.each([
+    ["pt-BR", LANDING_PT, /criar conta|crie sua conta|crie sua/i, /convite/i],
+    ["en-US", LANDING_EN, /create (your )?account|sign up/i, /invite/i],
+  ] as const)("%s: todo landing.* de convite vira cadastro principal + convite alternativa", (_lng, dict, signup, invite) => {
+    for (const key of COPY_KEYS) {
+      const value = String(dict[key])
+      expect(value, `${key} sem cadastro principal`).toMatch(signup)
+      expect(value, `${key} sem alternativa de convite`).toMatch(invite)
+    }
+    const lead = String((_lng === "pt-BR" ? PRICING_PT : PRICING_EN).lead)
+    expect(lead).toMatch(signup)
+    expect(lead).toMatch(invite)
+  })
+
+  it("copy anti-cobrança preservada nas duas locales", () => {
+    const all = `${COPY_KEYS.map((k) => `${LANDING_PT[k]} ${LANDING_EN[k]}`).join(" ")} ${PRICING_PT.lead} ${PRICING_EN.lead}`.toLowerCase()
+    for (const banned of ["assinar", "checkout", "pagar", "pague agora", "trial", "upgrade", "subscribe", "pay now"]) {
+      expect(all, `termo de cobrança: ${banned}`).not.toContain(banned)
+    }
+    expect(String(LANDING_PT.inviteFaqAnswer1)).toContain("cobrança")
+    expect(String(PRICING_PT.lead)).toContain("cobrança")
+  })
+
+  it("0 literal de produto nos componentes (só chaves i18n)", () => {
+    for (const file of [
+      "src/modules/landing/pages/LandingPage.tsx",
+      "src/components/shadcn/pricing/pricing-table.tsx",
+      "src/pages/RequestInvitePage.tsx",
+    ]) {
+      const source = readFileSync(file, "utf8")
+      for (const literal of ["Criar conta", "Create account", "Solicitar convite", "Request an invite"]) {
+        expect(source, `${file} com literal: ${literal}`).not.toContain(literal)
+      }
     }
   })
 })

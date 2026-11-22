@@ -36,11 +36,11 @@ describe('whenFinalCtaI18n_thenPtEnPairs', () => {
 })
 
 describe('whenFinalCtaBandRendered_thenSingleFreeCta', () => {
-  it('exatamente 1 CTA para /solicitar-convite?plano=free em token semântico', async () => {
+  it('exatamente 1 CTA para /register?plano=free em token semântico', async () => {
     const { FinalCtaBand } = await import('../FinalCtaBand')
     const { container } = renderWithI18n(<FinalCtaBand />)
     expect(container.querySelector('[data-testid="final-cta-band"]')).not.toBeNull()
-    const ctas = container.querySelectorAll('a[href="/solicitar-convite?plano=free"]')
+    const ctas = container.querySelectorAll('a[href="/register?plano=free"]')
     expect(ctas).toHaveLength(1)
     expect(container.querySelectorAll('a,button'), 'CTA extra na band').toHaveLength(1)
     expect(ctas[0].className).toMatch(/bg-primary/)
@@ -75,6 +75,6 @@ describe('whenFinalCtaBandSourceAudited_thenZeroFetchZeroAmber', () => {
     expect(content).not.toContain(' id=')
     expect(content).not.toContain('<section id')
     expect(content, 'testid duplicado de CTA').not.toContain('data-testid="landing-cta"')
-    expect(content).toContain('planCtaHref')
+    expect(content).toContain('registerCtaHref')
   })
 })

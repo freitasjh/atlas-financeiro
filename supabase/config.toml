@@ -174,9 +174,9 @@ enable_refresh_token_rotation = true
 # Requires enable_refresh_token_rotation = true.
 refresh_token_reuse_interval = 10
 # Allow/disallow new user signups to your project.
-# SEC-04 (D1 invite-only): cadastro fechado — usuário nasce só por convite
-# (`admin-invite-user` / `create_tenant_for_invited_user`). Espelha produção.
-enable_signup = false
+# ADR-001 (auto-serviço): cadastro público habilitado na borda `signup-public`;
+# convite administrativo segue paralelo. Aplicação em produção = delta humano.
+enable_signup = true
 # Allow/disallow anonymous sign-ins to your project.
 enable_anonymous_sign_ins = false
 # Allow/disallow testing manual linking of accounts
@@ -445,3 +445,9 @@ import_map = "./functions/admin-invite-user/deno.json"
 [functions.mfa-recovery-codes]
 verify_jwt = true
 import_map = "./functions/mfa-recovery-codes/deno.json"
+
+# ADR-001 / SIGN-01: borda pública de cadastro — visitante sem JWT de usuário.
+# verify_jwt=false (config local); gateway deixa a borda executar throttle,
+# resolução de convite e resposta genérica anti-enumeração.
+[functions.signup-public]
+verify_jwt = false

@@ -203,7 +203,9 @@ describe("whenLandingRenderedInEnUs_thenBodyHasNoPtBrLiteral", () => {
 
   it("CTA final traduz eyebrow e heading", async () => {
     await renderEnUs()
-    const text = textOf('[data-testid="landing-final-cta"]')
+    // M1: a section é `landing-final-band`; o testid `landing-final-cta`
+    // pertence à âncora e não cobre o texto da faixa.
+    const text = textOf('[data-testid="landing-final-band"]')
     expectNoLiterals(text, FINAL_CTA_LITERALS, "CTA final")
     expect(text).toContain(i18n.t("landing.finalCtaEyebrow"))
     expect(text).toContain(i18n.t("landing.finalCtaHeading"))

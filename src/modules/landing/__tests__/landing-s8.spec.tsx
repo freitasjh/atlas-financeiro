@@ -41,20 +41,21 @@ describe('whenS8Rendered_thenSevenSectionsPlusFooter', () => {
     expect(container.querySelectorAll('h1')).toHaveLength(1)
   })
 
-  it('todo CTA leva para /solicitar-convite?plano= (sem CTA âmbar legado)', async () => {
+  it('todo CTA principal leva para /register?plano= (convite segue no secundário)', async () => {
     const { LandingPage } = await import('../pages/LandingPage')
     const { container } = renderWithI18n(<LandingPage />)
     const ctas = container.querySelectorAll('[data-testid="landing-cta"]')
     expect(ctas).toHaveLength(5)
     const hrefs = Array.from(ctas).map((cta) => cta.getAttribute('href') ?? '')
     for (const href of hrefs) {
-      expect(href).toMatch(/^#\/solicitar-convite(\?plano=(free|standard|pro|full))?$/)
+      expect(href).toMatch(/^#\/register\?plano=(free|standard|pro|full)$/)
     }
     for (const slug of ['free', 'standard', 'pro', 'full']) {
-      expect(hrefs, `CTA real do plano ${slug} ausente`).toContain(`#/solicitar-convite?plano=${slug}`)
+      expect(hrefs, `CTA real do plano ${slug} ausente`).toContain(`#/register?plano=${slug}`)
     }
-    expect(hrefs, 'CTA genérico de convite ausente').toContain('#/solicitar-convite')
-    expect(new Set(hrefs).size, 'href duplicado infla a contagem de CTAs').toBe(5)
+    expect(new Set(hrefs).size, 'devem existir 4 slugs distintos (hero repete free)').toBe(4)
+    expect(container.querySelectorAll('[data-testid="landing-invite-cta"]')).toHaveLength(6)
+    expect(container.querySelectorAll('[data-testid="landing-final-cta"]')).toHaveLength(1)
     expect(container.querySelectorAll('.bg-amber-500')).toHaveLength(0)
   })
 

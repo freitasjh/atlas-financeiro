@@ -152,16 +152,27 @@ describe("whenMobileDisclosureIsOpen_thenTargetsAndOrderAreCorrect", () => {
     }
 
     const buttons = Array.from(nav?.querySelectorAll("button") ?? [])
-    // Entrar (outline) + Solicitar convite (primary) + ModeToggle.
+    // Entrar (outline) + Solicitar convite (outline — M2) + ModeToggle.
     expect(buttons).toHaveLength(3)
     for (const button of buttons) {
       expect(button.className, "botão mobile sem alvo de 44px").toMatch(/min-h-11|h-11/)
     }
+    const inviteButton = buttons[1]
+    expect(inviteButton.textContent).toContain(i18n.t("landing.inviteCta"))
+    expect(inviteButton.className, "M2: Solicitar convite no mobile-nav deve ser outline/ghost").toMatch(
+      /outline|ghost|bg-transparent|border/,
+    )
+    expect(inviteButton.className, "M2: Solicitar convite não pode seguir preenchido").not.toMatch(
+      /(^|\s)bg-primary(\s|$)/,
+    )
 
     const navText = (nav?.textContent ?? "").trim()
     expect(navText).toContain(i18n.t("landing.heroLogin"))
     expect(navText).toContain(i18n.t("landing.inviteCta"))
     expect(navText).toContain(i18n.t("shell.theme"))
+    expect(navText, "M2/R11: nenhum Criar conta no header/mobile-nav").not.toContain(
+      i18n.t("landing.heroCta"),
+    )
 
     // Ordem DOM: 7 links → botões de ação → alternador de tema.
     const order = [

@@ -22,6 +22,9 @@ const LinkExpiredPage = lazy(() =>
 const RequestInvitePage = lazy(() =>
   import("@/pages/RequestInvitePage").then((m) => ({ default: m.RequestInvitePage })),
 )
+const PublicSignupPage = lazy(() =>
+  import("@/pages/PublicSignupPage").then((m) => ({ default: m.PublicSignupPage })),
+)
 const OverviewPage = lazy(() => import("@/pages/OverviewPage"))
 const AccountsPage = lazy(() => import("@/modules/accounts/pages/AccountsPage"))
 const ImportOfxPage = lazy(() => import("@/modules/accounts/pages/ImportOfxPage"))
@@ -40,12 +43,6 @@ const InternalTree = lazy(() =>
 
 function lazyElement(node: ReactNode) {
   return <Suspense fallback={<RouteSkeleton />}>{node}</Suspense>
-}
-
-/** `/register` e `/signup` morreram com o invite-only; preserva `?plano=`. */
-function RedirectPreservingSearch({ to }: { to: string }) {
-  const location = useLocation()
-  return <Navigate to={{ pathname: to, search: location.search }} replace />
 }
 
 /**
@@ -83,9 +80,9 @@ export function createAppRouter() {
           path: "/solicitar-convite",
           element: lazyElement(<RequestInvitePage />),
         },
-        // Signup desabilitado (0052): cadastro só por convite.
-        { path: "/register", element: <RedirectPreservingSearch to="/solicitar-convite" /> },
-        { path: "/signup", element: <RedirectPreservingSearch to="/solicitar-convite" /> },
+        // SIGN-14: cadastro público real; `/solicitar-convite` segue disponível.
+        { path: "/register", element: lazyElement(<PublicSignupPage />) },
+        { path: "/signup", element: lazyElement(<PublicSignupPage />) },
         {
           // Rota pathless: RequireSession + AtlasAdminLayout protegem e
           // providenciam o esqueleto para TODAS as rotas filhas.
