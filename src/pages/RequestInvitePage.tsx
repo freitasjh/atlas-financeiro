@@ -26,6 +26,12 @@ export function RequestInvitePage() {
 
         <div className="flex w-full flex-col gap-2">
           <Button asChild className="h-11 w-full font-semibold">
+            <Link to="/register">
+              {t("landing.heroCta")}
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </Link>
+          </Button>
+          <Button asChild variant="outline" className="h-11 w-full font-semibold">
             <Link to="/login" replace>
               {t("auth.requestInvite.goToLogin")}
               <ArrowRight className="size-4" aria-hidden="true" />

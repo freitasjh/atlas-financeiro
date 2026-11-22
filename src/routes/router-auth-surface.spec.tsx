@@ -33,19 +33,19 @@ beforeEach(() => {
 })
 
 describe("superfície de auth pós invite-only", () => {
-  it("whenRegisterWithPlan_thenRedirectsToRequestInvitePreservingSearch", async () => {
+  it("whenRegisterWithPlan_thenRendersPublicFormKeepingSearch", async () => {
     window.location.hash = "#/register?plano=pro"
     render(<RouterProvider router={createAppRouter()} />)
-    await waitFor(() => expect(window.location.hash).toBe("#/solicitar-convite?plano=pro"))
-    expect(await screen.findByRole("heading", { name: /acesso por convite/i })).toBeTruthy()
-    expect(screen.queryByText(/criar sua conta/i)).toBeNull()
+    expect(await screen.findByRole("heading", { name: /crie sua conta/i })).toBeTruthy()
+    await waitFor(() => expect(window.location.hash).toBe("#/register?plano=pro"))
+    expect(screen.queryByRole("heading", { name: /acesso por convite/i })).toBeNull()
   })
 
-  it("whenSignupRoute_thenRedirectsToRequestInvite", async () => {
+  it("whenSignupRoute_thenRendersPublicForm", async () => {
     window.location.hash = "#/signup"
     render(<RouterProvider router={createAppRouter()} />)
-    await waitFor(() => expect(window.location.hash).toBe("#/solicitar-convite"))
-    expect(await screen.findByRole("heading", { name: /acesso por convite/i })).toBeTruthy()
+    expect(await screen.findByRole("heading", { name: /crie sua conta/i })).toBeTruthy()
+    expect(window.location.hash).toBe("#/signup")
   })
 
   it("whenSetPasswordWithoutSession_thenRedirectsToLinkExpired", async () => {

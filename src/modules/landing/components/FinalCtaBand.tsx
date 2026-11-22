@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { planCtaHref } from '../model/catalog'
+import { registerCtaHref } from '../model/catalog'
 
 /**
  * @deprecated Sem importador em `src/` desde a landing v2 (o CTA final vive em
@@ -30,7 +30,7 @@ export function FinalCtaBand() {
           {t('landing.finalCtaSubtitle')}
         </p>
         <Link
-          to={planCtaHref('free')}
+          to={registerCtaHref('free')}
           className="inline-flex min-h-12 h-12 items-center justify-center rounded-xl bg-primary hover:bg-primary/90 px-8 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           {t('landing.heroCta')}

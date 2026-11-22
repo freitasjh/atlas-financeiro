@@ -28,6 +28,7 @@ import { ModeToggle } from "@/components/shadcn/navigation/mode-toggle"
 import { PricingTable } from "@/components/shadcn/pricing/pricing-table"
 import { EsticaGranaLogo } from "@/components/brand/EsticaGranaLogo"
 import { ShowcaseTabs } from "@/modules/landing/components/ShowcaseTabs"
+import { planCtaHref, registerCtaHref } from "@/modules/landing/model/catalog"
 import { revealInPageTarget } from "@/lib/in-page-anchor"
 import { useTranslation } from "react-i18next"
 import { flushSync } from "react-dom"
@@ -177,9 +178,10 @@ export function LandingPage() {
 
             <Button
               type="button"
+              variant="outline"
               size="sm"
               onClick={() => handleNavigate("/solicitar-convite")}
-              className="h-11 text-xs font-semibold shadow-xs gap-1.5"
+              className="h-11 text-xs font-semibold gap-1.5"
             >
               <span>{t("landing.inviteCta")}</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -245,6 +247,7 @@ export function LandingPage() {
               </Button>
               <Button
                 type="button"
+                variant="outline"
                 onClick={() => {
                   closeMobileNav()
                   handleNavigate("/solicitar-convite")
@@ -295,19 +298,32 @@ export function LandingPage() {
             {t("landing.heroSubtitleLong")}
           </p>
 
-          {/* Botões de Ação */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          {/* Botões de Ação — principal = cadastro, alternativa = convite */}
+          <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <a
-              href="#/solicitar-convite"
+              href={`#${registerCtaHref("free")}`}
               data-testid="landing-cta"
               onClick={(e) => {
                 e.preventDefault()
-                handleNavigate("/solicitar-convite")
+                handleNavigate(registerCtaHref("free"))
               }}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-md transition-all hover:bg-primary/90"
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-md transition-all hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 sm:w-auto"
+            >
+              <span>{t("landing.heroCta")}</span>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </a>
+
+            <a
+              href={`#${planCtaHref("free")}`}
+              data-testid="landing-invite-cta"
+              onClick={(e) => {
+                e.preventDefault()
+                handleNavigate(planCtaHref("free"))
+              }}
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md border border-border/80 bg-background px-6 text-sm font-semibold text-foreground shadow-xs transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 sm:w-auto"
             >
               <span>{t("landing.inviteCta")}</span>
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
 
             <Button
@@ -315,7 +331,7 @@ export function LandingPage() {
               variant="outline"
               size="lg"
               onClick={() => handleNavigate("#/login")}
-              className="h-11 px-6 text-sm font-semibold border-border/80 hover:bg-muted/50"
+              className="h-11 w-full px-6 text-sm font-semibold border-border/80 hover:bg-muted/50 sm:w-auto"
             >
               {t("landing.inviteLogin")}
             </Button>
@@ -703,7 +719,7 @@ export function LandingPage() {
       {/* ============================================================ */}
       <section id="planos" className="scroll-mt-16 border-t border-border/60 bg-muted/15 py-12 sm:scroll-mt-20">
         <div id="precos" className="w-full">
-          <PricingTable onSelectPlan={(plan) => handleNavigate(`/solicitar-convite?plano=${plan}`)} />
+          <PricingTable onSelectPlan={(plan) => handleNavigate(registerCtaHref(plan))} />
         </div>
         {/* Tabela acessível sr-only com comparação de planos e features i18n */}
         <div className="sr-only">
@@ -797,7 +813,7 @@ export function LandingPage() {
       {/* 8. BANNER CTA FINAL                                          */}
       {/* ============================================================ */}
       <section
-        data-testid="landing-final-cta"
+        data-testid="landing-final-band"
         className="relative overflow-hidden py-20 sm:py-24 border-t border-border/60 bg-card text-center"
       >
         {/* Rim light superior */}
@@ -817,16 +833,32 @@ export function LandingPage() {
             {t("landing.inviteFinalBody")}
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button
-              type="button"
-              size="lg"
-              onClick={() => handleNavigate("#/solicitar-convite")}
-              className="h-11 px-8 text-sm font-semibold shadow-md gap-2"
+          <div className="mt-8 flex flex-col items-stretch justify-center gap-3">
+            <a
+              href={`#${registerCtaHref("free")}`}
+              data-testid="landing-final-cta"
+              onClick={(e) => {
+                e.preventDefault()
+                handleNavigate(registerCtaHref("free"))
+              }}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-8 text-sm font-semibold text-primary-foreground shadow-md transition-all hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            >
+              <span>{t("landing.heroCta")}</span>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </a>
+
+            <a
+              href={`#${planCtaHref("free")}`}
+              data-testid="landing-invite-cta"
+              onClick={(e) => {
+                e.preventDefault()
+                handleNavigate(planCtaHref("free"))
+              }}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-border/80 bg-background px-8 text-sm font-semibold text-foreground shadow-xs transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             >
               <span>{t("landing.inviteCta")}</span>
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </a>
           </div>
         </div>
       </section>

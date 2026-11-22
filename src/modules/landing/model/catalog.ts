@@ -62,3 +62,9 @@ export function planBySlug(slug: PlanSlug): Plan {
 export function planCtaHref(slug: PlanSlug): string {
   return `/solicitar-convite?plano=${slug}`
 }
+
+// ADR-001 (landing-dois-caminhos): helper puro de CADASTRO. Slug forjado ou
+// ausente resolve `free` pela allowlist; o prefixo `#` é aplicado no call site.
+export function registerCtaHref(value: unknown): string {
+  return `/register?plano=${resolvePlanSlug(value)}`
+}

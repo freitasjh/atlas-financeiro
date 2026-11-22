@@ -1,10 +1,10 @@
 {
-  "current_feature": "dashboard-kpis-graficos",
+  "current_feature": "landing-dois-caminhos",
   "current_phase": "Completed",
   "previous_phase": "Testing",
   "next_phase": "Completed",
   "type": "feature",
-  "last_update": "2026-11-21T17:45:18.014Z",
+  "last_update": "2026-11-22T14:21:59.559Z",
   "artifacts": {
     "roadmap": "ROADMAP.md",
     "proposal": ".spec/frontend/dashboard-shell-harness/PROPOSAL.md",
@@ -366,7 +366,22 @@
     "batch2DashboardKpis": "frontend DASH-09..14: agregadores + charts + i18n + rota sem mocks; 216 arquivos/1591 testes; gate 14/14; typecheck 0; build OK; template-overrides OK; review APPROVED 0 críticos após loop 1/3",
     "harnessReportDashboardKpis": "harness/dashboard-kpis-h3.json",
     "verifyDashboardKpis": ".spec/archive/20261121-prd-dashboard-kpis-graficos/ADRs/ADR-001-kpis-e-graficos/VERIFY.md",
-    "archiveDashboardKpis": ".spec/archive/20261121-prd-dashboard-kpis-graficos/"
+    "archiveDashboardKpis": ".spec/archive/20261121-prd-dashboard-kpis-graficos/",
+    "prdCadastroPublico": ".spec/archive/20261121-prd-cadastro-publico-usuario/PRD.md",
+    "specSignup": ".spec/archive/20261121-prd-cadastro-publico-usuario/ADRs/ADR-001-signup-atomico/SPEC.md",
+    "tasksSignup": ".spec/archive/20261121-prd-cadastro-publico-usuario/ADRs/ADR-001-signup-atomico/TASKS.md",
+    "batch1Signup": "backend SIGN-01..13: config 2 hunks, Edge signup-public, migration 0101 + specs 0100..0106 (58 TAP), edge 147/147, review APPROVED 0 críticos após loop 1/3",
+    "batch2Signup": "UI SIGN-14 (1625 testes, 11 stories, 375/1280) + SIGN-16/17/18 (convite paralelo, check-secrets e check-scope com fixture negativa); edge 150/150; review APPROVED 0 críticos após loop 1/3",
+    "harnessReportSignup": "harness/cadastro-publico-usuario.json",
+    "verifySignup": ".spec/archive/20261121-prd-cadastro-publico-usuario/ADRs/ADR-001-signup-atomico/VERIFY.md",
+    "archiveSignup": ".spec/archive/20261121-prd-cadastro-publico-usuario/",
+    "prdLandingCaminhos": ".spec/archive/20261122-prd-landing-dois-caminhos/PRD.md",
+    "specLandingCaminhos": ".spec/archive/20261122-prd-landing-dois-caminhos/ADRs/ADR-001-ctas-cadastro-convite/SPEC.md",
+    "tasksLandingCaminhos": ".spec/archive/20261122-prd-landing-dois-caminhos/ADRs/ADR-001-ctas-cadastro-convite/TASKS.md",
+    "batchCtaLanding": "CTA-01..11: helpers registerCtaHref/planCtaHref, 5/1/6 testids, copy landing.* + pricing.lead, página de convite com 3º link push; 222 arquivos/1646 testes; gate 14/14; review APPROVED",
+    "harnessReportLandingCaminhos": "harness/landing-dois-caminhos.json",
+    "verifyLandingCaminhos": ".spec/archive/20261122-prd-landing-dois-caminhos/ADRs/ADR-001-ctas-cadastro-convite/VERIFY.md",
+    "archiveLandingCaminhos": ".spec/archive/20261122-prd-landing-dois-caminhos/"
   },
   "features": [
     {
@@ -716,6 +731,18 @@
       "stage": "Completed",
       "progress": 100,
       "status": "completed"
+    },
+    {
+      "name": "cadastro-publico-usuario",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "landing-dois-caminhos",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
     }
   ],
   "overrides": [
@@ -963,6 +990,21 @@
       "portao": "I2-evidence-filename-alignment",
       "motivo": "Transicao final para Completed foi gravada primeiro via script Node porque readEvidenceReport procurava harness/dashboard-kpis-graficos.json e a evidencia estava em harness/dashboard-kpis-h3.json. Evidencia canonica criada depois pelo qa-engineer; transicao re-aplicada via edit. Desvio de processo registrado, falha nao apagada.",
       "data": "2026-11-21T17:45:18.014Z"
+    },
+    {
+      "portao": "config-toml-signup-publico",
+      "motivo": "Usuario autorizou explicitamente agentes a editar apenas supabase/config.toml para enable_signup=true no ciclo cadastro-publico-usuario; .agents/rules/** e .doc/** seguem como delta para aplicacao humana e debt documentado. Producao exige aplicacao humana do config.",
+      "data": "2026-11-21T18:39:59.684Z"
+    },
+    {
+      "portao": "H2-tenants-adr001-cleanup",
+      "motivo": "supabase/tests/tenants-adr001.spec.sql falha no cleanup por FK tenant_subscriptions_tenant_id_fkey; pre-existente ao ADR cadastro-publico-usuario e fora do escopo SIGN-01..19. Usuario autorizou registrar e seguir; os 6 specs 0100..0106 do ciclo passam (58 TAP). Saneamento do legado fica fora deste ADR.",
+      "data": "2026-11-21T20:00:28.146Z"
+    },
+    {
+      "portao": "baseline-local-secrets",
+      "motivo": "Scan SIGN-17 detectou JWT service_role real em harness/run-be04.mjs e supabase/.temp/start-secrets/**/docker.env; ambos gitignored e pre-existentes, fora do diff. Usuario deve rotacionar/remover antes do sign-off de producao. Falha preservada como WARN explicito.",
+      "data": "2026-11-21T20:41:34.426Z"
     }
   ],
   "p0_p1_gate": {
@@ -1067,11 +1109,11 @@
     "em": "2026-11-17T20:05:53.023931+00:00"
   },
   "code_review": {
-    "last_invoked_at": "2026-11-21T16:34:07.330Z",
+    "last_invoked_at": "2026-11-21T23:22:55.734Z",
     "last_status": "passed",
     "critical_issues": 0,
-    "attention_issues": 1,
-    "reviewer_notes": "Batch2 ADR-001 DASH-09..14 APPROVED após loop 1/3; 0 🔴/0 🟡; 1 🔵 carry-over: legado data.json/DataTable fora da rota (glob explícito no DASH-15). 1 crítico (BigInt em tick) e 2 🟡 corrigidos no loop."
+    "attention_issues": 2,
+    "reviewer_notes": "CTA-01..11 APPROVED; 0 🔴/0 🟡; 2 🔵 documentais: SPEC I4 contradiz h-11 puro, e spec request-invite reformatada com conteúdo guardado por spec. Desvio manifesto harness/template-overrides.json julgado legítimo (artefato gerado)."
   },
   "harness_status": "passed",
   "verify": {
@@ -3752,6 +3794,80 @@
       "archived_at": "2026-11-21T17:43:30.815Z",
       "archive_path": ".spec/archive/20261121-prd-dashboard-kpis-graficos/",
       "traceability": "100% (39/39)"
+    },
+    {
+      "prd_id": "cadastro-publico-usuario",
+      "prd_status": "archived",
+      "active_adr": "ADR-001",
+      "adr_order": [
+        "ADR-001"
+      ],
+      "branch": "adr/cadastro-publico-usuario/01-signup-atomico",
+      "base": "main@719299e",
+      "at": "2026-11-21T18:36:44.259Z",
+      "batch1": {
+        "scope": "SIGN-01..13",
+        "status": "review_approved",
+        "review": "APPROVED",
+        "critical": 0,
+        "attention": 3,
+        "loops": 1,
+        "at": "2026-11-21T19:59:32.526Z"
+      },
+      "batch2": {
+        "scope": "SIGN-14,16,17,18",
+        "status": "review_approved",
+        "review": "APPROVED",
+        "critical": 0,
+        "attention": 2,
+        "loops": 1,
+        "at": "2026-11-21T20:41:34.426Z"
+      },
+      "harness": {
+        "status": "H3_PASS_GATE_FINAL_FECHADO",
+        "report": "harness/cadastro-publico-usuario.json",
+        "suite": "1625 unit / 150 edge / 14 gate / 58 TAP",
+        "gaps": 0,
+        "at": "2026-11-21T21:16:07.267Z"
+      },
+      "archived_at": "2026-11-21T22:27:41.517Z",
+      "archive_path": ".spec/archive/20261121-prd-cadastro-publico-usuario/",
+      "traceability": "100% (47/47)",
+      "production_gates": [
+        "WAF + proxy confiável Sb-Forwarded-For",
+        "SMTP próprio + APP_URL na allowlist",
+        "delta humano .agents/** e .doc/**",
+        "rotação de segredos locais"
+      ]
+    },
+    {
+      "prd_id": "landing-dois-caminhos",
+      "prd_status": "archived",
+      "active_adr": "ADR-001",
+      "adr_order": [
+        "ADR-001"
+      ],
+      "branch": "adr/landing-dois-caminhos/01-ctas-cadastro-convite",
+      "base": "main@719299e",
+      "at": "2026-11-21T22:29:02.231Z",
+      "batch1": {
+        "scope": "CTA-01..11",
+        "status": "review_approved",
+        "review": "APPROVED",
+        "critical": 0,
+        "attention": 2,
+        "at": "2026-11-21T23:22:55.734Z"
+      },
+      "harness": {
+        "status": "H6_PASS",
+        "report": "harness/landing-dois-caminhos.json",
+        "suite": "223 unit / 14 gate / 1653 testes",
+        "gaps": 0,
+        "at": "2026-11-21T23:56:22.602Z"
+      },
+      "archived_at": "2026-11-22T14:21:59.559Z",
+      "archive_path": ".spec/archive/20261122-prd-landing-dois-caminhos/",
+      "traceability": "100% (33/33)"
     }
   ],
   "prompt_assumptions": []

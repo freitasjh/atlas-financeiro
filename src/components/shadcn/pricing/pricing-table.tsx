@@ -9,6 +9,11 @@ import { Switch } from "@/components/shadcn/ui/switch"
 import { cn } from "@/lib/cn"
 import { formatCentsBRL } from "@/lib/utils"
 import {
+  planCtaHref,
+  registerCtaHref,
+  resolvePlanSlug,
+} from "@/modules/landing/model/catalog"
+import {
   type BillingPeriod,
   PRICING_PLANS,
   COMPARISON_TABLE,
@@ -211,29 +216,37 @@ export function PricingTable({
                 </div>
               </div>
 
-              {/* Botão de Ação */}
+              {/* Ações — cadastro (principal) + convite (alternativa), empilhados */}
               <div className="mt-8 pt-4 border-t border-border/40">
-                <Button
-                  asChild
-                  variant={plan.isPopular ? "default" : "outline"}
-                  className={cn(
-                    "w-full h-11 sm:h-10 text-xs font-semibold shadow-xs",
-                    plan.isPopular && "shadow-md hover:shadow-lg"
-                  )}
-                >
-                  {/* Link real (hash router) — o CTA do plano precisa navegar,
-                      não só disparar callback. `onSelectPlan` segue disponível
-                      para consumidores que queiram telemetria/estado. */}
-                  <a
-                    href={`#/solicitar-convite?plano=${plan.id}`}
-                    data-testid="landing-cta"
-                    onClick={() => onSelectPlan?.(plan.id, billing)}
+                <div className="flex flex-col gap-2">
+                  <Button
+                    asChild
+                    variant={plan.isPopular ? "default" : "outline"}
+                    className={cn(
+                      "w-full h-11 text-xs font-semibold shadow-xs",
+                      plan.isPopular && "shadow-md hover:shadow-lg"
+                    )}
                   >
-                    {plan.ctaKey && i18n.exists(plan.ctaKey)
-                      ? t(plan.ctaKey, { plan: plan.name })
-                      : plan.ctaText}
-                  </a>
-                </Button>
+                    {/* Link real (hash router). `onSelectPlan` segue disponível
+                        para telemetria/estado; API do componente inalterada. */}
+                    <a
+                      href={`#${registerCtaHref(plan.id)}`}
+                      data-testid="landing-cta"
+                      onClick={() => onSelectPlan?.(plan.id, billing)}
+                    >
+                      {t("landing.heroCta")}
+                    </a>
+                  </Button>
+
+                  <Button asChild variant="outline" className="w-full h-11 text-xs font-semibold">
+                    <a
+                      href={`#${planCtaHref(resolvePlanSlug(plan.id))}`}
+                      data-testid="landing-invite-cta"
+                    >
+                      {t("landing.inviteCta")}
+                    </a>
+                  </Button>
+                </div>
 
                 <p className="mt-2 text-center text-[10px] text-muted-foreground flex items-center justify-center gap-1">
                   <ShieldCheck className="h-3 w-3 text-emerald-500" />
