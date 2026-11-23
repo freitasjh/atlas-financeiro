@@ -158,7 +158,7 @@ export default defineConfig({
   },
   test: {
     environment: 'happy-dom',
-    exclude: ['.backup-frontend/**', '.opencode/**', 'node_modules/**', 'dist/**'],
+    exclude: ['.backup-frontend/**', '.opencode/**', 'node_modules/**', 'dist/**', 'backend/**'],
     // GAP-2/H3: 217 arquivos em paralelo ilimitado estouravam o timeout padrão
     // de 5s em arquivos diferentes. Teto de 2 workers (medição QA) + limite
     // finito de 15s (default do modo browser) — sem retry/skip/passWithNoTests.

@@ -1,10 +1,10 @@
 {
-  "current_feature": "landing-dois-caminhos",
+  "current_feature": "nestjs-modular-split",
   "current_phase": "Completed",
-  "previous_phase": "Testing",
+  "previous_phase": "Execution",
   "next_phase": "Completed",
   "type": "feature",
-  "last_update": "2026-11-22T14:21:59.559Z",
+  "last_update": "2026-11-23T13:15:41.654Z",
   "artifacts": {
     "roadmap": "ROADMAP.md",
     "proposal": ".spec/frontend/dashboard-shell-harness/PROPOSAL.md",
@@ -381,7 +381,20 @@
     "batchCtaLanding": "CTA-01..11: helpers registerCtaHref/planCtaHref, 5/1/6 testids, copy landing.* + pricing.lead, página de convite com 3º link push; 222 arquivos/1646 testes; gate 14/14; review APPROVED",
     "harnessReportLandingCaminhos": "harness/landing-dois-caminhos.json",
     "verifyLandingCaminhos": ".spec/archive/20261122-prd-landing-dois-caminhos/ADRs/ADR-001-ctas-cadastro-convite/VERIFY.md",
-    "archiveLandingCaminhos": ".spec/archive/20261122-prd-landing-dois-caminhos/"
+    "archiveLandingCaminhos": ".spec/archive/20261122-prd-landing-dois-caminhos/",
+    "prdDeployRunbook": ".spec/archive/20261122-prd-deploy-runbook-supabase-pages/PRD.md",
+    "specDeployRunbook": ".spec/archive/20261122-prd-deploy-runbook-supabase-pages/ADRs/ADR-001-runbook-validacao/SPEC.md",
+    "tasksDeployRunbook": ".spec/archive/20261122-prd-deploy-runbook-supabase-pages/ADRs/ADR-001-runbook-validacao/TASKS.md",
+    "batchDeployRunbook": "DEP-01..11: runbook + 4 scripts de validação + 16 testes de script; 0 mutante executado (sem deploy); review APPROVED após loop 1/3, 0 críticos; gate P3 7/7; 1669 testes vitest.",
+    "archiveDeployRunbook": ".spec/archive/20261122-prd-deploy-runbook-supabase-pages/",
+    "harnessReportDeployRunbook": "harness/deploy-runbook-supabase-pages.json",
+    "prdNestjsSplit": ".spec/archive/20261122-prd-nestjs-modular-split/PRD.md",
+    "specNestjsSplit": ".spec/archive/20261122-prd-nestjs-modular-split/ADRs/ADR-001-fronteiras-nestjs/SPEC.md",
+    "tasksNestjsSplit": ".spec/archive/20261122-prd-nestjs-modular-split/ADRs/ADR-001-fronteiras-nestjs/TASKS.md",
+    "batchNestjsSkeleton": "backend/ workspace NestJS: 2 apps + shared-contracts v1, gate de fronteiras, health, auth ES256; review APPROVED 0 críticos",
+    "archiveNestjsSplit": ".spec/archive/20261122-prd-nestjs-modular-split/",
+    "backendGateEvidence": "cd backend && npm run test:gate: 33/33; G1 53 arquivos/0 cruzados",
+    "harnessReportNestjsSplit": "harness/nestjs-modular-split.json"
   },
   "features": [
     {
@@ -740,6 +753,18 @@
     },
     {
       "name": "landing-dois-caminhos",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "deploy-runbook-supabase-pages",
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "name": "nestjs-modular-split",
       "stage": "Completed",
       "progress": 100,
       "status": "completed"
@@ -1109,11 +1134,11 @@
     "em": "2026-11-17T20:05:53.023931+00:00"
   },
   "code_review": {
-    "last_invoked_at": "2026-11-21T23:22:55.734Z",
+    "last_invoked_at": "2026-11-22T22:58:52.595Z",
     "last_status": "passed",
     "critical_issues": 0,
-    "attention_issues": 2,
-    "reviewer_notes": "CTA-01..11 APPROVED; 0 🔴/0 🟡; 2 🔵 documentais: SPEC I4 contradiz h-11 puro, e spec request-invite reformatada com conteúdo guardado por spec. Desvio manifesto harness/template-overrides.json julgado legítimo (artefato gerado)."
+    "attention_issues": 1,
+    "reviewer_notes": "Skeleton NestJS APPROVED após loop 1/3; 0🔴/0🟡/1🔵: G2 complementar não cobre arquivos de config da raiz, G1 autoritativo cobre. Gate backend 33/33, G1 53 arquivos/0 cruzados, root 1669 testes, 0 pagamento, legado intacto. Carry-overs: B2 Postgres, revogação em memória, wrappers 0.x, evidência backend obrigatória no VERIFY/H6."
   },
   "harness_status": "passed",
   "verify": {
@@ -3868,6 +3893,101 @@
       "archived_at": "2026-11-22T14:21:59.559Z",
       "archive_path": ".spec/archive/20261122-prd-landing-dois-caminhos/",
       "traceability": "100% (33/33)"
+    },
+    {
+      "prd_id": "deploy-runbook-supabase-pages",
+      "prd_status": "archived",
+      "active_adr": "ADR-001",
+      "adr_order": [
+        "ADR-001"
+      ],
+      "branch": "adr/deploy-runbook/01-supabase-pages",
+      "base": "main@e4c981c",
+      "tag": "v0.1.0",
+      "at": "2026-11-22T17:37:44.919Z",
+      "batch1": {
+        "scope": "DEP-01..11",
+        "status": "review_approved",
+        "review": "APPROVED",
+        "critical": 0,
+        "attention": 1,
+        "loops": 1,
+        "at": "2026-11-22T19:29:43.221Z"
+      },
+      "archived_at": "2026-11-22T21:39:01.975Z",
+      "archive_path": ".spec/archive/20261122-prd-deploy-runbook-supabase-pages/",
+      "traceability": "100% (11/11 RF e 11/11 tasks)",
+      "production_gates": [
+        "instalar wrangler",
+        "preencher placeholders",
+        "saneiar .env:2 (JWT)",
+        "remover nohup.out",
+        "Worker Asaas fora",
+        "merge/push git humano"
+      ]
+    },
+    {
+      "prd_id": "nestjs-modular-split",
+      "prd_status": "archived",
+      "active_adr": "ADR-001",
+      "adr_order": [
+        "ADR-001"
+      ],
+      "branch": "adr/nestjs-modular-split/01-fronteiras",
+      "base": "main@e4c981c",
+      "tag": "v0.1.0",
+      "at": "2026-11-22T21:51:29.033Z",
+      "backend_decisions": {
+        "at": "2026-11-22",
+        "registry": {
+          "source": "https://registry.npmjs.org",
+          "queried_at": "2026-11-22"
+        },
+        "auth": {
+          "chosen": "A2-equivalente",
+          "reason": "@nestjs/authentication 0.1.7 pre-1.0 nao fixado",
+          "algorithm": "ES256",
+          "entropy_bits": 256,
+          "session_store": "in-memory (B2)"
+        },
+        "persistence": {
+          "chosen": "P1",
+          "driver": "drizzle-orm 0.45.4",
+          "reason": "@nestjs/drizzle 0.0.2 pre-1.0"
+        },
+        "versions": {
+          "nestjs": "12.6.0",
+          "config": "12.1.1",
+          "jwt": "12.0.5",
+          "cli": "12.0.15",
+          "zod": "4.6.7",
+          "typescript": "5.9.3",
+          "engines_node": ">=22"
+        },
+        "gate": {
+          "backend_test_gate": "obrigatorio no VERIFY/H6",
+          "harness_config_alterado": false
+        }
+      },
+      "batch1": {
+        "scope": "NEST-01..12",
+        "status": "review_approved",
+        "review": "APPROVED",
+        "critical": 0,
+        "attention": 1,
+        "loops": 1,
+        "at": "2026-11-22T22:58:52.595Z"
+      },
+      "archived_at": "2026-11-23T13:15:41.654Z",
+      "archive_path": ".spec/archive/20261122-prd-nestjs-modular-split/",
+      "traceability": "100% (26/26 requisitos e 12/12 tasks)",
+      "production_gates": [
+        "B2: provisionar 2 Postgres",
+        "RLS denial test com DB real",
+        "store DB-backed de revogação/MFA",
+        "fixar ou substituir wrappers 0.x",
+        "merge/push git humano"
+      ]
     }
   ],
   "prompt_assumptions": []

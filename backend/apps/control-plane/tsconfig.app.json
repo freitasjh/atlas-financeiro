@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/apps/control-plane",
+    "rootDir": "../../",
+    "tsBuildInfoFile": "../../dist/apps/control-plane/tsconfig.app.tsbuildinfo"
+  },
+  "include": ["src/**/*.ts", "../../libs/shared-contracts/src/**/*.ts"],
+  "exclude": ["test", "**/__tests__/**", "../../libs/shared-contracts/src/**/__tests__/**", "node_modules", "dist"]
+}

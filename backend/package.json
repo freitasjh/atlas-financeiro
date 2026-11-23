@@ -1,0 +1,43 @@
+{
+  "name": "atlas-financeiro-backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Workspace NestJS aditivo: apps cliente e control-plane com fronteiras físicas (ADR-001)",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "nest build cliente && nest build control-plane",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test:run": "vitest --run",
+    "test:gate": "node --test scripts/__tests__/*.spec.mjs && node scripts/check-boundaries.mjs && eslint apps libs scripts/check-boundaries.mjs",
+    "start:cliente": "nest start cliente",
+    "start:control-plane": "nest start control-plane",
+    "start:dev:cliente": "nest start cliente --watch",
+    "start:dev:control-plane": "nest start control-plane --watch"
+  },
+  "dependencies": {
+    "@nestjs/common": "^12.6.0",
+    "@nestjs/config": "^12.1.1",
+    "@nestjs/core": "^12.6.0",
+    "@nestjs/jwt": "^12.0.5",
+    "@nestjs/platform-express": "^12.6.0",
+    "drizzle-orm": "^0.45.4",
+    "pg": "^8.23.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^12.0.15",
+    "@nestjs/testing": "^12.6.0",
+    "@types/node": "^26.6.6",
+    "@types/pg": "^8.23.1",
+    "@types/supertest": "^7.2.1",
+    "@typescript-eslint/parser": "^8.73.0",
+    "eslint": "^10.15.0",
+    "supertest": "^7.3.2",
+    "typescript": "^5.7.0",
+    "vitest": "^4.1.12"
+  }
+}

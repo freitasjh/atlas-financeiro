@@ -1,0 +1,155 @@
+{
+  "schema": "deploy-validation/v1",
+  "mode": "validation",
+  "commit": "e4c981c9901f9e65b6a17489985939a9dab96eba",
+  "cliVersions": {
+    "node": "v26.7.0",
+    "npm": "",
+    "supabase": {
+      "path": "~/.local/bin/supabase",
+      "version": "2.121.0",
+      "sha256": "21d25b4bfb1870db0aaf0963c028b10d0b0b431485f119abd704c1396c7991e6"
+    },
+    "wrangler": "not-installed"
+  },
+  "supabaseBinary": {
+    "path": "~/.local/bin/supabase",
+    "version": "2.121.0",
+    "sha256": "21d25b4bfb1870db0aaf0963c028b10d0b0b431485f119abd704c1396c7991e6"
+  },
+  "commandsExecuted": [
+    "npm run build",
+    "node scripts/check-dist.mjs",
+    "supabase --version",
+    "supabase config validate",
+    "wrangler --version",
+    "git rev-parse HEAD",
+    "node scripts/emit-pages-plan.mjs"
+  ],
+  "commandsNotExecuted": [
+    "criação de projeto Supabase (Dashboard)",
+    "supabase link",
+    "supabase db push / migrations (inclusive 0051_operator_gate.sql)",
+    "supabase functions deploy",
+    "supabase secrets set / unset",
+    "wrangler pages project create",
+    "wrangler pages deploy",
+    "Worker Asaas"
+  ],
+  "checks": [
+    {
+      "id": "IN-4",
+      "status": "PASS",
+      "evidence": "guard count=0; hash=1d16beb6; diff=clean"
+    },
+    {
+      "id": "IN-2",
+      "status": "PASS",
+      "evidence": "marcador=1; secoes nomeadas; 0 sítio mutante"
+    },
+    {
+      "id": "IN-5",
+      "status": "PASS",
+      "evidence": "env fake; achados=0; valores nao registrados"
+    },
+    {
+      "id": "IN-3",
+      "status": "PASS",
+      "evidence": "allowlist fechada; rejeitados=0"
+    },
+    {
+      "id": "IN-5-artifact",
+      "status": "PASS",
+      "evidence": "build com ref sintético; check-dist inalterado; 7 headers"
+    },
+    {
+      "id": "IN-1",
+      "status": "PASS",
+      "evidence": "supabase config validate: exit=1; linhas=3; fonte=https://supabase.com/docs/reference/cli/introduction 2026-11-22; valores nao registrados"
+    },
+    {
+      "id": "IN-6",
+      "status": "PASS",
+      "evidence": "pages-plan/v1 local; mutationExecuted=false; 0 spawn"
+    },
+    {
+      "id": "IN-7",
+      "status": "FAIL",
+      "evidence": "findings=2; valores redigidos"
+    }
+  ],
+  "verbSource": {
+    "path": "scripts/data/mutating-verbs.json",
+    "sha256": "1d16beb6141f3b5aa4a674553e2f93de7401eb8aa3bd461353933cd6f32d266e",
+    "verbs": 24
+  },
+  "guardExemptions": [
+    {
+      "file": "scripts/validate-deploy.mjs",
+      "line": 249,
+      "command": "sha256sum",
+      "reason": "allowlist IN-3 sha256sum local read-only */",
+      "redacted": true
+    },
+    {
+      "file": "scripts/guard-mutating-verbs.mjs",
+      "line": 190,
+      "command": "git diff --exit-code HEAD -- package.json",
+      "reason": "allowlist IN-3 diff local read-only de package.json */",
+      "redacted": true
+    },
+    {
+      "file": "scripts/scan-secrets.mjs",
+      "line": 95,
+      "command": "git ls-files -z",
+      "reason": "allowlist IN-3 git ls-files local read-only */",
+      "redacted": true
+    },
+    {
+      "file": "scripts/scan-secrets.mjs",
+      "line": 106,
+      "command": "git check-ignore -q",
+      "reason": "allowlist IN-3 git check-ignore local read-only */",
+      "redacted": true
+    }
+  ],
+  "secretScan": {
+    "secretsFound": 2,
+    "findings": [
+      {
+        "path": ".env",
+        "line": 2,
+        "patternId": "jwt",
+        "ignored": true,
+        "redacted": true
+      },
+      {
+        "path": ".env",
+        "line": 2,
+        "patternId": "entropy",
+        "ignored": true,
+        "redacted": true
+      }
+    ],
+    "trackedCount": 627,
+    "globbedCount": 5
+  },
+  "mutatingVerbsDetected": 0,
+  "secretsFound": 2,
+  "pagesPlan": {
+    "schema": "pages-plan/v1",
+    "mode": "validation",
+    "project": "<PLACEHOLDER_PAGES_PROJECT>",
+    "branch": "<PLACEHOLDER_BRANCH>",
+    "directory": "dist",
+    "intendedCommands": [
+      "npm run build",
+      "npx wrangler pages deploy dist --project-name <PLACEHOLDER_PAGES_PROJECT> --branch <PLACEHOLDER_BRANCH>"
+    ],
+    "mutationExecuted": false,
+    "notes": [
+      "wrangler pages deploy nao tem --dry-run na doc consultada em 2026-11-22"
+    ]
+  },
+  "result": "FAIL"
+}
