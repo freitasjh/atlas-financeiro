@@ -1,0 +1,8 @@
+supabase link
+supabase db push
+supabase functions deploy
+supabase secrets set
+wrangler pages project create
+wrangler pages deploy
+wrangler pages secret put
+wrangler deploy
