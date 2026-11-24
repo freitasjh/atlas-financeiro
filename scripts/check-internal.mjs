@@ -3,19 +3,19 @@
  * Gate estático do control plane — numeração da SPEC §8.2 (G-01..G-10).
  *
  * Falha fechado com exit 1 quando qualquer checagem encontra uma violação. O
- * escopo é `src/**` (e `src/internal/**` onde indicado); testes (`*.spec.*`,
+ * escopo é `frontend/src/**` (e `frontend/src/internal/**` onde indicado); testes (`*.spec.*`,
  * `__tests__/`) são ignorados nas checagens de código porque afirmam a ausência
  * dos padrões.
  *
  * | # | Checagem |
  * |---|---|
- * | G-01 | zero PostgREST na árvore: `src/internal/**` sem `.from(` |
- * | G-02 | `.rpc(` e `@/lib/supabase` só em `src/internal/data/**` |
- * | G-03 | árvore lazy: `src/router.tsx` importa `internal-tree` via `lazy()`; `src/main.tsx` não importa `src/internal` |
- * | G-04 | veredito não persiste: `src/internal/guard/**` sem storage |
- * | G-05 | operador não tem tenant: `src/internal/**` sem `switch_tenant|list_my_tenants|user_active_tenants` |
- * | G-06 | mock fora do `src/`: sem `internal-admin/backoffice` nem `mockViews.(admin|backoffice)` |
- * | G-07 | telemetria sem número inventado: `src/internal/**` sem `app/dashboard/data.json` |
+ * | G-01 | zero PostgREST na árvore: `frontend/src/internal/**` sem `.from(` |
+ * | G-02 | acoplamento só em arquivos pinados em `frontend/docs/debt-files.json` (varre TODO `frontend/src/**`) |
+ * | G-03 | árvore lazy: `frontend/src/router.tsx` importa `internal-tree` via `lazy()`; `frontend/src/main.tsx` não importa `frontend/src/internal` |
+ * | G-04 | veredito não persiste: `frontend/src/internal/guard/**` sem storage |
+ * | G-05 | operador não tem tenant: `frontend/src/internal/**` sem `switch_tenant|list_my_tenants|user_active_tenants` |
+ * | G-06 | mock fora do `frontend/src/`: sem `internal-admin/backoffice` nem `mockViews.(admin|backoffice)` |
+ * | G-07 | telemetria sem número inventado: `frontend/src/internal/**` sem `app/dashboard/data.json` |
  * | G-08 | onboarding único: `pendingPasswordSetup` só na allowlist de REQ-24 |
  * | G-09 | sem `service_role` no cliente |
  * | G-10 | artefato pós-build (`--dist`): sem mock no `dist/assets`, chunk interno presente |
@@ -40,25 +40,39 @@ const PROJECT_ROOT = (() => {
   }
 })()
 
-const SOURCE_DIR = 'src'
-const INTERNAL_DIR = 'src/internal'
-const INTERNAL_DATA_DIR = 'src/internal/data'
-const INTERNAL_GUARD_DIR = 'src/internal/guard'
-const ROUTER_FILE = 'src/router.tsx'
-const MAIN_FILE = 'src/main.tsx'
+const SOURCE_DIR = 'frontend/src'
+const INTERNAL_DIR = 'frontend/src/internal'
+const INTERNAL_DATA_DIR = 'frontend/src/internal/data'
+const INTERNAL_GUARD_DIR = 'frontend/src/internal/guard'
+const ROUTER_FILE = 'frontend/src/router.tsx'
+const MAIN_FILE = 'frontend/main.tsx'
 const INTERNAL_CHUNK = /^internal-tree-[^/]+\.js$/
 
 /** Allowlist de `pendingPasswordSetup` (REQ-24) — fora dela, G-08 falha. */
 const ONBOARDING_ALLOWLIST = new Set([
-  'src/lib/pending-password-setup.ts',
-  'src/routes/guards.tsx',
-  'src/pages/SetPasswordPage.tsx',
-  'src/internal/guard/resolve-onboarding.ts',
+  'frontend/src/lib/pending-password-setup.ts',
+  'frontend/src/routes/guards.tsx',
+  'frontend/src/pages/SetPasswordPage.tsx',
+  'frontend/src/internal/guard/resolve-onboarding.ts',
 ])
 
 const POSTGREST = /\.from\s*\(/
 const RAW_RPC = /\.rpc\s*\(/
 const SUPABASE_IMPORT = /@\/lib\/supabase(?=["'])/
+
+// Inventário único da dívida (mesmo arquivo consumido por frontend/tests/helpers/scan.ts).
+const DEBT_MANIFEST_FILE = 'frontend/docs/debt-files.json'
+const SUPABASE_TOKEN = /supabase|VITE_SUPABASE_/i
+
+function readDebtManifest(root) {
+  try {
+    const data = JSON.parse(readFileSync(join(root, DEBT_MANIFEST_FILE), 'utf8'))
+    if (data?.version !== 1 || !Array.isArray(data.files)) return null
+    return new Set(data.files)
+  } catch {
+    return null
+  }
+}
 const STORAGE = /localStorage|sessionStorage|indexedDB|document\.cookie/
 const TENANT_API = /switch_tenant|list_my_tenants|user_active_tenants/
 const MOCK_REFERENCE =
@@ -149,7 +163,7 @@ function checkLazyTree(root) {
       gate: 'G-03',
       path: MAIN_FILE,
       line: 0,
-      message: 'main ausente — sem prova de que src/internal está fora do grafo estático',
+      message: 'main ausente — sem prova de que frontend/src/internal está fora do grafo estático',
     })
   } else {
     readFileSync(mainAbsolute, 'utf8')
@@ -161,7 +175,7 @@ function checkLazyTree(root) {
             gate: 'G-03',
             path: MAIN_FILE,
             line: index + 1,
-            message: 'main.tsx não pode importar src/internal (grafo estático)',
+            message: 'main.tsx não pode importar frontend/src/internal (grafo estático)',
           })
         }
       })
@@ -226,6 +240,7 @@ function checkDist(root, requireDist) {
  */
 export function runChecks({ root = PROJECT_ROOT, requireDist = false } = {}) {
   const srcFiles = walk(root, SOURCE_DIR)
+  const debtPinned = readDebtManifest(root)
   const srcCode = srcFiles.filter((rel) => !isTestFile(rel))
   const internalFiles = srcFiles.filter((rel) => rel.startsWith(`${INTERNAL_DIR}/`))
   const internalCode = internalFiles.filter((rel) => !isTestFile(rel))
@@ -233,6 +248,12 @@ export function runChecks({ root = PROJECT_ROOT, requireDist = false } = {}) {
     (rel) => !rel.startsWith(`${INTERNAL_DATA_DIR}/`),
   )
   const guardFiles = internalFiles.filter((rel) => rel.startsWith(`${INTERNAL_GUARD_DIR}/`))
+  // Manifesto relativo a frontend/; sem ele, fallback conservador ao antigo
+  // escopo internal/** (fixtures de self-test não carregam o manifesto).
+  const frontendRel = (rel) => rel.startsWith('frontend/') ? rel.slice('frontend/'.length) : rel
+  const debtLeaks = debtPinned
+    ? srcFiles.filter((rel) => !debtPinned.has(frontendRel(rel)))
+    : internalOutsideData
 
   const violations = [
     // G-01 — zero PostgREST na árvore interna.
@@ -241,22 +262,29 @@ export function runChecks({ root = PROJECT_ROOT, requireDist = false } = {}) {
       internalCode,
       POSTGREST,
       'G-01',
-      'PostgREST (.from) proibido em src/internal/**',
+      'PostgREST (.from) proibido em frontend/src/internal/**',
     ),
-    // G-02 — `.rpc(` e `@/lib/supabase` só em src/internal/data/**.
+    // G-02 — TODO frontend/src/**: acoplamento só nos arquivos pinados.
     ...scanLines(
       root,
-      internalOutsideData,
+      debtLeaks,
+      SUPABASE_TOKEN,
+      'G-02',
+      'ocorrência de Supabase fora do inventário de dívida (frontend/docs/debt-files.json)',
+    ),
+    ...scanLines(
+      root,
+      debtLeaks,
       RAW_RPC,
       'G-02',
-      '.rpc( só é permitido em src/internal/data/**',
+      '.rpc( fora do inventário de dívida (frontend/docs/debt-files.json)',
     ),
     ...scanLines(
       root,
-      internalOutsideData,
+      debtLeaks,
       SUPABASE_IMPORT,
       'G-02',
-      '@/lib/supabase só é importado em src/internal/data/**',
+      '@/lib/supabase fora do inventário de dívida (frontend/docs/debt-files.json)',
     ),
     // G-03 — árvore lazy (router + main).
     ...checkLazyTree(root),
@@ -266,7 +294,7 @@ export function runChecks({ root = PROJECT_ROOT, requireDist = false } = {}) {
       guardFiles,
       STORAGE,
       'G-04',
-      'persistência de sessão/veredito proibida em src/internal/guard/**',
+      'persistência de sessão/veredito proibida em frontend/src/internal/guard/**',
     ),
     // G-05 — operador não tem tenant.
     ...scanLines(
@@ -274,15 +302,15 @@ export function runChecks({ root = PROJECT_ROOT, requireDist = false } = {}) {
       internalCode,
       TENANT_API,
       'G-05',
-      'API de tenant ativo (switch_tenant/list_my_tenants/user_active_tenants) proibida em src/internal/**',
+      'API de tenant ativo (switch_tenant/list_my_tenants/user_active_tenants) proibida em frontend/src/internal/**',
     ),
-    // G-06 — mock fora do src/.
+    // G-06 — mock fora do frontend/src/.
     ...scanLines(
       root,
       srcCode,
       MOCK_REFERENCE,
       'G-06',
-      'referência ao mock internal-admin/backoffice proibida em src/**',
+      'referência ao mock internal-admin/backoffice proibida em frontend/src/**',
     ),
     // G-07 — telemetria sem número inventado.
     ...scanLines(
@@ -326,7 +354,7 @@ export function runChecks({ root = PROJECT_ROOT, requireDist = false } = {}) {
 
 function formatReport(report) {
   if (report.exitCode === 0) {
-    return `check-internal: OK (G-01..G-10; ${report.checked.src} arquivos em src/)`
+    return `check-internal: OK (G-01..G-10; ${report.checked.src} arquivos em frontend/src/)`
   }
   const lines = [`check-internal: FALHOU — ${report.violations.length} violação(ões)`]
   for (const violation of report.violations) {
@@ -357,13 +385,13 @@ const SELF_TEST_FIXTURES = [
   {
     gate: 'G-01',
     files: {
-      'src/internal/pages/evil.ts': "export const tenants = supabase.from('tenants').select('*')\n",
+      'frontend/src/internal/pages/evil.ts': "export const tenants = supabase.from('tenants').select('*')\n",
     },
   },
   {
     gate: 'G-02',
     files: {
-      'src/internal/pages/evil.ts': 'export const rows = supabase.rpc("admin_count_tenants")\n',
+      'frontend/src/internal/pages/evil.ts': 'export const rows = supabase.rpc("admin_count_tenants")\n',
     },
   },
   {
@@ -373,37 +401,37 @@ const SELF_TEST_FIXTURES = [
   {
     gate: 'G-04',
     files: {
-      'src/internal/guard/evil.ts': 'export const verdict = localStorage.getItem("verdict")\n',
+      'frontend/src/internal/guard/evil.ts': 'export const verdict = localStorage.getItem("verdict")\n',
     },
   },
   {
     gate: 'G-05',
     files: {
-      'src/internal/pages/evil.ts': 'export const fn = "switch_tenant"\n',
+      'frontend/src/internal/pages/evil.ts': 'export const fn = "switch_tenant"\n',
     },
   },
   {
     gate: 'G-06',
     files: {
-      'src/pages/evil.ts': 'export const view = "mockViews.admin"\n',
+      'frontend/src/pages/evil.ts': 'export const view = "mockViews.admin"\n',
     },
   },
   {
     gate: 'G-07',
     files: {
-      'src/internal/pages/evil.ts': 'export const src = "app/dashboard/data.json"\n',
+      'frontend/src/internal/pages/evil.ts': 'export const src = "app/dashboard/data.json"\n',
     },
   },
   {
     gate: 'G-08',
     files: {
-      'src/internal/pages/evil.ts': 'export const flag = pendingPasswordSetup\n',
+      'frontend/src/internal/pages/evil.ts': 'export const flag = pendingPasswordSetup\n',
     },
   },
   {
     gate: 'G-09',
     files: {
-      'src/lib/evil.ts': 'export const key = "service_role"\n',
+      'frontend/src/lib/evil.ts': 'export const key = "service_role"\n',
     },
   },
   {

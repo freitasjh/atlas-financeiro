@@ -41,8 +41,8 @@ is_allowed_path() {
     src/pages/PublicSignupPage.tsx|src/pages/__tests__/*) return 0 ;;
     src/components/auth/*|src/components/auth/__tests__/*) return 0 ;;
     # SIGN-14: rota/ superfície de auth é parte legítima do escopo UI.
-    src/router.tsx|src/routes/router-auth-surface.spec.tsx) return 0 ;;
-    src/i18n/messages/pt-BR.ts|src/i18n/messages/en-US.ts) return 0 ;;
+    frontend/src/router.tsx|frontend/src/routes/router-auth-surface.spec.tsx) return 0 ;;
+    frontend/src/i18n/messages/pt-BR.ts|frontend/src/i18n/messages/en-US.ts) return 0 ;;
     workflow-state.json) return 0 ;;
     *) return 1 ;;
   esac

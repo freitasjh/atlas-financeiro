@@ -140,7 +140,7 @@ const BASELINE = {
 }
 for (const [lng, expected] of Object.entries(BASELINE)) {
   try {
-    const file = path.join(root, 'src/i18n/messages', lng + '.ts')
+    const file = path.join(root, 'frontend/src/i18n/messages', lng + '.ts')
     const text = fs.readFileSync(file, 'utf8')
     const i = text.indexOf('requestInvite: {')
     if (i < 0) throw new Error('namespace auth.requestInvite ausente')
@@ -175,9 +175,9 @@ function count(text, needle) {
   return text.split(needle).length - 1
 }
 try {
-  const lp = read('src/modules/landing/pages/LandingPage.tsx')
-  const pt = read('src/components/shadcn/pricing/pricing-table.tsx')
-  const cat = read('src/modules/landing/model/catalog.ts')
+  const lp = read('frontend/src/modules/landing/pages/LandingPage.tsx')
+  const pt = read('frontend/src/components/shadcn/pricing/pricing-table.tsx')
+  const cat = read('frontend/src/modules/landing/model/catalog.ts')
   const bandIdx = lp.indexOf('data-testid="landing-final-band"')
   const bandSection = bandIdx < 0 ? '' : lp.slice(bandIdx)
   const expect = [
@@ -230,7 +230,7 @@ try {
   const report = JSON.parse(fs.readFileSync(process.env.HARNESS_FILE, 'utf8'))
   const expected = report.e2e?.guards?.routerReadOnly?.detail?.currentSha256
   if (!/^[0-9a-f]{64}$/.test(expected || '')) throw new Error('sha256 pré-ADR do router ausente no harness')
-  const actual = crypto.createHash('sha256').update(fs.readFileSync(root + '/src/router.tsx')).digest('hex')
+  const actual = crypto.createHash('sha256').update(fs.readFileSync(root + '/frontend/src/router.tsx')).digest('hex')
   if (actual !== expected) throw new Error(`router.tsx divergiu do snapshot pré-ADR (${actual} != ${expected}) — escalar ao architect`)
 } catch (e) {
   console.log('ROUTERFAIL: ' + e.message)

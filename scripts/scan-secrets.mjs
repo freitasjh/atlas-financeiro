@@ -86,7 +86,7 @@ function inTrackedScope(rel) {
     || rel === 'workers/asaas-webhook/wrangler.toml'
     || rel.startsWith('.doc/')
     || rel.startsWith('scripts/')
-    || rel.startsWith('src/')
+    || rel.startsWith('frontend/src/')
 }
 
 export function collectPaths(options = {}) {

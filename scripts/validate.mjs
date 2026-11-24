@@ -47,7 +47,7 @@ for (const f of required) {
 }
 
 step("tokens", "npm", ["run", "-s", "tokens:build"]);
-if (existsSync("src")) step("lint", "npx", ["oxlint", "src"]);
+if (existsSync("frontend")) step("lint", "npx", ["oxlint", "frontend"]);
 if (existsSync("tsconfig.json") || existsSync("tsconfig.app.json")) step("types", "npx", ["tsc", "--noEmit"]);
 if (scripts.test) step("tests", "npm", ["run", "-s", "test"]);
 if (scripts.build) step("build", "npm", ["run", "-s", "build"]);

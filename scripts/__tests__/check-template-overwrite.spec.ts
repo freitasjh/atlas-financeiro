@@ -23,13 +23,13 @@ interface Fixture {
 
 const TEMPLATE_DIR = '../harness-templates/src'
 /** Customizado (difere do template) — protegível. */
-const CUSTOM = 'src/components/shadcn/bank-accounts/custom.tsx'
+const CUSTOM = 'frontend/src/components/shadcn/bank-accounts/custom.tsx'
 /** Customizado em navigation — usado na prova de overwrite. */
-const NAV = 'src/components/shadcn/navigation/app-sidebar.tsx'
+const NAV = 'frontend/src/components/shadcn/navigation/app-sidebar.tsx'
 /** Gerenciado, mas byte-idêntico ao template — fora do manifesto (A-1). */
-const UNTOUCHED = 'src/components/shadcn/ui/button.tsx'
+const UNTOUCHED = 'frontend/src/components/shadcn/ui/button.tsx'
 /** Só existe no projeto. */
-const PROJECT_ONLY = 'src/modules/accounts/local.ts'
+const PROJECT_ONLY = 'frontend/src/modules/accounts/local.ts'
 /** Só existe no template. */
 const TEMPLATE_ONLY = 'components/shadcn/ui/new-widget.tsx'
 const MANAGED_COUNT = 3
