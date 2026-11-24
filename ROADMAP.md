@@ -3,6 +3,8 @@
 Fonte única: `Especificação de Requisitos e Arquitetura - Micro-SaaS Financeiro.md`.
 Este roadmap cobre **todos** os módulos, RF, RN e RNF da especificação, sem omissão.
 
+> **Revisão 2026-11-23 — big-bang autorizado (ADR-002; override do ADR-001):** o plano Módulo 0 → 4 abaixo descreve a especificação original e está **superado** pela "Ordem de Execução — fluxo monorepo" no fim deste arquivo. Supabase local e Supabase Edge (Módulos 0/4) são hoje **dívida arquitetural explícita**: o `frontend/` migrado continua **cliente do legado**. Pagamento/Asaas (Módulo 1.3 e 4.2) é **fase 2, fora do beta**. Nenhum isolamento arquitetural foi obtido — o Nest hoje só expõe `/health` e `/contracts/validate` (zero endpoints de domínio).
+
 ---
 
 ## Módulo 0 — Fundação e Infraestrutura (Fase 1 da spec)
@@ -165,13 +167,28 @@ Este roadmap cobre **todos** os módulos, RF, RN e RNF da especificação, sem o
 
 ---
 
-## Ordem de Execução Recomendada (ajustada: local-first)
+## Ordem de Execução — fluxo monorepo (revisão 2026-11-23; substitui o plano local-first)
 
-1. Módulo 0 (Fundação Local — Supabase local).
-2. Módulo 2 (Core SaaS) — 2.1→2.11.
-3. Módulo 3 (Backoffice) — pode avançar em paralelo após 2.1.
-4. Módulo 1 (Landing) — antes do deploy público.
-5. Módulo 4 (Edge/Cloudflare) — último, para deploy e webhooks.
+> **Dívida arquitetural explícita:** o app em `frontend/` ainda é **cliente do legado Supabase/Edge**. Não existe endpoint de domínio no Nest — hoje só `/health` e `/contracts/validate`. Não afirmar "isolamento verificado", "frontend desacoplado" ou "migração arquitetural concluída": a fatia 1 apenas **move a pasta**; o acoplamento Supabase permanece como dívida até a fatia 3. F1 (origem do access token) segue bloqueio — nenhuma rota de login/refresh inventada.
+
+**Arquitetura alvo:** dois apps Nest — `cliente` (3001) e `control-plane` (3002) —, dois bancos nomeados, contratos Zod v1 em `backend/libs/shared-contracts`, hash router, Bearer em memória. `harness.config.json` permanece root-genérico (`npm run test:gate && npm run build && npm run typecheck`).
+
+### Fatias
+
+0. **Skeleton Nest — FEITA** (PR #4 em develop): workspace aditivo `backend/`, apps `cliente`/`control-plane`, lib `shared-contracts`; contrato congelado, 0 endpoints de domínio.
+1. **Big-bang frontend — EM EXECUÇÃO** (ADR-002, override do ADR-001): mover os 604 arquivos de `src/` para `frontend/` e apagar `src/`. Aceite: `src/` inexistente; root + frontend 0 falha em test/build/typecheck/gate; 0 segredo e 0 chave no bundle; marcador de dívida presente; ADR-002 + override + dívida registrados.
+2. **Migração de funcionalidades para os apps Nest:** tela por tela, com teste de contrato antes/depois; schemas Zod v1 como única borda; 0 HTTP entre `cliente` e `control-plane`; 0 segredo.
+3. **Retirada de Supabase/Edge e criação de endpoints de domínio:** só após as telas migradas com teste antes/depois; extingue a dívida. Sem afirmação de isolamento antes de RLS real + testes de negação.
+
+**Fase 2 do produto — pagamentos/Asaas: FORA DO BETA.** Checkout, webhook PSP e módulos de pagamento só depois da fatia 3 (itens 1.3 e 4.2 do plano original ficam aqui).
+
+### Pré-condições humanas (gate; fora desta fatia)
+
+- 2 Postgres, um por app, com tokens nomeados — nunca `DATABASE_URL` compartilhado.
+- RLS real habilitado e testado (teste de negação), não apenas configuração nomeada — gate estático prova configuração, nunca isolamento verificado.
+- Store DB-backed em produção (não em memória).
+- Wrappers 0.x (ex.: `@nestjs/authentication`, `@nestjs/drizzle`) evitados: guards próprios + `@nestjs/jwt`, `drizzle-orm` direto.
+- Publicar `HARNESS_SEAL_JSON` no host para o gate de selo (SEAL).
 
 ---
 
@@ -181,3 +198,4 @@ Este roadmap cobre **todos** os módulos, RF, RN e RNF da especificação, sem o
 - Fase 2 (Core): CRUD com reflexo em saldos; decomposição exata de parcelas sem perda de resto; cálculo correto de datas de faturas.
 - Fase 3 (Ingestão): OFX 500 linhas <800ms; detecção de duplicatas; aplicação de regras ativas.
 - Fase 4 (Conversão/Backoffice): checkout funcional; provisionamento automático pós-webhook; métricas MRR/churn consolidadas.
+**Revisão 2026-11-23:** critérios de fase acima são da especificação original. Isolamento multi-tenant **não foi validado** na fatia 1 (big-bang apenas move a pasta); Supabase segue como dívida. Checkout/webhook PSP pertence à fase 2, fora do beta.

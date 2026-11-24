@@ -5,8 +5,8 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 // poder demonstrar os componentes shadcn re-tematizados em paralelo.
 //
 // Saída:
-//   claude → src/tokens-generated.css   (temas data-theme)
-//   shadcn → src/tokens-shadcn.css      (:root claro + .dark escuro)
+//   claude → frontend/tokens-generated.css   (temas data-theme)
+//   shadcn → frontend/tokens-shadcn.css      (:root claro + .dark escuro)
 
 function load(p) {
   return JSON.parse(readFileSync(p, "utf8"));
@@ -142,12 +142,12 @@ function buildShadcn() {
 }
 
 const outputs = new Map([
-  ["claude", { css: buildClaude(), file: "src/tokens-generated.css" }],
-  ["shadcn", { css: buildShadcn(), file: "src/tokens-shadcn.css" }],
+  ["claude", { css: buildClaude(), file: "frontend/tokens-generated.css" }],
+  ["shadcn", { css: buildShadcn(), file: "frontend/tokens-shadcn.css" }],
 ]);
 
 for (const [profile, { css, file }] of outputs) {
-  mkdirSync("src", { recursive: true });
+  mkdirSync("frontend", { recursive: true });
   writeFileSync(file, css);
   console.log(`tokens:${profile} → ${file}`);
 }

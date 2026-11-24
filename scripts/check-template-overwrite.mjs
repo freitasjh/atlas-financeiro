@@ -2,13 +2,13 @@
 /**
  * D-HARD — detecta overwrite do installer nos arquivos que o projeto CUSTOMIZA.
  *
- * Contexto: o installer copia `../harness-templates/src/**` para `src/`. Ele já
+ * Contexto: o installer copia `../harness-templates/src/**` para `frontend/src/`. Ele já
  * apagou a migração da vitrine de /contas e, numa segunda passada, sobrescreveu
  * 68 arquivos (layouts, navigation, dashboard, ui, index.css, lib). Mtime é
  * frágil; a prova é CONTEÚDO (sha256).
  *
  * Contrato:
- *   - gerenciado = interseção `templateDir/**` × `src/**`;
+ *   - gerenciado = interseção `templateDir/**` × `frontend/src/**`;
  *   - protegido (manifesto) = gerenciado que DIVERGE do template — arquivo
  *     idêntico ao template não tem o que proteger (o installer reescreveria o
  *     mesmo byte);
@@ -32,7 +32,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 const MANIFEST_RELATIVE = join('harness', 'template-overrides.json')
 const UPDATE_HINT = 'npm run check:template-overrides -- --update'
 const MANIFEST_VERSION = 2
-const SOURCE_PREFIX = 'src'
+const SOURCE_PREFIX = 'frontend/src'
 const SHA256 = /^[0-9a-f]{64}$/
 
 /** Path absoluto do manifesto para uma raiz de projeto. */
@@ -255,7 +255,7 @@ export function buildReport({ root }) {
       report.failures.push({
         path: report.manifestPath,
         kind: 'template-layout-mismatch',
-        detail: `templateDir "${templateDir}" não tem correspondência em src/`,
+        detail: `templateDir "${templateDir}" não tem correspondência em frontend/src/`,
       })
     } else if (manifest.managedCount !== managed.length) {
       report.failures.push({
@@ -419,7 +419,7 @@ export function formatReport(report) {
           lines.push('    declare o caminho do repo irmão; sem ele a comparação cruzada fica inativa')
           break
         case 'template-layout-mismatch':
-          lines.push(`  - templateDir sem correspondência em src/: ${failure.detail ?? failure.path}`)
+          lines.push(`  - templateDir sem correspondência em frontend/src/: ${failure.detail ?? failure.path}`)
           lines.push('    aponte templateDir para a raiz `src` do repo irmão')
           break
         case 'managed-count-mismatch':
@@ -499,7 +499,7 @@ export function formatAudit({ root }) {
   const managed = listManagedFiles({ root, templateDir })
   if (managed.length === 0) {
     return {
-      lines: [`template-overrides: audit FALHOU — templateDir "${templateDir}" sem correspondência em src/`],
+      lines: [`template-overrides: audit FALHOU — templateDir "${templateDir}" sem correspondência em frontend/src/`],
       exitCode: 1,
       missing: [],
     }

@@ -8,7 +8,7 @@ import { main, runChecks, selfTest } from "../../scripts/check-internal.mjs"
 const fixtures: string[] = []
 
 const BASELINE = {
-  "src/router.tsx": [
+  "frontend/src/router.tsx": [
     'import { lazy } from "react"',
     "const InternalTree = lazy(() =>",
     '  import("@/internal/internal-tree").then((m) => ({ default: m.InternalTree })),',
@@ -16,7 +16,7 @@ const BASELINE = {
     "export { InternalTree }",
     "",
   ].join("\n"),
-  "src/main.tsx": "import './router'\n",
+  "frontend/main.tsx": "import './router'\n",
 }
 
 function fixture(files: Record<string, string>): string {
@@ -44,7 +44,7 @@ afterEach(() => {
 describe("whenInternalTreeUsesPostgrest_thenG01Rejects", () => {
   it("fixture negativa com .from('tenants') sai com exit 1 em G-01", () => {
     const root = fixture({
-      "src/internal/pages/evil.ts": "export const tenants = supabase.from('tenants').select('*')\n",
+      "frontend/src/internal/pages/evil.ts": "export const tenants = supabase.from('tenants').select('*')\n",
     })
 
     const report = runChecks({ root })
@@ -58,7 +58,7 @@ describe("whenInternalTreeUsesPostgrest_thenG01Rejects", () => {
 describe("whenRpcOrSupabaseLeavesTheDataLayer_thenG02Rejects", () => {
   it(".rpc( fora de src/internal/data sai com exit 1 em G-02", () => {
     const root = fixture({
-      "src/internal/pages/evil.ts": 'export const rows = supabase.rpc("admin_count_tenants")\n',
+      "frontend/src/internal/pages/evil.ts": 'export const rows = supabase.rpc("admin_count_tenants")\n',
     })
 
     expect(gatesOf(runChecks({ root }))).toContain("G-02")
@@ -66,7 +66,7 @@ describe("whenRpcOrSupabaseLeavesTheDataLayer_thenG02Rejects", () => {
 
   it("@/lib/supabase fora de src/internal/data sai com exit 1 em G-02", () => {
     const root = fixture({
-      "src/internal/pages/evil.ts": 'import { supabase } from "@/lib/supabase"\n',
+      "frontend/src/internal/pages/evil.ts": 'import { supabase } from "@/lib/supabase"\n',
     })
 
     expect(gatesOf(runChecks({ root }))).toContain("G-02")
@@ -75,14 +75,14 @@ describe("whenRpcOrSupabaseLeavesTheDataLayer_thenG02Rejects", () => {
 
 describe("whenTheTreeIsNotLazy_thenG03Rejects", () => {
   it("main.tsx importando src/internal sai com exit 1 em G-03", () => {
-    const root = fixture({ "src/main.tsx": 'import "@/internal/internal-tree"\n' })
+    const root = fixture({ "frontend/main.tsx": 'import "@/internal/internal-tree"\n' })
 
     expect(gatesOf(runChecks({ root }))).toContain("G-03")
   })
 
   it("router sem lazy() para internal-tree sai com exit 1 em G-03", () => {
     const root = fixture({
-      "src/router.tsx": 'import { InternalTree } from "@/internal/internal-tree"\nexport { InternalTree }\n',
+      "frontend/src/router.tsx": 'import { InternalTree } from "@/internal/internal-tree"\nexport { InternalTree }\n',
     })
 
     expect(gatesOf(runChecks({ root }))).toContain("G-03")
@@ -92,7 +92,7 @@ describe("whenTheTreeIsNotLazy_thenG03Rejects", () => {
 describe("whenTheGuardPersistsTheVerdict_thenG04Rejects", () => {
   it("localStorage em src/internal/guard sai com exit 1 em G-04", () => {
     const root = fixture({
-      "src/internal/guard/evil.ts": 'export const verdict = localStorage.getItem("verdict")\n',
+      "frontend/src/internal/guard/evil.ts": 'export const verdict = localStorage.getItem("verdict")\n',
     })
 
     expect(gatesOf(runChecks({ root }))).toContain("G-04")
@@ -102,7 +102,7 @@ describe("whenTheGuardPersistsTheVerdict_thenG04Rejects", () => {
 describe("whenTheOperatorKnowsATenant_thenG05Rejects", () => {
   it("switch_tenant em src/internal sai com exit 1 em G-05", () => {
     const root = fixture({
-      "src/internal/pages/evil.ts": 'export const fn = "switch_tenant"\n',
+      "frontend/src/internal/pages/evil.ts": 'export const fn = "switch_tenant"\n',
     })
 
     expect(gatesOf(runChecks({ root }))).toContain("G-05")
@@ -111,7 +111,7 @@ describe("whenTheOperatorKnowsATenant_thenG05Rejects", () => {
 
 describe("whenTheMockReturnsToSrc_thenG06Rejects", () => {
   it("mockViews.admin em src/ sai com exit 1 em G-06", () => {
-    const root = fixture({ "src/pages/evil.ts": 'export const view = "mockViews.admin"\n' })
+    const root = fixture({ "frontend/src/pages/evil.ts": 'export const view = "mockViews.admin"\n' })
 
     expect(gatesOf(runChecks({ root }))).toContain("G-06")
   })
@@ -120,7 +120,7 @@ describe("whenTheMockReturnsToSrc_thenG06Rejects", () => {
 describe("whenTelemetryUsesAnInventedNumber_thenG07Rejects", () => {
   it("app/dashboard/data.json em src/internal sai com exit 1 em G-07", () => {
     const root = fixture({
-      "src/internal/pages/evil.ts": 'export const src = "app/dashboard/data.json"\n',
+      "frontend/src/internal/pages/evil.ts": 'export const src = "app/dashboard/data.json"\n',
     })
 
     expect(gatesOf(runChecks({ root }))).toContain("G-07")
@@ -130,7 +130,7 @@ describe("whenTelemetryUsesAnInventedNumber_thenG07Rejects", () => {
 describe("whenOnboardingIsDuplicated_thenG08Rejects", () => {
   it("pendingPasswordSetup fora da allowlist sai com exit 1 em G-08", () => {
     const root = fixture({
-      "src/internal/pages/evil.ts": "export const flag = pendingPasswordSetup\n",
+      "frontend/src/internal/pages/evil.ts": "export const flag = pendingPasswordSetup\n",
     })
 
     expect(gatesOf(runChecks({ root }))).toContain("G-08")
@@ -138,7 +138,7 @@ describe("whenOnboardingIsDuplicated_thenG08Rejects", () => {
 
   it("pendingPasswordSetup dentro da allowlist não viola G-08", () => {
     const root = fixture({
-      "src/lib/pending-password-setup.ts": "export const flag = pendingPasswordSetup\n",
+      "frontend/src/lib/pending-password-setup.ts": "export const flag = pendingPasswordSetup\n",
     })
 
     expect(gatesOf(runChecks({ root }))).not.toContain("G-08")
@@ -147,7 +147,7 @@ describe("whenOnboardingIsDuplicated_thenG08Rejects", () => {
 
 describe("whenServiceRoleLeaksToTheClient_thenG09Rejects", () => {
   it("service_role em src/ sai com exit 1 em G-09", () => {
-    const root = fixture({ "src/lib/evil.ts": 'export const key = "service_role"\n' })
+    const root = fixture({ "frontend/src/lib/evil.ts": 'export const key = "service_role"\n' })
 
     expect(gatesOf(runChecks({ root }))).toContain("G-09")
   })
@@ -174,10 +174,10 @@ describe("whenTheArtifactKeepsTheMock_thenG10Rejects", () => {
 describe("whenOnlyAllowedInternalFilesExist_thenGatePasses", () => {
   it("cliente de dados com @/lib/supabase e .rpc é permitido", () => {
     const root = fixture({
-      "src/internal/data/internal-client.ts":
+      "frontend/src/internal/data/internal-client.ts":
         'import { supabase } from "@/lib/supabase"\nexport const run = () => supabase.rpc("admin_count_tenants")\n',
-      "src/internal/pages/home.ts": "export const title = 'Visão geral'\n",
-      "src/lib/pending-password-setup.ts": "export const flag = pendingPasswordSetup\n",
+      "frontend/src/internal/pages/home.ts": "export const title = 'Visão geral'\n",
+      "frontend/src/lib/pending-password-setup.ts": "export const flag = pendingPasswordSetup\n",
     })
 
     expect(runChecks({ root }).exitCode).toBe(0)

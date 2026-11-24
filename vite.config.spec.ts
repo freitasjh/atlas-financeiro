@@ -72,7 +72,7 @@ function probe(url: string): { res: FakeResponse; nextCalled: boolean } {
   return { res, nextCalled }
 }
 
-const ALLOWED_URLS = ['/', '/src/main.tsx', '/@vite/client']
+const ALLOWED_URLS = ['/', '/frontend/main.tsx', '/@vite/client']
 
 const DENIED_URLS = [
   '/.spec/',
@@ -201,7 +201,7 @@ describe('server.fs.deny (SEC-01 barreira primaria)', () => {
     for (const file of servedFromNodeModules) {
       expect(isDenied(file)).toBe(false)
     }
-    expect(isDenied(`${PROJECT_ROOT}/src/main.tsx`)).toBe(false)
+    expect(isDenied(`${PROJECT_ROOT}/frontend/main.tsx`)).toBe(false)
   })
 
   it('casa os padroes de diretorio apenas na raiz do projeto', () => {

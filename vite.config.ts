@@ -129,7 +129,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), denyProjectArtifactUrls()],
   resolve: {
     alias: {
-      '@': path.resolve(dirname, './src'),
+      '@': path.resolve(dirname, './frontend/src'),
     },
   },
   server: {
@@ -138,7 +138,7 @@ export default defineConfig({
     // SEC-01 (F-01/F-14/F-16): o dev server tem `root` = raiz do projeto, logo
     // qualquer artefato de governança/backup/migration era servido com 200.
     // `fs.deny` é a barreira; `fs.allow` continua implícito no root (HMR e
-    // `/src/**` intactos). Nunca rode `vite --host` sem esta lista.
+    // `/frontend/**` intactos). Nunca rode `vite --host` sem esta lista.
     // Os padrões de diretório vêm ancorados em `PROJECT_ROOT` — ver o comentário
     // de `FS_DENY_PATTERNS` (regressão fs-deny-vs-node_modules).
     fs: {
