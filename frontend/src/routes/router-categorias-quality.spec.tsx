@@ -60,7 +60,13 @@ describe("whenCategoriasDeepLinkLoads_thenValidRendersInvalid404s", () => {
     getUserMock.mockReset()
     cleanup()
     window.location.hash = ""
-    useAuthStore.setState({ status: "idle", user: null, error: null, initialized: false })
+    useAuthStore.setState({
+      status: "authenticated",
+      initialized: true,
+      user: { id: "u1", email: "a@b.com" },
+      error: null,
+      reLoginRequired: false,
+    })
     useCategoriesStore.setState({ categories: [], status: "idle", error: null })
     getSession.mockResolvedValue({
       data: { session: { user: { id: "u1", email: "a@b.com" } } },

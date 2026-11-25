@@ -23,6 +23,17 @@ import { createAppRouter } from "@/router"
 import { useAuthStore } from "@/store/auth-store"
 import "@/i18n"
 
+// AUTH-10: sessão em memória — estes casos de rota manipulam o store direto.
+function grantSession() {
+  useAuthStore.setState({
+    status: "authenticated",
+    initialized: true,
+    user: { id: "user-1", email: null },
+    error: null,
+    reLoginRequired: false,
+  })
+}
+
 beforeEach(() => {
   cleanup()
   getSession.mockReset()
@@ -56,6 +67,8 @@ describe("superfície de auth pós invite-only", () => {
   })
 
   it("whenSessionOwnsPendingCookie_thenRedirectsToSetPasswordInvite", async () => {
+    grantSession()
+    // SetPasswordPage ainda lê a sessão legada (dívida Supabase de dados).
     getSession.mockResolvedValue({ data: { session: { user: { id: "user-1", email: null } } }, error: null })
     document.cookie = "pendingPasswordSetup=user-1; Path=/"
     window.location.hash = "#/"
@@ -65,6 +78,7 @@ describe("superfície de auth pós invite-only", () => {
   })
 
   it("whenPendingCookieCarriesRecovery_thenRedirectKeepsOrigin", async () => {
+    grantSession()
     getSession.mockResolvedValue({ data: { session: { user: { id: "user-1", email: null } } }, error: null })
     document.cookie = `pendingPasswordSetup=${encodeURIComponent("user-1:recuperacao")}; Path=/`
     window.location.hash = "#/"
@@ -74,7 +88,7 @@ describe("superfície de auth pós invite-only", () => {
   })
 
   it("whenPendingCookieBelongsToOtherUser_thenRendersProtectedChild", async () => {
-    getSession.mockResolvedValue({ data: { session: { user: { id: "user-1", email: null } } }, error: null })
+    grantSession()
     document.cookie = "pendingPasswordSetup=user-2; Path=/"
     window.location.hash = "#/"
     render(<RouterProvider router={createAppRouter()} />)
@@ -83,7 +97,7 @@ describe("superfície de auth pós invite-only", () => {
   })
 
   it("whenNoPendingCookie_thenRendersProtectedChild", async () => {
-    getSession.mockResolvedValue({ data: { session: { user: { id: "user-1", email: null } } }, error: null })
+    grantSession()
     window.location.hash = "#/"
     render(<RouterProvider router={createAppRouter()} />)
     expect(await screen.findAllByText(/Visão Geral/i, undefined, { timeout: 10000 })).toBeTruthy()

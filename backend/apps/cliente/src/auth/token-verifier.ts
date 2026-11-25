@@ -20,6 +20,42 @@ export interface Principal {
   mfa: boolean;
 }
 
+export interface SignTokenClaims {
+  sub: string;
+  role: string;
+  jti?: string;
+  mfa?: boolean;
+}
+
+/** Access de vida curta; valor reparado aqui para não virar config nem segredo. */
+export const ACCESS_TOKEN_TTL_SECONDS = 900;
+
+function contextOf(config: JwtConfig): 'cliente' | 'control-plane' {
+  return config.context ?? (config.audience.includes('cliente') ? 'cliente' : 'control-plane');
+}
+
+/** Emissor simétrico ao verificador (AUTH-04): mesmas claims, mesmo alg fixo. */
+export function signToken(claims: SignTokenClaims, config: JwtConfig): string {
+  validateJwtConfig(config);
+  const signOptions = {
+    algorithm: config.algorithm,
+    issuer: config.issuer,
+    audience: config.audience,
+    expiresIn: ACCESS_TOKEN_TTL_SECONDS,
+    ...(claims.jti ? { jwtid: claims.jti } : {}),
+  } as const;
+  const service =
+    config.algorithm === 'HS256'
+      ? new JwtService({ secret: config.secret, signOptions })
+      : new JwtService({ privateKey: config.privateKey, signOptions });
+  return service.sign({
+    sub: claims.sub,
+    role: claims.role,
+    context: contextOf(config),
+    mfa: claims.mfa === true,
+  });
+}
+
 /** S1: RS256/ES256 preferido; HS256 só com segredo >= 256 bits. `none` nunca. */
 export function validateJwtConfig(config: JwtConfig): void {
   if (!config.issuer || !config.audience) {
@@ -75,13 +111,16 @@ export function verifyToken(token: string, config: JwtConfig): Principal {
   if (typeof payload.sub !== 'string' || typeof payload.role !== 'string') {
     throw new Error('claims obrigatórias ausentes');
   }
+  // F-3: context é defesa em profundidade. iss/aud primários já foram checados
+  // pelo verify; divergência aqui é 401 genérico, sem "contexto inválido".
+  if (payload.context !== contextOf(config)) {
+    throw new Error('token inválido');
+  }
 
   return {
     sub: payload.sub,
     role: payload.role,
-    context:
-      config.context ??
-      (config.audience.includes('cliente') ? 'cliente' : 'control-plane'),
+    context: contextOf(config),
     jti: typeof payload.jti === 'string' ? payload.jti : undefined,
     mfa: payload.mfa === true,
   };

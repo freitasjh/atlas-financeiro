@@ -1,40 +1,44 @@
 import { ForbiddenException } from '@nestjs/common';
 import type { Principal } from './token-verifier';
 
-/** A2: revogação e MFA explícitos. Adapter em memória = skeleton (sem DB). */
+/** A2/AUTH-08: revogação e MFA explícitos, assíncronos e DB-backed em produção. */
 export interface SessionStore {
-  isRevoked(jti: string | undefined): boolean;
-  revoke(jti: string): void;
-  hasMfa(sub: string): boolean;
-  enrollMfa(sub: string): void;
+  isRevoked(sub: string, jti: string | undefined): Promise<boolean>;
+  revoke(sub: string, jti: string, motivo?: string): Promise<void>;
+  hasMfa(sub: string): Promise<boolean>;
+  enrollMfa(sub: string): Promise<void>;
 }
 
 export const SESSION_STORE = 'SESSION_STORE';
 export const MFA_REQUIRED_ROLES = ['superadmin'] as const;
 
+/** Somente para testes: em produção a fábrica recusa o boot. */
 export function createInMemorySessionStore(): SessionStore {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('store de sessão em memória proibido em produção');
+  }
   const revoked = new Set<string>();
   const enrolled = new Set<string>();
   return {
-    isRevoked: (jti) => (jti ? revoked.has(jti) : false),
-    revoke: (jti) => {
+    isRevoked: async (_sub, jti) => (jti ? revoked.has(jti) : false),
+    revoke: async (_sub, jti) => {
       revoked.add(jti);
     },
-    hasMfa: (sub) => enrolled.has(sub),
-    enrollMfa: (sub) => {
+    hasMfa: async (sub) => enrolled.has(sub),
+    enrollMfa: async (sub) => {
       enrolled.add(sub);
     },
   };
 }
 
-export function assertSession(
+export async function assertSession(
   principal: Principal,
   sessions: SessionStore,
-): void {
-  if (sessions.isRevoked(principal.jti)) {
+): Promise<void> {
+  if (await sessions.isRevoked(principal.sub, principal.jti)) {
     throw new ForbiddenException('sessão revogada');
   }
-  if (principal.mfa === true && !sessions.hasMfa(principal.sub)) {
+  if (principal.mfa === true && !(await sessions.hasMfa(principal.sub))) {
     throw new ForbiddenException('MFA não concluído');
   }
   if (

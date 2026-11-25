@@ -8,7 +8,7 @@ import { z } from "zod"
 import { toast } from "sonner"
 
 import { cn } from "@/lib/cn"
-import { supabase } from "@/lib/supabase"
+import { login } from "@/session/session"
 
 import { Button } from "@/components/shadcn/ui/button"
 import {
@@ -22,14 +22,13 @@ import { Input } from "@/components/shadcn/ui/input"
 function signInShape(emailMessage: string, passwordMessage: string) {
   return z.object({
     email: z.string().email(emailMessage),
-    password: z.string().min(6, passwordMessage),
+    password: z.string().min(12, passwordMessage),
   })
 }
 
-export const signInSchema = signInShape(
-  "Informe um e-mail válido.",
-  "A senha deve ter pelo menos 6 caracteres.",
-)
+// Export sem mensagem embutida: a UI usa `schema` local via t(); nenhum
+// literal de locale vive no componente.
+export const signInSchema = signInShape("", "")
 
 export type SignInValues = z.infer<typeof signInSchema>
 
@@ -78,47 +77,26 @@ export function LoginForm({
 
   const onSubmit = async (values: SignInValues) => {
     setServerError(null)
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: values.email,
-        password: values.password,
-      })
+    const result = await login(values.email, values.password)
 
-      if (error) {
-        const status = (error as { status?: number }).status
-        const message = (error.message ?? "").toLowerCase()
-        let msg = t("auth.invalidCredentials")
-        if (status === 429 || message.includes("rate")) {
-          msg = t("auth.tooManyAttempts")
-        } else if (
-          message.includes("network") ||
-          message.includes("fetch") ||
-          message.includes("failed to fetch")
-        ) {
-          msg = t("auth.networkError")
-        } else if (
-          message.includes("invalid") ||
-          status === 400 ||
-          status === 401
-        ) {
-          msg = t("auth.invalidCredentials")
-        }
-        setServerError(msg)
-        resetField("password")
-        window.setTimeout(() => setFocus("password"), 0)
-        return
-      }
-
-      toast.success(t("auth.welcomeBack"), {
-        description: t("auth.welcomeBackDescription"),
-      })
-      if (onSuccess) onSuccess()
-      window.location.hash = redirectTo ?? "#/"
-    } catch {
-      setServerError(t("auth.networkError"))
+    if (!result.ok) {
+      const msg =
+        result.status === 429 || result.reason === "too-many-attempts"
+          ? t("auth.tooManyAttempts")
+          : result.reason === "network-error"
+            ? t("auth.networkError")
+            : t("auth.invalidCredentials")
+      setServerError(msg)
       resetField("password")
       window.setTimeout(() => setFocus("password"), 0)
+      return
     }
+
+    toast.success(t("auth.welcomeBack"), {
+      description: t("auth.welcomeBackDescription"),
+    })
+    if (onSuccess) onSuccess()
+    window.location.hash = redirectTo ?? "#/"
   }
 
   const handleCapsLock = (event: React.KeyboardEvent<HTMLInputElement>) => {

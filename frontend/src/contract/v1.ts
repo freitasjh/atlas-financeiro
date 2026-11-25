@@ -1,10 +1,20 @@
 // Única borda de dados: o diretório v1 congelado. "v1" é versão do contrato,
 // não da biblioteca (zod ^4.6.7). Nenhum import de app/service/provider.
 export {
+  checkResponse,
   fieldErrorEnvelopeSchema,
   healthEnvelopeSchema,
   healthStatusSchema,
+  loginRequest,
+  loginResponse,
+  refreshRequest,
+  refreshResponse,
+  type CheckResponse,
   type FieldErrorEnvelope,
   type HealthEnvelope,
   type HealthStatus,
+  type LoginRequest,
+  type LoginResponse,
+  type RefreshRequest,
+  type RefreshResponse,
 } from '../../../backend/libs/shared-contracts/src/v1'

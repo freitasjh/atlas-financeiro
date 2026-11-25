@@ -20,6 +20,7 @@ export const databaseProvider = {
       schema: 'cliente',
       role: 'cliente_app_role',
       url,
+      pool,
       db,
       probe: async () => {
         let client;

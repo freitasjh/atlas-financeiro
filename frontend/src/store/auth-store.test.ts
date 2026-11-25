@@ -1,160 +1,182 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
 
-const { getSession, onAuthStateChange, clearAllSessionCookies } = vi.hoisted(() => ({
-  getSession: vi.fn(),
-  onAuthStateChange: vi.fn(() => ({
-    data: { subscription: { unsubscribe: vi.fn() } },
-  })),
-  clearAllSessionCookies: vi.fn(),
-}))
-
-vi.mock("@/lib/supabase", () => ({
-  supabase: { auth: { getSession, onAuthStateChange } },
-}))
-
-vi.mock("@/lib/supabase-cookie-storage", () => ({
-  clearAllSessionCookies,
-}))
-
+import {
+  authorizationHeader,
+  clearSession,
+  CLIENTE_APP_IDENTITY,
+  currentSession,
+  JWT_ALGORITHM,
+  setSession,
+} from "@/session/session"
 import { useAuthStore, SESSION_INIT_TIMEOUT_MS } from "@/store/auth-store"
 
-function resetStore() {
-  useAuthStore.setState({ status: "idle", user: null, error: null, initialized: false })
+function encode(value: object): string {
+  return btoa(JSON.stringify(value)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
 }
 
-describe("whenGetSessionReturnsAuthError_thenCookiesClearedAndUnauthenticated", () => {
-  beforeEach(() => {
-    getSession.mockReset()
-    clearAllSessionCookies.mockClear()
-    onAuthStateChange.mockClear()
-    resetStore()
+function accessToken(role = "admin"): string {
+  return `${encode({ alg: JWT_ALGORITHM, typ: "JWT" })}.${encode({
+    iss: CLIENTE_APP_IDENTITY.issuer,
+    aud: CLIENTE_APP_IDENTITY.audience,
+    context: CLIENTE_APP_IDENTITY.context,
+    sub: "user-1",
+    role,
+  })}.assinatura`
+}
+
+function response(status: number, body: unknown = {}): Response {
+  return {
+    ok: status >= 200 && status < 300,
+    status,
+    headers: { get: () => null },
+    json: async () => body,
+  } as unknown as Response
+}
+
+function resetStore() {
+  useAuthStore.setState({
+    status: "idle",
+    user: null,
+    error: null,
+    initialized: false,
+    reLoginRequired: false,
   })
+}
+
+const fetchMock = vi.fn()
+
+describe("AUTH-10 — wrapper em memória ligado ao contrato v1", () => {
+  beforeEach(() => {
+    resetStore()
+    clearSession()
+    fetchMock.mockReset()
+    vi.stubGlobal("fetch", fetchMock)
+  })
+
   afterEach(() => {
     vi.useRealTimers()
+    vi.unstubAllGlobals()
+    clearSession()
   })
 
-  it("limpa cookies sb-* e marca unauthenticated em erro 400 de refresh", async () => {
-    getSession.mockResolvedValue({
-      data: null,
-      error: { message: "Invalid Refresh Token", status: 400 },
-    })
-
+  it("whenReload_thenLoginRequiredAndNoticeShown", async () => {
     await useAuthStore.getState().init()
 
-    expect(clearAllSessionCookies).toHaveBeenCalledTimes(1)
+    expect(currentSession()).toBeNull()
     expect(useAuthStore.getState().status).toBe("unauthenticated")
-    expect(useAuthStore.getState().user).toBeNull()
-    expect(useAuthStore.getState().initialized).toBe(true)
+    expect(useAuthStore.getState().reLoginRequired).toBe(true)
+    // Sem memória: nenhuma chamada de rede — a checagem depends do token local.
+    expect(fetchMock).not.toHaveBeenCalled()
   })
 
-  it("mantém cookies e estado em sessão válida", async () => {
-    getSession.mockResolvedValue({
-      data: { session: { user: { id: "u1", email: "a@b.com" } } },
-    })
+  it("whenUnauthorized_thenMemoryCleared", async () => {
+    setSession(accessToken(), "refresh-opaco")
+    fetchMock.mockResolvedValue(response(401))
 
     await useAuthStore.getState().init()
 
-    expect(clearAllSessionCookies).not.toHaveBeenCalled()
+    expect(currentSession()).toBeNull()
+    expect(authorizationHeader()).toBeNull()
+    expect(useAuthStore.getState().status).toBe("unauthenticated")
+    expect(useAuthStore.getState().reLoginRequired).toBe(true)
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
+
+  it("whenCheckSucceeds_thenUserComesFromAccessClaims", async () => {
+    setSession(accessToken("admin"), "refresh-opaco")
+    fetchMock.mockResolvedValue(
+      response(200, { authorized: true, context: "cliente", role: "admin" }),
+    )
+
+    await useAuthStore.getState().init()
+
     expect(useAuthStore.getState().status).toBe("authenticated")
-    expect(useAuthStore.getState().user).toEqual({ id: "u1", email: "a@b.com" })
+    expect(useAuthStore.getState().user).toEqual({ id: "user-1", email: null, role: "admin" })
+    expect(useAuthStore.getState().reLoginRequired).toBe(false)
+    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit]
+    expect(url).toContain("/auth/check")
+    expect(init.headers).toEqual({ Authorization: "Bearer " + accessToken("admin") })
   })
 
-  it("sem sessão não limpa cookies nem entra em erro", async () => {
-    getSession.mockResolvedValue({ data: { session: null } })
+  it("whenForbidden_thenNoRefreshAndSessionSurvives", async () => {
+    const token = accessToken()
+    setSession(token, "refresh-opaco")
+    fetchMock.mockResolvedValue(response(403))
 
     await useAuthStore.getState().init()
 
-    expect(clearAllSessionCookies).not.toHaveBeenCalled()
-    expect(useAuthStore.getState().status).toBe("unauthenticated")
-  })
-})
-
-describe("whenGetSessionFails_thenErrorStateIsRetryable", () => {
-  beforeEach(() => {
-    getSession.mockReset()
-    clearAllSessionCookies.mockClear()
-    onAuthStateChange.mockClear()
-    resetStore()
-  })
-  afterEach(() => {
-    vi.useRealTimers()
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(currentSession()?.access).toBe(token)
+    expect(useAuthStore.getState().status).toBe("authenticated")
   })
 
-  it("exceção de rede vai para status error (não branca infinita)", async () => {
-    getSession.mockRejectedValue(new Error("network failure"))
+  it("whenNetworkFails_thenErrorStateIsRetryable", async () => {
+    setSession(accessToken(), "refresh-opaco")
+    fetchMock.mockRejectedValue(new Error("network failure"))
 
     await useAuthStore.getState().init()
 
     expect(useAuthStore.getState().status).toBe("error")
     expect(useAuthStore.getState().initialized).toBe(true)
-    // Falha transitória: cookies válidos são PRESERVADOS (sem re-login forçado).
-    expect(clearAllSessionCookies).not.toHaveBeenCalled()
-    // Erro técnico cru nunca vaza pro UI — mensagem amigável.
     expect(useAuthStore.getState().error).toBe("Falha ao carregar sessão")
+    expect(currentSession()?.refresh).toBe("refresh-opaco")
+    expect(useAuthStore.getState().reLoginRequired).toBe(false)
   })
 
-  it("timeout do boot mapeia para mensagem amigável (não erro cru)", async () => {
+  it("whenCheckHangs_thenTimeoutMapsToFriendlyMessage", async () => {
     vi.useFakeTimers()
-    getSession.mockImplementation(() => new Promise(() => {}))
+    setSession(accessToken(), "refresh-opaco")
+    fetchMock.mockImplementation(() => new Promise(() => {}))
 
     const pending = useAuthStore.getState().init()
     await vi.advanceTimersByTimeAsync(SESSION_INIT_TIMEOUT_MS + 1)
     await pending
 
+    expect(useAuthStore.getState().status).toBe("error")
     expect(useAuthStore.getState().error).toBe(
       "A verificação da sessão demorou mais que o esperado.",
     )
-    expect(clearAllSessionCookies).not.toHaveBeenCalled()
+    expect(currentSession()).not.toBeNull()
   })
 
-  it("getSession pendurado cai em error após timeout", async () => {
-    vi.useFakeTimers()
-    getSession.mockImplementation(() => new Promise(() => {}))
-
-    const pending = useAuthStore.getState().init()
-    await vi.advanceTimersByTimeAsync(SESSION_INIT_TIMEOUT_MS + 1)
-    await pending
-
-    expect(useAuthStore.getState().status).toBe("error")
-    expect(useAuthStore.getState().initialized).toBe(true)
-  })
-
-  it("retryInit reinicializa e recupera sessão após erro", async () => {
-    getSession.mockRejectedValueOnce(new Error("boom"))
+  it("whenRetryInit_thenRecoversAfterFailure", async () => {
+    setSession(accessToken(), "refresh-opaco")
+    fetchMock.mockRejectedValueOnce(new Error("boom"))
     await useAuthStore.getState().init()
     expect(useAuthStore.getState().status).toBe("error")
 
-    getSession.mockResolvedValue({
-      data: { session: { user: { id: "u2", email: null } } },
-    })
+    fetchMock.mockResolvedValue(
+      response(200, { authorized: true, context: "cliente", role: "user" }),
+    )
     await useAuthStore.getState().retryInit()
 
     expect(useAuthStore.getState().status).toBe("authenticated")
-    expect(useAuthStore.getState().user).toEqual({ id: "u2", email: null })
+    expect(useAuthStore.getState().user?.role).toBe("user")
   })
 
-  it("retryInit desinscreve subscription anterior (sem listeners duplicados)", async () => {
-    const unsubscribe1 = vi.fn()
-    const unsubscribe2 = vi.fn()
-    let call = 0
-    onAuthStateChange.mockImplementation(() => {
-      call += 1
-      return { data: { subscription: { unsubscribe: call === 1 ? unsubscribe1 : unsubscribe2 } } }
-    })
+  it("whenSignOut_thenOnlyLocalMemoryIsClearedWithoutFetch", async () => {
+    setSession(accessToken(), "refresh-opaco")
+    const before = fetchMock.mock.calls.length
+
+    await useAuthStore.getState().signOut()
+
+    expect(currentSession()).toBeNull()
+    expect(fetchMock.mock.calls.length).toBe(before)
+    expect(useAuthStore.getState().status).toBe("unauthenticated")
+  })
+
+  it("whenStorageInspected_thenZeroWrites", async () => {
+    const setItem = vi.spyOn(Storage.prototype, "setItem")
+    const cookieBefore = document.cookie
+    setSession(accessToken(), "refresh-opaco")
+    fetchMock.mockResolvedValue(response(200, { authorized: true, context: "cliente", role: "admin" }))
 
     await useAuthStore.getState().init()
-    expect(onAuthStateChange).toHaveBeenCalledTimes(1)
+    await useAuthStore.getState().signOut()
 
-    getSession.mockResolvedValue({ data: { session: null } })
-    await useAuthStore.getState().retryInit()
-
-    expect(onAuthStateChange).toHaveBeenCalledTimes(2)
-    // Listener antigo removido antes de registrar o novo.
-    expect(unsubscribe1).toHaveBeenCalledTimes(1)
-    expect(unsubscribe1.mock.invocationCallOrder[0]).toBeLessThan(
-      onAuthStateChange.mock.invocationCallOrder[1],
-    )
-    expect(unsubscribe2).not.toHaveBeenCalled()
+    expect(setItem).not.toHaveBeenCalled()
+    expect(document.cookie).toBe(cookieBefore)
+    setItem.mockRestore()
   })
 })

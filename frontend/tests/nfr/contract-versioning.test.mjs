@@ -3,8 +3,11 @@ import { readFileSync } from 'node:fs'
 import { FORBIDDEN, gitDiff, REPO_ROOT, sourceFiles } from '../helpers/scan.ts'
 
 describe('BIGBANG-16 — NFR-03: v1 imutável, OpenAPI diferido', () => {
-  it('v1 imutável no diff', () => {
-    expect(gitDiff(['backend/libs/shared-contracts/src/v1']).trim()).toBe('')
+  it('v1 aditivo no diff (ADR-001 §3): nada congelado é removido', () => {
+    const removed = gitDiff(['backend/libs/shared-contracts/src/v1'])
+      .split('\n')
+      .filter((line) => line.startsWith('-') && !line.startsWith('---'))
+    expect(removed).toEqual([])
   })
 
   it('Swagger diferido: nenhuma dependência no root único', () => {

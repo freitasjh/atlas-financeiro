@@ -1,0 +1,222 @@
+{
+  "fixtureVersion": "1.0",
+  "segredo": {
+    "tokens": "<PLACEHOLDER_TOKEN>",
+    "observacao": "Sentinel permitido. Nenhum JWT/PEM real gravado: tokens nascem efimeramente em support/setup.ts."
+  },
+  "capturadoEm": "2026-11-24",
+  "capturadoPor": "backend-engineer (AUTH-01) — execucao local, app cliente in-process",
+  "aprovacaoGolden": {
+    "aprovado_por": "pendente de aprovacao humana",
+    "data": "2026-11-24",
+    "observacao": "7 casos capturados; assinatura de product-manager + qa-engineer pendente — nao registrar como aprovado."
+  },
+  "escopo": "Golden \"antes\": GET /auth/check e POST /contracts/validate capturados antes de qualquer edicao de rota. Nenhum token/PEM real gravado: tokens sao gerados efimeramente por support/setup.ts a cada execucao.",
+  "normalizacao": {
+    "excluidos": {
+      "date": "HTTP-date volátil: muda a cada resposta e quebraria o golden. Exclusao declarada; nenhum header de seguranca e removido."
+    },
+    "preservados": [
+      "x-powered-by",
+      "content-type",
+      "content-length",
+      "etag",
+      "connection",
+      "qualquer outro header (inclusive x-*)"
+    ]
+  },
+  "casos": {
+    "sem token": {
+      "request": {
+        "method": "GET",
+        "path": "/auth/check",
+        "token": null
+      },
+      "snapshot": {
+        "status": 401,
+        "body": {
+          "message": "Unauthorized",
+          "statusCode": 401
+        },
+        "headers": {
+          "x-powered-by": "Express",
+          "content-type": "application/json; charset=utf-8",
+          "content-length": "43",
+          "etag": "W/\"2b-dGnJzt6gv1nJjX6DJ9RztDWptng\"",
+          "connection": "close"
+        }
+      }
+    },
+    "cross-app": {
+      "request": {
+        "method": "GET",
+        "path": "/auth/check",
+        "token": "cross-app"
+      },
+      "snapshot": {
+        "status": 401,
+        "body": {
+          "message": "Unauthorized",
+          "statusCode": 401
+        },
+        "headers": {
+          "x-powered-by": "Express",
+          "content-type": "application/json; charset=utf-8",
+          "content-length": "43",
+          "etag": "W/\"2b-dGnJzt6gv1nJjX6DJ9RztDWptng\"",
+          "connection": "close"
+        }
+      }
+    },
+    "expirado": {
+      "request": {
+        "method": "GET",
+        "path": "/auth/check",
+        "token": "expirado"
+      },
+      "snapshot": {
+        "status": 401,
+        "body": {
+          "message": "Unauthorized",
+          "statusCode": 401
+        },
+        "headers": {
+          "x-powered-by": "Express",
+          "content-type": "application/json; charset=utf-8",
+          "content-length": "43",
+          "etag": "W/\"2b-dGnJzt6gv1nJjX6DJ9RztDWptng\"",
+          "connection": "close"
+        }
+      }
+    },
+    "unsigned": {
+      "request": {
+        "method": "GET",
+        "path": "/auth/check",
+        "token": "unsigned"
+      },
+      "snapshot": {
+        "status": 401,
+        "body": {
+          "message": "Unauthorized",
+          "statusCode": 401
+        },
+        "headers": {
+          "x-powered-by": "Express",
+          "content-type": "application/json; charset=utf-8",
+          "content-length": "43",
+          "etag": "W/\"2b-dGnJzt6gv1nJjX6DJ9RztDWptng\"",
+          "connection": "close"
+        }
+      }
+    },
+    "viewer": {
+      "request": {
+        "method": "GET",
+        "path": "/auth/check",
+        "token": "viewer"
+      },
+      "snapshot": {
+        "status": 403,
+        "body": {
+          "message": "Forbidden",
+          "statusCode": 403
+        },
+        "headers": {
+          "x-powered-by": "Express",
+          "content-type": "application/json; charset=utf-8",
+          "content-length": "40",
+          "etag": "W/\"28-/A0r2gBi62UEXdaQT52VOJ1+hp4\"",
+          "connection": "close"
+        }
+      }
+    },
+    "admin": {
+      "request": {
+        "method": "GET",
+        "path": "/auth/check",
+        "token": "admin"
+      },
+      "snapshot": {
+        "status": 200,
+        "body": {
+          "authorized": true,
+          "context": "cliente",
+          "role": "admin"
+        },
+        "headers": {
+          "x-powered-by": "Express",
+          "content-type": "application/json; charset=utf-8",
+          "content-length": "54",
+          "etag": "W/\"36-UvcMLas4VnDWukpuInGhR4tNgT4\"",
+          "connection": "close"
+        }
+      }
+    },
+    "campo extra": {
+      "request": {
+        "method": "POST",
+        "path": "/contracts/validate",
+        "token": null,
+        "body": {
+          "version": "v1",
+          "data": {
+            "status": "ok",
+            "db": "up",
+            "context": "cliente"
+          },
+          "injectedField": "x"
+        }
+      },
+      "snapshot": {
+        "status": 400,
+        "body": {
+          "message": [
+            "Unrecognized key: \"injectedField\""
+          ],
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "headers": {
+          "x-powered-by": "Express",
+          "content-type": "application/json; charset=utf-8",
+          "content-length": "90",
+          "etag": "W/\"5a-fZBp3g4VGC/gcWdZ92z8DsCrHKk\"",
+          "connection": "close"
+        }
+      }
+    }
+  },
+  "expected": {
+    "POST /auth/login": {
+      "proposto": {
+        "status": 200,
+        "body": {
+          "version": "v1",
+          "forma": "loginResponse — AUTH-03 (a definir)"
+        },
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        }
+      },
+      "aprovado_por": "pendente de aprovacao humana",
+      "data": "2026-11-24",
+      "origem": "SPEC.md §3 status 200 / §6.2 envelope v1. Proposta NAO aprovada: nao comparar rota nova contra vazio nem declarar identico."
+    },
+    "POST /auth/refresh": {
+      "proposto": {
+        "status": 200,
+        "body": {
+          "version": "v1",
+          "forma": "refreshResponse — AUTH-03 (a definir)"
+        },
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        }
+      },
+      "aprovado_por": "pendente de aprovacao humana",
+      "data": "2026-11-24",
+      "origem": "SPEC.md §3 status 200 / §6.2 envelope v1. Proposta NAO aprovada: nao comparar rota nova contra vazio nem declarar identico."
+    }
+  }
+}
