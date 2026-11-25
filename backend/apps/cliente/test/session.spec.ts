@@ -14,28 +14,26 @@ const principal: Principal = {
 };
 
 describe('sessão: revogação e MFA explícitos (A2)', () => {
-  it('whenJtiRevoked_thenSessionIsRejected', () => {
+  it('whenJtiRevoked_thenSessionIsRejected', async () => {
     const store = createInMemorySessionStore();
-    store.revoke('jti-1');
-    expect(() => assertSession(principal, store)).toThrow(/revogada/);
+    await store.revoke('u-1', 'jti-1');
+    await expect(assertSession(principal, store)).rejects.toThrow(/revogada/);
   });
 
-  it('whenRoleRequiresMfaAndClaimMissing_thenSessionIsRejected', () => {
+  it('whenRoleRequiresMfaAndClaimMissing_thenSessionIsRejected', async () => {
     const store = createInMemorySessionStore();
-    expect(() =>
+    await expect(
       assertSession({ ...principal, role: 'superadmin' }, store),
-    ).toThrow(/MFA/);
+    ).rejects.toThrow(/MFA/);
   });
 
-  it('whenMfaEnrolled_thenSessionIsAccepted', () => {
+  it('whenMfaEnrolled_thenSessionIsAccepted', async () => {
     const store = createInMemorySessionStore();
-    store.enrollMfa('u-1');
-    expect(() =>
-      assertSession({ ...principal, mfa: true }, store),
-    ).not.toThrow();
+    await store.enrollMfa('u-1');
+    await expect(assertSession({ ...principal, mfa: true }, store)).resolves.toBeUndefined();
   });
 
-  it('whenFreshSession_thenSessionIsAccepted', () => {
-    expect(() => assertSession(principal, createInMemorySessionStore())).not.toThrow();
+  it('whenFreshSession_thenSessionIsAccepted', async () => {
+    await expect(assertSession(principal, createInMemorySessionStore())).resolves.toBeUndefined();
   });
 });

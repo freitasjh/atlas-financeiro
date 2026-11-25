@@ -93,7 +93,7 @@ describe('FRONT-05 — Bearer em memória, iss/aud por app, sem rota inventada',
     expect(tokenMatchesApp(tokenFor(controlPlane), cliente)).toBe(false)
   })
 
-  it('sem emissor remoto, sem chave no bundle e sem endpoint escrito', () => {
+  it('sem emissor remoto, sem chave no bundle e sem storage — wrapper usa fetch nas 3 rotas', () => {
     const source = read(frontendPath('src/session/session.ts'), 'utf8').toLowerCase()
     const remote = 'supa' + 'base'
     const remoteEnv = 'VITE' + '_' + 'SUPA' + 'BASE' + '_'
@@ -101,8 +101,12 @@ describe('FRONT-05 — Bearer em memória, iss/aud por app, sem rota inventada',
     for (const token of [remote, remoteEnv, keyMaterial]) {
       expect(source.includes(token.toLowerCase())).toBe(false)
     }
-    expect(source).not.toContain('fetch')
-    expect(source).not.toContain('/login')
-    expect(source).not.toContain('/refresh')
+    expect(source).toContain('fetch')
+    for (const route of ['/auth/login', '/auth/refresh', '/auth/check']) {
+      expect(source).toContain(route)
+    }
+    for (const persist of ['local' + 'Storage', 'session' + 'Storage', 'document' + '.cookie']) {
+      expect(source.includes(persist.toLowerCase())).toBe(false)
+    }
   })
 })

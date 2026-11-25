@@ -56,7 +56,13 @@ describe("whenOrcamentosRouteLoads_thenBudgetsScreenRenders", () => {
     getUserMock.mockReset()
     cleanup()
     window.location.hash = ""
-    useAuthStore.setState({ status: "idle", user: null, error: null, initialized: false })
+    useAuthStore.setState({
+      status: "authenticated",
+      initialized: true,
+      user: { id: "u1", email: "a@b.com" },
+      error: null,
+      reLoginRequired: false,
+    })
     useBudgetsStore.setState({ budgets: [], spending: new Map(), status: "idle", error: null, month: "" })
     useCategoriesStore.setState({ categories: [], status: "idle", error: null })
     getSession.mockResolvedValue({

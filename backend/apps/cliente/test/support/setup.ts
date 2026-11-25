@@ -27,8 +27,16 @@ export function configureEnv(): TestEnv {
 export function signToken(
   env: TestEnv,
   claims: Record<string, unknown>,
-  options: { issuer?: string; audience?: string; expiresIn?: string; algorithm?: 'ES256' | 'HS256'; secret?: string } = {},
+  options: {
+    issuer?: string;
+    audience?: string;
+    expiresIn?: string;
+    algorithm?: 'ES256' | 'HS256';
+    secret?: string;
+    context?: 'cliente' | 'control-plane';
+  } = {},
 ): string {
+  const context = options.context ?? 'cliente';
   const service = options.algorithm === 'HS256'
     ? new JwtService({
         secret: options.secret ?? 'a'.repeat(32),
@@ -48,7 +56,7 @@ export function signToken(
           expiresIn: (options.expiresIn ?? '5m') as never,
         },
       });
-  return service.sign(claims);
+  return service.sign({ ...claims, context });
 }
 
 export function unsignedToken(claims: Record<string, unknown>): string {
@@ -57,15 +65,24 @@ export function unsignedToken(claims: Record<string, unknown>): string {
   return `${encode({ alg: 'none', typ: 'JWT' })}.${encode(claims)}.`;
 }
 
+export interface TestOverride {
+  token: string;
+  value: unknown;
+}
+
 export async function createTestApp(
   AppModule: any,
   dbToken: string,
   dbValue: unknown,
+  overrides: readonly TestOverride[] = [],
 ): Promise<INestApplication> {
-  const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
+  let builder = Test.createTestingModule({ imports: [AppModule] })
     .overrideProvider(dbToken)
-    .useValue(dbValue)
-    .compile();
+    .useValue(dbValue);
+  for (const override of overrides) {
+    builder = builder.overrideProvider(override.token).useValue(override.value);
+  }
+  const moduleRef = await builder.compile();
   const app = moduleRef.createNestApplication();
   app.useGlobalPipes(new StandardSchemaValidationPipe());
   await app.init();

@@ -40,7 +40,7 @@ describe('BIGBANG-06 — dívida Supabase localizada, não isolamento', () => {
       'src/components/auth/SignupForm.tsx',
       'src/internal/data/internal-client.ts',
       'src/modules/accounts/service/accounts.service.ts',
-      'src/store/auth-store.ts',
+      'src/lib/supabase.ts',
       DEBT_DOC,
     ]) {
       expect(manifest.files, `${pinned} ausente do inventário`).toContain(pinned)

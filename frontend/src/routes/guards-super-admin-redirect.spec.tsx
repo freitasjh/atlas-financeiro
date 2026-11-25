@@ -20,6 +20,12 @@ vi.mock("@/lib/supabase", () => ({
   },
 }))
 
+// Boot pendurado de propósito: o teste controla a transição via `signIn`.
+vi.mock("@/session/session", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/session/session")>()
+  return { ...actual, refreshCheck: vi.fn(() => new Promise(() => {})) }
+})
+
 import "@/i18n"
 import { RequireSession } from "@/routes/guards"
 import { useAuthStore } from "@/store/auth-store"

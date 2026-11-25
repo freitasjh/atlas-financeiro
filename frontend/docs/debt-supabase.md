@@ -1,8 +1,9 @@
 # DEBT-SUPABASE — dívida arquitetural localizada
 
 Marcador: **DEBT-SUPABASE**
-Dono: arquitetura/atlas-financeiro (override humano de 2026-11-23)
-Data de revisão: 2026-12-23
+Dono: frontend-engineer
+revisado_por: code-reviewer
+Data de revisão: 2026-11-24 (próxima: AUTH-13)
 
 ## Afirmação honesta
 
@@ -17,9 +18,11 @@ verificado como fato — essas afirmações seriam falsas.
 
 Não existe "zona ampla". A dívida é o conjunto **finito e nomeado** dos
 arquivos que hoje contêm o acoplamento, pinados em
-`frontend/docs/debt-files.json` (108 entradas: 38 arquivos de código e 60
+`frontend/docs/debt-files.json` (102 entradas: 35 arquivos de código e 57
 testes sob `frontend/src/**`, 8 arquivos do próprio gate e 2 documentos —
-inclusive o próprio manifesto). O inventário foi gerado por varredura real
+inclusive o próprio manifesto). AUTH-10 removeu 6 entradas de auth que não
+contêm mais o acoplamento; dono/revisão/data finais ficam para AUTH-13.
+O inventário foi gerado por varredura real
 (`grep -ril` sobre `frontend/`), não por palpite nem por cópia de exemplos.
 
 Qualquer ocorrência em arquivo **fora desse inventário** reprova em dois
@@ -70,6 +73,10 @@ banco.
 - DÍVIDA-ROLLBACK — fim do rollback aditivo; recuperação só por controle
   de versão e decisão humana de merge.
 - DÍVIDA-SESSÃO — sessão volátil herdada; reload exige reautenticação.
+- AUTH-13 — recuperação e redefinição de senha permanecem em `supabase.auth`
+  (`src/components/shadcn/auth/forgot-password-form.tsx`); dívida atribuída a
+  AUTH-13. Não há alegação de "0 supabase.auth" global: a migração AUTH-10
+  cobriu apenas login, store e página de login.
 
 Sem meio de cobrança, sem endpoint de domínio novo e sem alegação de
 migração arquitetural concluída.

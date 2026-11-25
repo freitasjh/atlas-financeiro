@@ -23,9 +23,10 @@ const ptBR = {
     tooManyAttempts: 'Muitas tentativas. Aguarde alguns minutos.',
     networkError: 'Não foi possível conectar. Tente novamente.',
     welcomeBackDescription: 'Login realizado com sucesso.',
+    reLoginRequired: 'Sua sessão não foi mantida ao recarregar a página. Entre novamente para continuar.',
     errors: {
       invalidEmail: 'Informe um e-mail válido.',
-      shortPassword: 'A senha deve ter pelo menos 6 caracteres.',
+      shortPassword: 'A senha deve ter pelo menos 12 caracteres.',
     },
     coverAlt: 'Estica Grana — Controle de Finanças Pessoais e Patrimônio',
     coverEyebrow: 'Gestão Financeira & Patrimônio',

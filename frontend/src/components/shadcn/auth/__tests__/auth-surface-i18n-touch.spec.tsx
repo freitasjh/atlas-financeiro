@@ -4,16 +4,11 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import { MemoryRouter } from "react-router-dom"
 import { I18nextProvider } from "react-i18next"
 
-const { signInWithPassword } = vi.hoisted(() => ({
-  signInWithPassword: vi.fn(),
-}))
-
-vi.mock("@/lib/supabase", () => ({
-  supabase: { auth: { signInWithPassword } },
-}))
+const fetchMock = vi.hoisted(() => vi.fn())
 
 import i18n from "@/i18n"
-import { LoginForm } from "@/components/shadcn/auth/login-form"
+import { LoginForm, signInSchema } from "@/components/shadcn/auth/login-form"
+import { clearSession } from "@/session/session"
 
 function renderLogin() {
   return render(
@@ -26,11 +21,16 @@ function renderLogin() {
 }
 
 beforeEach(() => {
-  signInWithPassword.mockReset()
+  fetchMock.mockReset()
+  fetchMock.mockResolvedValue({ ok: false, status: 401, json: async () => ({}) })
+  vi.stubGlobal("fetch", fetchMock)
+  clearSession()
 })
 
 afterEach(async () => {
   cleanup()
+  clearSession()
+  vi.unstubAllGlobals()
   await i18n.changeLanguage("pt-BR")
 })
 
@@ -93,15 +93,45 @@ describe("whenLoginFormRenderedInEnUs_thenNoPortugueseCopyRemains", () => {
     expect(document.body.textContent).not.toContain("Informe um e-mail válido.")
   })
 
-  it("mensagens de servidor traduzem (credencial inválida)", async () => {
+  it("senha de 11 caracteres sob en-US sai em inglês, sem pt-BR", async () => {
     await i18n.changeLanguage("en-US")
-    signInWithPassword.mockResolvedValue({
-      error: { status: 400, message: "Invalid login credentials" },
-    })
     renderLogin()
 
     fireEvent.change(screen.getByLabelText("Email"), { target: { value: "a@b.com" } })
-    fireEvent.change(screen.getByLabelText("Password"), { target: { value: "segredo123" } })
+    fireEvent.change(screen.getByLabelText("Password"), { target: { value: "senha12345" } })
+    fireEvent.click(screen.getByRole("button", { name: "Sign in" }))
+
+    await waitFor(() => {
+      expect(screen.getByText("Password must be at least 12 characters.")).toBeTruthy()
+    })
+    expect(document.body.textContent).not.toContain("A senha deve ter pelo menos 12 caracteres.")
+  })
+
+  it("signInSchema exportado não embute mensagem pt-BR", () => {
+    for (const values of [
+      { email: "a@b.com", password: "senha12345" },
+      { email: "invalido", password: "senha123456" },
+    ]) {
+      const result = signInSchema.safeParse(values)
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        const messages = result.error.issues.map((issue) => issue.message).join(" | ")
+        expect(messages, "literal pt-BR no schema exportado").not.toContain(
+          "A senha deve ter pelo menos",
+        )
+        expect(messages, "literal pt-BR no schema exportado").not.toContain(
+          "Informe um e-mail válido.",
+        )
+      }
+    }
+  })
+
+  it("mensagens de servidor traduzem (credencial inválida)", async () => {
+    await i18n.changeLanguage("en-US")
+    renderLogin()
+
+    fireEvent.change(screen.getByLabelText("Email"), { target: { value: "a@b.com" } })
+    fireEvent.change(screen.getByLabelText("Password"), { target: { value: "segredo123456" } })
     fireEvent.click(screen.getByRole("button", { name: "Sign in" }))
 
     await waitFor(() => {

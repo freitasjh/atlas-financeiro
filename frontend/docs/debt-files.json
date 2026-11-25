@@ -15,11 +15,8 @@
     "src/components/layout/Navbar.tsx",
     "src/components/shadcn/__tests__/shadcn-boundary.spec.ts",
     "src/components/shadcn/__tests__/shadcn-transactions-boundary.spec.ts",
-    "src/components/shadcn/auth/__tests__/auth-surface-i18n-touch.spec.tsx",
     "src/components/shadcn/auth/forgot-password-form.test.tsx",
     "src/components/shadcn/auth/forgot-password-form.tsx",
-    "src/components/shadcn/auth/login-form.test.tsx",
-    "src/components/shadcn/auth/login-form.tsx",
     "src/components/shadcn/auth/password-strength-meter.tsx",
     "src/internal/__tests__/router-internal.spec.tsx",
     "src/internal/data/__tests__/internal-auth.spec.ts",
@@ -83,7 +80,6 @@
     "src/modules/transactions/service/__tests__/transactions-recalc.spec.ts",
     "src/modules/transactions/service/__tests__/transfer-rollback.spec.ts",
     "src/modules/transactions/service/transactions.service.ts",
-    "src/pages/LoginPage.tsx",
     "src/pages/OverviewPage.tsx",
     "src/pages/SetPasswordPage.tsx",
     "src/pages/__tests__/overview-dashboard-acceptance.spec.tsx",
@@ -102,8 +98,6 @@
     "src/routes/router-contas.spec.tsx",
     "src/routes/router-orcamentos.spec.tsx",
     "src/routes/router.test.tsx",
-    "src/store/auth-store.test.ts",
-    "src/store/auth-store.ts",
     "src/types/supabase.ts",
     "tests/arch/boundaries.test.ts",
     "tests/correcao-review.test.ts",
@@ -113,5 +107,34 @@
     "tests/nfr/acceptance.test.mjs",
     "tests/nfr/governance.test.mjs",
     "tests/nfr/security.test.ts"
+  ],
+  "dono": "frontend-engineer",
+  "revisado_por": "code-reviewer",
+  "data": "2026-11-24",
+  "authMigratedToNest": [
+    {
+      "path": "src/components/shadcn/auth/__tests__/auth-surface-i18n-touch.spec.tsx",
+      "motivo": "AUTH-10: superfície de auth reescrita; toque i18n sem acoplamento de auth."
+    },
+    {
+      "path": "src/components/shadcn/auth/login-form.test.tsx",
+      "motivo": "AUTH-10: teste do form usa sessão via API Nest, não chamada de auth remota."
+    },
+    {
+      "path": "src/components/shadcn/auth/login-form.tsx",
+      "motivo": "AUTH-10: login via API Nest; token só em memória, sem auth remota."
+    },
+    {
+      "path": "src/pages/LoginPage.tsx",
+      "motivo": "AUTH-10: página usa wrapper de sessão Nest, sem auth remota."
+    },
+    {
+      "path": "src/store/auth-store.test.ts",
+      "motivo": "AUTH-10: store substituído por sessão em memória via contrato v1."
+    },
+    {
+      "path": "src/store/auth-store.ts",
+      "motivo": "AUTH-10: store substituído por sessão em memória, sem auth remota."
+    }
   ]
 }

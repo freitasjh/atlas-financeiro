@@ -23,9 +23,10 @@ const enUS = {
     tooManyAttempts: 'Too many attempts. Wait a few minutes.',
     networkError: 'Could not connect. Please try again.',
     welcomeBackDescription: 'You signed in successfully.',
+    reLoginRequired: 'Your session was not kept after reloading the page. Sign in again to continue.',
     errors: {
       invalidEmail: 'Enter a valid email.',
-      shortPassword: 'Password must be at least 6 characters.',
+      shortPassword: 'Password must be at least 12 characters.',
     },
     coverAlt: 'Estica Grana — Personal finance and wealth control',
     coverEyebrow: 'Finance & Wealth Management',

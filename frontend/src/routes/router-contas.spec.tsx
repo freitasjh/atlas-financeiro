@@ -70,7 +70,13 @@ describe("whenContasClicked_thenHashRouteShowsBankAccountsView", () => {
     fromMock.mockReset()
     cleanup()
     window.location.hash = ""
-    useAuthStore.setState({ status: "idle", user: null, error: null, initialized: false })
+    useAuthStore.setState({
+      status: "authenticated",
+      initialized: true,
+      user: { id: "u1", email: "a@b.com" },
+      error: null,
+      reLoginRequired: false,
+    })
     getSession.mockResolvedValue({
       data: { session: { user: { id: "u1", email: "a@b.com" } } },
     })

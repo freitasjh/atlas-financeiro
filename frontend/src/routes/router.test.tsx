@@ -41,8 +41,13 @@ describe("roteamento hash", () => {
   })
 
   it("renderiza app com sessão", { timeout: 20000 }, async () => {
-    getSession.mockResolvedValue({
-      data: { session: { user: { id: "u1", email: "a@b.com" } } },
+    // AUTH-10: sessão agora vive em memória — o teste controla o store direto.
+    useAuthStore.setState({
+      status: "authenticated",
+      initialized: true,
+      user: { id: "u1", email: "a@b.com" },
+      error: null,
+      reLoginRequired: false,
     })
     window.location.hash = "#/"
     const r = createAppRouter()
