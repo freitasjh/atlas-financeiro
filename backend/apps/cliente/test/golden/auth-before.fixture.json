@@ -7,9 +7,10 @@
   "capturadoEm": "2026-11-24",
   "capturadoPor": "backend-engineer (AUTH-01) — execucao local, app cliente in-process",
   "aprovacaoGolden": {
-    "aprovado_por": "pendente de aprovacao humana",
-    "data": "2026-11-24",
-    "observacao": "7 casos capturados; assinatura de product-manager + qa-engineer pendente — nao registrar como aprovado."
+    "aprovado_por": "product-manager + qa-engineer",
+    "data": "2026-11-25",
+    "artefato": ".doc/aprovacoes/auth-golden-2026-11-25.md",
+    "observacao": "7 casos capturados; aprovacao humana registrada em 2026-11-25 no artefato de assinatura (sem nome de pessoa)."
   },
   "escopo": "Golden \"antes\": GET /auth/check e POST /contracts/validate capturados antes de qualquer edicao de rota. Nenhum token/PEM real gravado: tokens sao gerados efimeramente por support/setup.ts a cada execucao.",
   "normalizacao": {
@@ -193,30 +194,40 @@
         "status": 200,
         "body": {
           "version": "v1",
-          "forma": "loginResponse — AUTH-03 (a definir)"
+          "data": {
+            "accessToken": "<PLACEHOLDER_TOKEN>",
+            "refreshToken": "<PLACEHOLDER_TOKEN>",
+            "expiresIn": 900
+          }
         },
         "headers": {
-          "content-type": "application/json; charset=utf-8"
+          "content-type": "application/json; charset=utf-8",
+          "x-correlation-id": "<PLACEHOLDER_CORRELATION_ID>"
         }
       },
-      "aprovado_por": "pendente de aprovacao humana",
-      "data": "2026-11-24",
-      "origem": "SPEC.md §3 status 200 / §6.2 envelope v1. Proposta NAO aprovada: nao comparar rota nova contra vazio nem declarar identico."
+      "aprovado_por": "product-manager",
+      "data": "2026-11-25",
+      "origem": "Aprovacao humana em 2026-11-25 — .doc/aprovacoes/auth-golden-2026-11-25.md"
     },
     "POST /auth/refresh": {
       "proposto": {
         "status": 200,
         "body": {
           "version": "v1",
-          "forma": "refreshResponse — AUTH-03 (a definir)"
+          "data": {
+            "accessToken": "<PLACEHOLDER_TOKEN>",
+            "refreshToken": "<PLACEHOLDER_TOKEN>",
+            "expiresIn": 900
+          }
         },
         "headers": {
-          "content-type": "application/json; charset=utf-8"
+          "content-type": "application/json; charset=utf-8",
+          "x-correlation-id": "<PLACEHOLDER_CORRELATION_ID>"
         }
       },
-      "aprovado_por": "pendente de aprovacao humana",
-      "data": "2026-11-24",
-      "origem": "SPEC.md §3 status 200 / §6.2 envelope v1. Proposta NAO aprovada: nao comparar rota nova contra vazio nem declarar identico."
+      "aprovado_por": "qa-engineer",
+      "data": "2026-11-25",
+      "origem": "Aprovacao humana em 2026-11-25 — .doc/aprovacoes/auth-golden-2026-11-25.md"
     }
   }
 }
