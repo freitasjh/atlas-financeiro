@@ -21,6 +21,9 @@ const GOLDEN_FILE = join(HERE, 'golden/auth-before.fixture.json');
 /** O verificador contém os padrões proibidos como literais — não é alvo de si mesmo. */
 const SELF_PATH = join(HERE, 'auth-slice-boundary.spec.ts').slice(ROOT.length + 1);
 
+/** Único artefato de assinatura humana (AUTH-01); qualquer outro `.doc/**` segue barrado. */
+const SIGNATURE_ARTIFACT = '.doc/aprovacoes/auth-golden-2026-11-25.md';
+
 /** ADR-001 §3 "Portas, comandos, fronteira de arquivos" + apoio de testes/DDL. */
 const ALLOWED_CODE_ROOTS = [
   'backend/apps/cliente/',
@@ -51,6 +54,21 @@ function protectedPathsDiffArgs(): string[] {
   return ['diff', 'HEAD', '--exit-code', '--', 'scripts/scan-secrets.mjs', 'harness.config.json'];
 }
 
+const isCodePath = (path: string): boolean => /^(backend|frontend)\//.test(path);
+const isHarnessPath = (path: string): boolean =>
+  path.startsWith('.agents/') ||
+  path === 'workflow-state.json' ||
+  path === 'tsconfig.tsbuildinfo' ||
+  path.startsWith('supabase/.temp/') ||
+  path === 'nohup.out';
+
+/** Puro: plantio em memória, sem gravar fixture em disco. */
+function unexpectedPathsFrom(all: string[]): string[] {
+  return all.filter(
+    (path) => !isCodePath(path) && !isHarnessPath(path) && path !== SIGNATURE_ARTIFACT,
+  );
+}
+
 /** Slice ADR-001 = working tree vs HEAD (base 9e35751). */
 function collectSlicePaths(): {
   codePaths: string[];
@@ -61,17 +79,10 @@ function collectSlicePaths(): {
     ...gitLines(['diff', 'HEAD', '--name-only']),
     ...gitLines(['ls-files', '--others', '--exclude-standard']),
   ])];
-  const isCode = (path: string) => /^(backend|frontend)\//.test(path);
-  const isHarness = (path: string) =>
-    path.startsWith('.agents/') ||
-    path === 'workflow-state.json' ||
-    path === 'tsconfig.tsbuildinfo' ||
-    path.startsWith('supabase/.temp/') ||
-    path === 'nohup.out';
   return {
-    codePaths: all.filter(isCode),
-    harnessPaths: all.filter(isHarness),
-    unexpectedPaths: all.filter((path) => !isCode(path) && !isHarness(path)),
+    codePaths: all.filter(isCodePath),
+    harnessPaths: all.filter(isHarnessPath),
+    unexpectedPaths: unexpectedPathsFrom(all),
   };
 }
 
@@ -252,6 +263,29 @@ describe('AUTH-12 — fronteira de diff, harness intacto, zero segredo/provedor 
     const intact = spawnSync('git', protectedPathsDiffArgs(), { cwd: ROOT, encoding: 'utf8' });
     expect(intact.error).toBeUndefined();
     expect(intact.status).toBe(0);
+  });
+
+  it('whenSignatureArtifactPresent_thenAllowed', () => {
+    const planted = [
+      'backend/apps/cliente/src/auth/public-auth.controller.ts',
+      SIGNATURE_ARTIFACT,
+    ];
+
+    expect(unexpectedPathsFrom(planted)).toEqual([]);
+  });
+
+  it('whenOtherDocPathPresent_thenBlocked', () => {
+    const planted = [
+      'backend/apps/cliente/src/auth/public-auth.controller.ts',
+      '.doc/aprovacoes/outro-artefato.md',
+      '.doc/privado/rascunho.md',
+      SIGNATURE_ARTIFACT,
+    ];
+
+    expect(unexpectedPathsFrom(planted)).toEqual([
+      '.doc/aprovacoes/outro-artefato.md',
+      '.doc/privado/rascunho.md',
+    ]);
   });
 
   it('whenControlPlaneTouched_thenFails', () => {
