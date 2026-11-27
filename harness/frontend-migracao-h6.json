@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "demand": "frontend-migracao-h6",
+  "agent": "qa-engineer",
+  "phase": "Testing",
+  "gitSha": "e37a2b51d2be1cf9860e669359b6bfa83d92306a",
+  "executedAt": "2026-11-27T19:33:03Z",
+  "verdict": "GREEN-CANONICAL-BLOCKED-H6",
+  "verdictDetail": "Reexecucao medida pelo proprio QA apos a correcao do gate: commands.suiteFull exit 0 (test:gate 14/14 pass, build exit 0, typecheck exit 0). H1/H2 verdes apenas na suite canonica; aprovacao continua bloqueada por 0/126 checkboxes em TASKS.md e H3 n/a. npm run test:run (config.commands.unit, FORA da suiteFull) mede exit 1 com 2 falhas por arvore protegida suja; registrado, nao promovido.",
+  "prior_report": {
+    "file": "harness/frontend-migracao-h6.json",
+    "priorVerdict": "RED-H1-H2-BLOCKED",
+    "reasonStale": "Versao anterior media suiteFull exit 1 (pass 0 / fail 1) por SyntaxError em .opencode/plugins/__tests__/gate-write-scope.spec.mjs:19: export toRepoRelative ausente em gate.js.",
+    "fixVerifiedBy": "orquestrador (delegacao): gate.js readicionou export + 4 pontos de uso de toRepoRelative; reexecucao de test:gate 14/14 pass, 0 fail; build e typecheck exit 0.",
+    "handling": "REPORT sobrescrito com medicao propria deste agente. Override H1H2-frontend-migracao-suite-vermelha permanece como registro historico; debito gate-write-scope-toRepoRelative-missing marcado como resolvido em workflow-state.json (nao alterado por QA)."
+  },
+  "adrContext": {
+    "adr": ".spec/prd/frontend-migracao/ADRs/ADR-002-bigbang-move/ADR.md",
+    "tasksFile": ".spec/prd/frontend-migracao/ADRs/ADR-002-bigbang-move/TASKS.md",
+    "indexStatus": "in-progress",
+    "indexMerge": "—",
+    "backlogItem": "frontend-migracao-h6-pendente",
+    "note": "VERIFY/H6/archive, mudanca de estado e marcacao de checkboxes fora do escopo deste agente"
+  },
+  "commands": [
+    {
+      "cmd": "npm run test:gate && npm run build && npm run typecheck",
+      "exitCode": 0,
+      "durationMs": 27153,
+      "stdoutHash": "sha256:1784a28ca5aae2515e65db81241bd7c30b33bd331c23c345a9507e4de51dd540",
+      "note": "commands.suiteFull literal de harness.config.json; primeiro elemento usado pela contraprova; gate 14/14, build e typecheck exit 0"
+    },
+    {
+      "cmd": "npm run test:gate",
+      "exitCode": 0,
+      "durationMs": 149,
+      "stdoutHash": "sha256:acedd6f0a6552f41a6bb94d742f08e01879c229acf6330b616e6c50b7be279ea",
+      "note": "node --test .opencode/plugins/__tests__/*.spec.mjs: tests 14, suites 4, pass 14, fail 0, cancelled 0, skipped 0, todo 0"
+    },
+    {
+      "cmd": "npm run build",
+      "exitCode": 0,
+      "durationMs": 16775,
+      "stdoutHash": "sha256:c31b12d834b1a6190055ccc8c1098b9551ec2697890e1264afa69d0cbe3adc45",
+      "note": "commands.frontendBuild; tsc+vite+check-dist OK; avisos nao bloqueantes de chunks >500 kB e placeholder em dist/_headers"
+    },
+    {
+      "cmd": "npm run typecheck",
+      "exitCode": 0,
+      "durationMs": 10715,
+      "stdoutHash": "sha256:add9f54e689e8441c68bade26a35246f0199fe868577e07a34c1ce1e3a6079b0",
+      "note": "commands.frontendTypecheck; tsc --noEmit sem diagnostico"
+    },
+    {
+      "cmd": "npm run test:run",
+      "exitCode": 1,
+      "durationMs": 70027,
+      "stdoutHash": "sha256:1aa825d855e6e8c76d89901ef9c3ba2f16b0297b900ae1df66da5e6bc57fefb1",
+      "note": "commands.unit (vitest), NAO incluido em commands.suiteFull: Test Files 2 failed | 254 passed (256); Tests 2 failed | 1757 passed (1759). Ambas as falhas: 'gate.js/scripts/harness/control-plane intocados' em frontend/tests/nfr/governance.test.mjs:87 e frontend/tests/nfr/testability.test.mjs:101, por diff pre-existente em paths protegidos; nao altera o veredito da suite canonica, mas impede qualquer afirmacao de suite global verde"
+    }
+  ],
+  "counts": {
+    "unit": { "passed": 14, "failed": 0, "skipped": 0 },
+    "it": { "passed": 0, "failed": 0, "skipped": 0 },
+    "frontend": { "passed": 0, "failed": 0, "skipped": 0 },
+    "vitest": { "passed": 1757, "failed": 2, "skipped": 0 }
+  },
+  "countsNotes": {
+    "unit": "Unico bloco 'tests/pass/fail/skipped' na saida da suiteFull (test:gate node --test): 14/14/0; parseTestCounts do gate mapeia esse bloco para a camada unit, por isso a comparacao exata da contraprova e satisfeita",
+    "it": "sem suite IT no config; nenhum bloco de contagem na suiteFull",
+    "frontend": "sem suite frontend autonoma declarada; build/typecheck exit 0 sem contagem de testes",
+    "vitest": "medicao separada de commands.unit (npm run test:run), exit 1, fora da suiteFull; informativo, nao comparado pela contraprova"
+  },
+  "e2e": {
+    "status": "n/a-sem-e2e-config-e-mcp",
+    "browserStarted": false,
+    "screenshots": [],
+    "note": "config sem chave e2e e mcp.required vazio; nenhuma execucao de browser, console ou rede; chrome-devtools nao declarado"
+  },
+  "evaluation": {
+    "h1": "GREEN — commands.suiteFull exit 0 medido por este agente (gate 14/14, build exit 0, typecheck exit 0); exit code 0 e o que a contraprova compara",
+    "h2": "GREEN — test:gate exit 0 com pass 14 / fail 0 / skipped 0; correspondentemente counts.unit 14/0/0. Ressalva: commands.unit (vitest, fora da suiteFull) exit 1 com 2 falhas em NFR por arvore protegida suja; nao usar para promover H2 alem do observado",
+    "h3": "n/a-sem-e2e-config-e-mcp — sem roteiro e2e em harness.config.json e sem MCP de browser; nenhuma screenshot, afirmacao de console limpo ou network sem 4xx/5xx",
+    "h4": "PARCIAL — suite canonica, build e typecheck verdes; comportamento de UI nao verificado; 2 testes NFR fora da suite canonica falham por diffs pre-existentes em paths protegidos",
+    "h5": "OK-escopo — escrita restrita a harness/frontend-migracao-h6.json; nenhuma porta/servidor iniciado, nenhum segredo gravado, nenhum pkill -f (SPEC I7); apenas dist/ regenerado (ignorado)",
+    "h6": "BLOQUEADO-NAO-APROVADO — mesmo com H1/H2 verdes na suite canonica, TASKS.md permanece com 0/126 checkboxes marcados e a ausencia de H3 (sem e2e config e sem MCP) impede aprovacao; nenhum VERIFY escrito, nenhuma mudanca de estado, nenhum checkbox alterado",
+    "telas": "n/a-sem-e2e-config-e-mcp — nenhuma tela verificada ou screenshot coletada nesta execucao",
+    "negocio": "n/a — corte estrutural; build/typecheck nao validam regras de negocio, contrato v1 ou fluxos criticos",
+    "logica": "PARCIAL — 14 assercoes do gate executadas e verdes, incluindo toRepoRelative e write-scope absoluto; 2 falhas vitest fora da suiteFull por diff pre-existente em paths protegidos",
+    "perf": "n/a — durationMs sao tempos de comando medidos, nao benchmark"
+  },
+  "brainStore": [],
+  "brainStoreNote": "Sem ferramentas MCP brain_search/brain_store disponiveis nesta sessao; nada gravado. Checkout ../brain em 71ba7f21 diverge do pin G1 8b965093a00d291195313fe457b3aa35bbff71f2 (brain-context.md:14); aviso registrado, nao fatal.",
+  "cleanup": {
+    "ports": [],
+    "processesEnded": [],
+    "note": "Nenhum servidor/porta iniciado ou liberado; nenhum processo encerrado; nenhum comando proibido de encerramento em massa executado (SPEC I7). Se necessario: lsof -ti :PORTA + kill por PID."
+  },
+  "selfReported": true,
+  "tasks_checkboxes": {
+    "checked": 0,
+    "unchecked": 126,
+    "source": ".spec/prd/frontend-migracao/ADRs/ADR-002-bigbang-move/TASKS.md",
+    "method": "contagem direta de [x] e [ ] no arquivo; nenhum checkbox alterado por QA"
+  },
+  "screenshots": [],
+  "blocking_findings": [
+    "TASKS.md ADR-002: 0/126 checkboxes marcados — bloqueia aprovacao/H6 mesmo com H1/H2 verdes",
+    "H3 n/a-sem-e2e-config-e-mcp: sem roteiro e2e e sem MCP de browser; nenhuma evidencia visual/console/network produzida",
+    "commands.unit (npm run test:run, FORA da suiteFull) exit 1: 2 falhas / 1757 pass (1759) em frontend/tests/nfr/governance.test.mjs:87 e testability.test.mjs:101; ambas por 'gate.js/scripts/harness/control-plane intocados' com diff pre-existente em paths protegidos (correcao do gate pelo orquestrador)",
+    "Arvore ja suja antes da execucao em paths protegidos; nenhuma alteracao feita por este agente fora de harness/frontend-migracao-h6.json"
+  ],
+  "validation": {
+    "schema": ".agents/schemas/harness-report.schema.json",
+    "commandSource": "harness.config.json commands.suiteFull/frontendBuild/frontendTypecheck/unit; test:gate = primeiro segmento de suiteFull",
+    "evidencePathSource": "harness.config.json evidence.path",
+    "gitShaSource": "git rev-parse HEAD",
+    "stdoutHashMethod": "sha256 de stdout+stderr capturados em /tmp/qa-h6/<comando>.log",
+    "countsSource": "linhas 'tests/pass/fail/skipped' da execucao real de test:gate dentro da suiteFull",
+    "selfReported": true,
+    "writeScope": "unico arquivo escrito: harness/frontend-migracao-h6.json"
+  }
+}

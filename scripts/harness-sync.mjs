@@ -123,8 +123,8 @@ export const DEFAULT_GATES = Object.freeze({
   picco: "enforce",
   evidence: "enforce",
   hitlBatch: "enforce",
-  e2eGreenfield: "warn",
 });
+export const DEFAULT_E2E = Object.freeze({ baseUrl: null, steps: [], browserRequired: false, skipPolicy: "n/a-explicit" });
 export const DEFAULT_MCP_REQUIRED = Object.freeze(["chrome-devtools"]);
 export const DEFAULT_CONTRAPROVE_TIMEOUT_MS = 900000;
 
@@ -141,11 +141,21 @@ export const PAYLOAD_DIRS = Object.freeze([
   ".agents/skills",
   ".opencode/plugins",
   ".opencode/commands",
+  // ADR-003 I4 — camada Codex: estáticos entram no payload e no manifesto
+  // (F-06: `doctor` re-hasheia cada arquivo; G1/G3/G4/G5 inalterados).
+  ".codex/agents",
+  ".codex/hooks",
+  ".codex/rules",
+  ".claude/agents",
+  ".claude/hooks",
+  ".claude/skills",
 ]);
 export const PAYLOAD_FILES = Object.freeze([
   "scripts/harness-sync.mjs",
   "scripts/seal.mjs",
   "opencode.json",
+  ".codex/hooks.json",
+  ".claude/settings.json",
 ]);
 
 // Directories never walked (tests are harness-internal; VCS and bytecode
@@ -153,15 +163,37 @@ export const PAYLOAD_FILES = Object.freeze([
 // bytes also depend on the interpreter that produced it).
 const SKIPPED_DIRS = new Set(["node_modules", ".git", "__tests__", "__pycache__"]);
 
+// ADR-003 I4/I5 — config é criado quando ausente, nunca sobrescrito; state é runtime.
+export const CODEX_CONFIG_NAME = ".codex/config.toml";
+export const CODEX_STATE_NAME = ".codex/harness-state.json";
+
 // Project data: never written, never removed (G3).
-const PRESERVED_FILES = new Set([CONFIG_NAME, "workflow-state.json"]);
+const PRESERVED_FILES = new Set([
+  CONFIG_NAME, "workflow-state.json", CODEX_CONFIG_NAME, CODEX_STATE_NAME,
+]);
 const PRESERVED_PREFIXES = [".spec/"];
 const PRESERVED_RES = [/^\.agents\/rules\/project-[^/]*\.md$/];
+
+// I5/F-05: todo arquivo sob `.codex/` que NÃO é payload é do consumidor/runtime.
+// O conjunto é enumerado da fonte (nome por nome), não por prefixo de diretório:
+// um hook extra plantado em `.codex/hooks/` não vira payload por osmose.
+let CODEX_PAYLOAD_SET = null;
+function isCodexPayload(posix) {
+  if (!CODEX_PAYLOAD_SET) {
+    const set = new Set([".codex/hooks.json"]);
+    for (const dir of [".codex/agents", ".codex/hooks", ".codex/rules"]) {
+      for (const rel of walkFiles(SOURCE_ROOT, dir)) set.add(rel);
+    }
+    CODEX_PAYLOAD_SET = set;
+  }
+  return CODEX_PAYLOAD_SET.has(posix);
+}
 
 export function isPreserved(rel) {
   const posix = rel.split(path.sep).join("/");
   if (PRESERVED_FILES.has(posix)) return true;
   if (PRESERVED_PREFIXES.some((p) => posix.startsWith(p))) return true;
+  if (posix.startsWith(".codex/") && !isCodexPayload(posix)) return true;
   return PRESERVED_RES.some((re) => re.test(posix));
 }
 
@@ -183,7 +215,7 @@ export const PATH_CLASSES = Object.freeze({
     ".agents/rules/project-fullstack.md",
     "tokens/*.json",
   ]),
-  attached: Object.freeze(["AGENTS.md", "DESIGN.md"]),
+  attached: Object.freeze(["AGENTS.md", "DESIGN.md", "CLAUDE.md"]),
 });
 const OWNED_FILES = new Set(PATH_CLASSES.owned.slice(0, 3));
 const OWNED_TOKEN_RE = /^tokens\/[^/]+\.json$/;
@@ -258,10 +290,18 @@ const AGENTS_BODY = [
   "PRÓPRIOS: .agents/rules/project-*.md e tokens/*.json. ANEXADOS: AGENTS.md e DESIGN.md.",
 ].join("\n");
 
+const CLAUDE_BODY = [
+  "## Harness v2 — Claude Code",
+  "",
+  "Instruções canônicas: @AGENTS.md.",
+  "Skills, agents e hooks em `.claude/` são gerenciados pelo harness.",
+].join("\n");
+
 // I8: o BODY de DESIGN.md vem SOMENTE do template da skill design-system.
 // Nenhum hex, fonte, raio ou paleta vive neste gerador.
 export function identityBody(rel) {
   if (rel === "AGENTS.md") return AGENTS_BODY;
+  if (rel === "CLAUDE.md") return CLAUDE_BODY;
   if (rel === "DESIGN.md") {
     const template = path.join(SOURCE_ROOT, ".agents", "skills", "design-system", "templates", "DESIGN.md");
     const raw = readOrNull(template);
@@ -663,6 +703,47 @@ export function mergeManaged(source, target) {
   return out;
 }
 
+function canonicalizeClaudeHook(value) {
+  if (Array.isArray(value)) return value.map(canonicalizeClaudeHook);
+  if (!value || typeof value !== "object") return value;
+  const out = {};
+  for (const [key, item] of Object.entries(value)) out[key] = canonicalizeClaudeHook(item);
+  if (typeof out.command === "string") {
+    const legacy = out.command.match(/^\s*node\s+"([^"]+)"\s*$/);
+    if (legacy && (!Array.isArray(out.args) || out.args.length === 0)) {
+      out.command = "node";
+      out.args = [legacy[1]];
+    }
+  }
+  return out;
+}
+
+function mergeClaudeValue(source, target) {
+  if (Array.isArray(source) || Array.isArray(target)) {
+    const seen = new Set();
+    return [...(Array.isArray(source) ? source : []), ...(Array.isArray(target) ? target : [])]
+      .filter((value) => {
+        const key = value && typeof value === "object" && Array.isArray(value.hooks)
+          ? JSON.stringify(canonicalizeClaudeHook(value.hooks))
+          : JSON.stringify(canonicalizeClaudeHook(value));
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+  }
+  if (isPlainObject(source) && isPlainObject(target)) {
+    const out = { ...target };
+    for (const [key, value] of Object.entries(source)) out[key] = key in out ? mergeClaudeValue(value, out[key]) : value;
+    return out;
+  }
+  return source;
+}
+
+export function mergeClaudeSettings(source, target) {
+  if (!isPlainObject(source)) return source;
+  return mergeClaudeValue(source, isPlainObject(target) ? target : {});
+}
+
 function serialize(value) {
   return `${JSON.stringify(value, null, 2)}\n`;
 }
@@ -724,6 +805,7 @@ export function buildConfig(targetDir, { suite, unit, stack } = {}) {
     moduleMap: { ...DEFAULT_MODULE_MAP },
     commands: { suiteFull, unit: unitCmd },
     mcp: { required: [...DEFAULT_MCP_REQUIRED] },
+    e2e: { ...DEFAULT_E2E, steps: [] },
     protectedPaths: sourceProtectedPaths(),
     gates: { ...DEFAULT_GATES },
     contraproveTimeoutMs: DEFAULT_CONTRAPROVE_TIMEOUT_MS,
@@ -818,6 +900,21 @@ export function planConfig(targetDir, opts = {}) {
   return { rel: CONFIG_NAME, action: "create", content, sha: sha256(content), config, inManifest: false };
 }
 
+// ADR-003 I4/RF-09: `.codex/config.toml` é criado quando ausente a partir do
+// template da fonte e preservado quando presente (como `harness.config.json`).
+// `inManifest: false` mantém a config do consumidor fora da claim do manifesto —
+// um update nunca reescreve customização do projeto.
+export function planCodexConfig(targetDir) {
+  assertSafeWrite(targetDir, CODEX_CONFIG_NAME);
+  const configPath = path.join(targetDir, CODEX_CONFIG_NAME);
+  if (lexists(configPath)) {
+    return { rel: CODEX_CONFIG_NAME, action: "skip", content: null, sha: null, inManifest: false };
+  }
+  const template = readOrNull(path.join(SOURCE_ROOT, CODEX_CONFIG_NAME));
+  if (!template) throw new Error(`template ausente (${CODEX_CONFIG_NAME}): nenhuma escrita`);
+  return { rel: CODEX_CONFIG_NAME, action: "create", content: template, sha: sha256(template), inManifest: false };
+}
+
 export function buildPlan(targetDir, opts = {}) {
   const plan = [];
   for (const rel of payloadFiles()) {
@@ -827,6 +924,12 @@ export function buildPlan(targetDir, opts = {}) {
     // Raw bytes by default: a payload file is copied, never re-encoded. Only
     // `opencode.json` goes through text, because it is merged (G4).
     let wanted = sourceRaw;
+    if (rel === ".codex/hooks.json") {
+      // ADR-003/A6: o comando do hook aponta para o cliente instalado, não
+      // para o checkout de origem. Substitui a raiz fonte pela raiz do alvo.
+      const content = sourceRaw.toString("utf8").split(SOURCE_ROOT).join(path.resolve(targetDir));
+      wanted = Buffer.from(content, "utf8");
+    }
     if (rel === "opencode.json") {
       let content = sourceRaw.toString("utf8");
       const targetRaw = readOrNull(path.join(targetDir, rel));
@@ -844,11 +947,25 @@ export function buildPlan(targetDir, opts = {}) {
       }
       wanted = Buffer.from(content, "utf8");
     }
+    if (rel === ".claude/settings.json") {
+      let content = sourceRaw.toString("utf8");
+      const targetRaw = readOrNull(path.join(targetDir, rel));
+      const sourceJson = JSON.parse(content);
+      if (targetRaw) {
+        let targetJson = null;
+        try { targetJson = JSON.parse(targetRaw.toString("utf8")); } catch { targetJson = null; }
+        content = serialize(mergeClaudeSettings(sourceJson, targetJson ?? {}));
+      } else {
+        content = serialize(sourceJson);
+      }
+      wanted = Buffer.from(content, "utf8");
+    }
     const current = readOrNull(path.join(targetDir, rel));
     const action = !current ? "create" : sha256(current) === sha256(wanted) ? "skip" : "update";
     plan.push({ rel, action, content: wanted, sha: sha256(wanted) });
   }
   plan.push(planConfig(targetDir, opts));
+  plan.push(planCodexConfig(targetDir));
   // ADR-001: identidade entra no MESMO plano (mesmo guard do `--dry-run`).
   if (opts.stack) plan.push(...buildIdentityPlan(targetDir, opts.stack));
   return plan;
@@ -1279,6 +1396,9 @@ export function runDoctor(targetDir, opts = {}) {
     if (!fs.existsSync(path.join(SOURCE_ROOT, file))) continue;
     if (!fs.existsSync(path.join(targetDir, file))) fail("arquivo ausente", file);
   }
+  if (fs.existsSync(path.join(targetDir, ".claude", "settings.json"))) {
+    readJson(path.join(targetDir, ".claude", "settings.json")) || fail("JSON inválido", ".claude/settings.json");
+  }
 
   const manifest = readManifest(targetDir);
   if (!manifest) fail("manifesto inválido ou ausente", MANIFEST_NAME);
@@ -1340,18 +1460,29 @@ export function runDoctor(targetDir, opts = {}) {
 
   if (!readJson(path.join(targetDir, "opencode.json"))) fail("JSON inválido", "opencode.json");
 
+  // ADR-003 I4: a config Codex é criada quando ausente; ausência no destino
+  // depois de `init`/`update` é uma camada incompleta, não silêncio.
+  if (fs.existsSync(path.join(SOURCE_ROOT, CODEX_CONFIG_NAME)) &&
+      !fs.existsSync(path.join(targetDir, CODEX_CONFIG_NAME))) {
+    fail("arquivo ausente", CODEX_CONFIG_NAME);
+  }
+
   brainWarning(targetDir, log);
 
   if (failures.length) {
+    log("doctor: trust inativo");
     for (const line of failures) log(`FAIL ${line}`);
     return 1;
   }
+  log("doctor: trust ativo (hooks gerenciados, manifesto verificado)");
   log(`doctor: OK (${manifest ? Object.keys(manifest.files).length : 0} arquivo(s) no manifesto)`);
   return 0;
 }
 
 // --- CLI ------------------------------------------------------------------
-const USAGE = `uso: node scripts/harness-sync.mjs <init|update|doctor> --target <dir> [--dry-run] [--suite <cmd>] [--unit <cmd>] [--backup-dir <dir>] [--frontend <react|vue>] [--backend <java|rust|nestjs|node>]`;
+export function runMigrate(targetDir, opts = {}) { return runUpdate(targetDir, { ...opts, verb: 'migrate' }); }
+
+const USAGE = `uso: node scripts/harness-sync.mjs <init|migrate|update|doctor> --target <dir> [--dry-run] [--suite <cmd>] [--unit <cmd>] [--backup-dir <dir>] [--frontend <react|vue>] [--backend <java|rust|nestjs|node>]`;
 
 function parseArgs(argv) {
   const opts = {
@@ -1392,7 +1523,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     process.exitCode = opts.help ? 0 : 2;
   } else {
     const targetDir = path.resolve(opts.target);
-    const run = { init: runInit, update: runUpdate, doctor: runDoctor }[opts.verb];
+    const run = { init: runInit, migrate: runMigrate, update: runUpdate, doctor: runDoctor }[opts.verb];
     if (!run) {
       console.log(USAGE);
       process.exitCode = 2;

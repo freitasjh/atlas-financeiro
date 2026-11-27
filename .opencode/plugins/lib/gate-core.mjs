@@ -64,6 +64,7 @@ export const DENY_QA_SCOPE = "qa-scope-violation";
 export const DENY_ROLE_WRITE = "write-denied-for-role";
 export const DENY_CONFIG_UNAVAILABLE = "config-unavailable";
 export const DENY_STATE_CORRUPT = "state-corrupt";
+export const DENY_AGENT_UNKNOWN = "agent-unknown";
 
 // path helpers
 export function normalizePath(path) {
