@@ -1,9 +1,9 @@
-Migre/atualize o projeto atual para o template Harness de Frontend (perfil shadcn).
+---
+description: Migra um projeto para o layout atual do harness
+---
 
-Passos:
-1. Rode `node scripts/migrate.mjs --target .` (use `--profile claude` se o projeto usar o perfil claude; `--force` para sobrescrever tudo).
-2. Revise o diff/backup em `.harness-backup/<timestamp>/`.
-3. Rode `npm run validate` (ou `node scripts/validate.mjs`).
-4. Se houver falhas, corrija antes de concluir.
-
-O comando instala/atualiza: tokens, builder, verify, migrate/validate, oxlint, Storybook+MCP, kit shadcn, commands/skills/agents, docs, `DESIGN.md` adaptado ao perfil decidido e mescla `package.json`/`opencode.jsonc`.
+1. Descubra o target e confirme que ele contém um layout antigo do harness.
+2. Rode `node scripts/harness-sync.mjs migrate --target $ARGUMENTS --dry-run`.
+3. Mostre o plano e peça confirmação ao operador.
+4. Rode sem `--dry-run`.
+5. Rode `node scripts/harness-sync.mjs doctor --target <dir>` e reporte.

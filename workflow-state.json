@@ -1,10 +1,10 @@
 {
   "current_feature": "auth-sessao-cliente",
-  "current_phase": "Execution",
-  "previous_phase": "Planning",
-  "next_phase": "Execution",
+  "current_phase": "Completed",
+  "previous_phase": "Execution",
+  "next_phase": "Completed",
   "type": "feature",
-  "last_update": "2026-11-24T14:57:11.000Z",
+  "last_update": "2026-11-27T17:15:27Z",
   "artifacts": {
     "roadmap": "ROADMAP.md",
     "proposal": ".spec/frontend/dashboard-shell-harness/PROPOSAL.md",
@@ -405,7 +405,11 @@
     "prdAuthSessaoCliente": ".spec/prd/auth-sessao-cliente/PRD.md",
     "commitAuthSessaoCliente": "7f3701b",
     "prAuthSessaoCliente": 6,
-    "mergeAuthSessaoCliente": "e3708a1"
+    "mergeAuthSessaoCliente": "e3708a1",
+    "verifyAuth": ".spec/archive/20261125-prd-auth-sessao-cliente/ADRs/ADR-001-emissao-sessao-cliente/VERIFY.md",
+    "archiveAuth": ".spec/archive/20261125-prd-auth-sessao-cliente",
+    "verifyFrontendMigracao": ".spec/prd/frontend-migracao/ADRs/ADR-002-bigbang-move/VERIFY.md",
+    "h6ReportFrontendMigracao": "harness/frontend-migracao-h6.json"
   },
   "features": [
     {
@@ -788,9 +792,9 @@
     },
     {
       "name": "auth-sessao-cliente",
-      "stage": "Discovery",
-      "progress": 0,
-      "status": "in_progress"
+      "stage": "Completed",
+      "progress": 100,
+      "status": "completed"
     }
   ],
   "overrides": [
@@ -1081,6 +1085,17 @@
       "autorizacao": "humana 2026-11-25",
       "impacto": "criterio AUTH-13 reescrito para 102 reais + 6 saidas documentadas como migradas; divida de dados/recovery preservada",
       "at": "2026-11-25T19:29:54.000Z"
+    },
+    {
+      "portao": "P6-main-merge",
+      "motivo": "Usuario decidiu 2026-11-27 manter develop como tronco; merge develop->main postergado. PR #7 merged em develop@bef9664; main em e4c981c.",
+      "data": "2026-11-27T17:15:27Z"
+    },
+    {
+      "portao": "H1H2-frontend-migracao-suite-vermelha",
+      "motivo": "Usuario escolheu 2026-11-27 seguir para VERIFY/H6 do frontend-migracao com test:gate exit 1. Causa: .opencode/plugins/gate.js (atualizacao intencional do harness) removeu export toRepoRelative; gate-write-scope.spec.mjs falha na importacao. build e typecheck exit 0. Edicao de .opencode/** bloqueada por regra em .claude/settings.json; nada do harness foi revertido. harness_status=passed refere-se ao ciclo auth anterior, nao a este.",
+      "data": "2026-11-27",
+      "resolucao": "2026-11-27: causa corrigida; suíte reexecutada 14/14 pass. Override permanece como registro historico da falha, nao como estado atual."
     }
   ],
   "p0_p1_gate": {
@@ -1192,7 +1207,16 @@
     "critical_issues_count": 0,
     "critical_issues": 0,
     "attention_issues": 1,
-    "reviewer_notes": "Skeleton NestJS APPROVED após loop 1/3; 0🔴/0🟡/1🔵: G2 complementar não cobre arquivos de config da raiz, G1 autoritativo cobre. Gate backend 33/33, G1 53 arquivos/0 cruzados, root 1669 testes, 0 pagamento, legado intacto. Carry-overs: B2 Postgres, revogação em memória, wrappers 0.x, evidência backend obrigatória no VERIFY/H6. | big-bang ADR-002: APPROVED apos correcao do gate de divida; manifesto 108 arquivos; 0 🔴/0 🟡 | AUTH-01 golden: APPROVED apos guarda de aprovacao por allow-list; 0🔴/0🟡; NAO Done (assinatura humana pendente, B2 BLOCKED). | AUTH-02 gate B2: APPROVED, probe real 2/2, 0🔴/0🟡; carry-over G1 nao ve import() computado (test-only). | Batch A AUTH-03/04/09: APPROVED 0🔴/2🟡 (fora codigo: assinatura golden e ruido diff); RLS runtime depende de AUTH-08 (conexao atual superuser/BYPASSRLS). | Batch B AUTH-06/07/08: APPROVED apos 3🟡 de codigo corrigidos; 0🔴/0🟡; carry-over HTTP throttle/rehash na AUTH-05. | AUTH-05: APPROVED apos 🟡 proxy fechado (exposicao direta :3001, sem trust proxy); enum 3 rotas, 429 HTTP com Retry-After, 0🔴/0🟡. | AUTH-10: APPROVED apos 3🟡 corrigidos (i18n en-US, doc divida 102 entradas, allow-list de fronteira); 0🔴/0🟡; H3 nao executada. | AUTH-12/13: APPROVED apos 3🟡 cada (guarding fail-closed + inventario 102 reais); 0🔴/0🟡; AUTH-11 pendente. | NFR-05/AUTH-14: review APPROVED 0🔴/0🟡; auditoria 6 eventos + correlationId 100% + 0 PII; AUTH-14 PARTIAL por AUTH-11 pendente. | AUTH-11/14 finais: PASS, golden assinado (product-manager+qa-engineer), 7 casos antes/depois + 2 expected, NFR-05 6/6, 0 GAP; aguardando HITL para VERIFY/Completed."
+    "reviewer_notes": "Skeleton NestJS APPROVED após loop 1/3; 0🔴/0🟡/1🔵: G2 complementar não cobre arquivos de config da raiz, G1 autoritativo cobre. Gate backend 33/33, G1 53 arquivos/0 cruzados, root 1669 testes, 0 pagamento, legado intacto. Carry-overs: B2 Postgres, revogação em memória, wrappers 0.x, evidência backend obrigatória no VERIFY/H6. | big-bang ADR-002: APPROVED apos correcao do gate de divida; manifesto 108 arquivos; 0 🔴/0 🟡 | AUTH-01 golden: APPROVED apos guarda de aprovacao por allow-list; 0🔴/0🟡; NAO Done (assinatura humana pendente, B2 BLOCKED). | AUTH-02 gate B2: APPROVED, probe real 2/2, 0🔴/0🟡; carry-over G1 nao ve import() computado (test-only). | Batch A AUTH-03/04/09: APPROVED 0🔴/2🟡 (fora codigo: assinatura golden e ruido diff); RLS runtime depende de AUTH-08 (conexao atual superuser/BYPASSRLS). | Batch B AUTH-06/07/08: APPROVED apos 3🟡 de codigo corrigidos; 0🔴/0🟡; carry-over HTTP throttle/rehash na AUTH-05. | AUTH-05: APPROVED apos 🟡 proxy fechado (exposicao direta :3001, sem trust proxy); enum 3 rotas, 429 HTTP com Retry-After, 0🔴/0🟡. | AUTH-10: APPROVED apos 3🟡 corrigidos (i18n en-US, doc divida 102 entradas, allow-list de fronteira); 0🔴/0🟡; H3 nao executada. | AUTH-12/13: APPROVED apos 3🟡 cada (guarding fail-closed + inventario 102 reais); 0🔴/0🟡; AUTH-11 pendente. | NFR-05/AUTH-14: review APPROVED 0🔴/0🟡; auditoria 6 eventos + correlationId 100% + 0 PII; AUTH-14 PARTIAL por AUTH-11 pendente. | AUTH-11/14 finais: PASS, golden assinado (product-manager+qa-engineer), 7 casos antes/depois + 2 expected, NFR-05 6/6, 0 GAP; aguardando HITL para VERIFY/Completed. | 2026-11-27: P6 registrado apos PR #7 merged em develop@bef9664; main nao mergeada por decisao humana.",
+    "frontend_migracao_verdict": {
+      "verdict": "BLOCKED_BY_PREEXISTING_DEBT",
+      "can_promote_to_merged": false,
+      "verify_rewrite_needed": true,
+      "findings_count": 7,
+      "critical_issues_count": 2,
+      "scope": "ADR-002/frontend-migracao — reavaliacao apos correcao do gate; parecer somente leitura",
+      "at": "2026-11-27"
+    }
   },
   "harness_status": "passed",
   "verify": {
@@ -1205,7 +1229,9 @@
     "subscription_billing": ".spec/backend/subscription-billing/VERIFY.md",
     "tenant_onboarding": ".spec/backend/tenant-onboarding/VERIFY.md",
     "tenant_quota": ".spec/backend/tenant-quota/VERIFY.md",
-    "internal_control_plane": ".spec/frontend/internal-control-plane/VERIFY.md"
+    "internal_control_plane": ".spec/frontend/internal-control-plane/VERIFY.md",
+    "auth": "APPROVED 2026-11-25; 3 dimensoes; 31/31; 77/77; H3 nao executada (carry-over azul)",
+    "frontendMigracao": "BLOQUEADO (NAO APPROVED) — suiteFull exit 0 (gate 14/14, build/typecheck 0); commands.unit exit 1 (2/1759 NFR); 0/126 checkboxes; H3 n/a. VERIFY reescrito em .spec/prd/frontend-migracao/ADRs/ADR-002-bigbang-move/VERIFY.md"
   },
   "verify2": {
     "status": "approved_with_notes",
@@ -2925,12 +2951,55 @@
     {
       "id": "auth13-spec-count-stale",
       "detail": "TASKS AUTH-13 diz 108; real 102 apos AUTH-10; spec nao reescrita (fora do corte)",
-      "origem": "override humano 2026-11-25"
+      "origem": "override humano 2026-11-25",
+      "status": "aberto",
+      "carry_over": "preservado no VERIFY; nao promovido a verde"
     },
     {
       "id": "auth-observability-events",
       "detail": "refresh invalid/expired e 400 em /auth/refresh sem evento; UUID servidor nao devolvido em 401/403/429 sem header do cliente",
       "origem": "review NFR-05 2026-11-25"
+    },
+    {
+      "id": "auth-gates-p1p2-p2p3-nao-evidenciados",
+      "title": "Aprovacoes P1_P2/P2_P3 do ADR-001 auth sem evidencia",
+      "detail": "Registrado not_evidenced; nao afirmada retroativamente.",
+      "origem": "saneamento 2026-11-27",
+      "created_at": "2026-11-27T17:15:27Z"
+    },
+    {
+      "id": "brain-register-auth-fechamento",
+      "title": "Fechamento P6 auth nao registrado no Brain",
+      "detail": "MCP brain indisponivel nesta sessao; decisao e fechamento ficam apenas neste estado.",
+      "origem": "saneamento 2026-11-27",
+      "created_at": "2026-11-27T17:15:27Z"
+    },
+    {
+      "id": "gate-write-scope-toRepoRelative-missing",
+      "title": "test:gate fail: toRepoRelative nao exportado por gate.js",
+      "detail": "SyntaxError em .opencode/plugins/__tests__/gate-write-scope.spec.mjs:19. Correlato: isHarnessScoped/isProtectedPath/isOrchAllowlisted usam normalizePath puro e nao tratam paths absolutos dentro do repo (regressao SEC-DEBT-39). Correcao aditiva pendente; nao aplicada por deny rule.",
+      "origem": "pre-delegacao passo 2",
+      "created_at": "2026-11-27",
+      "severity": "P1",
+      "status": "resolvido",
+      "resolvido_em": "2026-11-27",
+      "resolucao": "Patch aditivo em .opencode/plugins/gate.js (backend-engineer sob delegacao): export toRepoRelative restaurado e aplicado em isOrchAllowlisted/isHarnessScoped/isProtectedPath/checkWriteAccess. Contraprova do orquestrador: test:gate 14/14 pass, build/typecheck exit 0."
+    },
+    {
+      "id": "frontend-migracao-tasks-0-de-126",
+      "title": "TASKS.md ADR-002 sem checkboxes marcados (0/126)",
+      "detail": "Nenhuma task BIGBANG-01..17, nenhum item de Coverage Validation e nenhuma asserção inline de DoD foi marcada. Parecer do code-reviewer: nao coberto pelo override da suite vermelha. Nao marcar retroativamente sem evidencia.",
+      "origem": "VERIFY/H6 2026-11-27",
+      "created_at": "2026-11-27",
+      "severity": "P1"
+    },
+    {
+      "id": "frontend-migracao-nfr-protected-tree-dirty",
+      "title": "commands.unit exit 1: 2 testes NFR falham por diff em paths protegidos",
+      "detail": "frontend/tests/nfr/governance.test.mjs:87 e frontend/tests/nfr/testability.test.mjs:101 exigem gitDiff(PROTECTED_PATHS) vazio; correcao aditiva do gate.js gera diff. Fora da suiteFull, mas integra RF-12/gate P3 #9. Nao enfraquecer asserção.",
+      "origem": "reavaliacao H6 2026-11-27",
+      "created_at": "2026-11-27",
+      "severity": "P1"
     }
   ],
   "audit_contas_template": {
@@ -4111,7 +4180,7 @@
       "branch": "adr/auth-sessao-cliente/01-login",
       "base": "develop@9e35751",
       "at": "2026-11-24T13:28:30.312Z",
-      "executionScope": "AUTH-01 e AUTH-11 assinados e PASS; AUTH-14 PASS (0 GAP 🔴/🟠, NFR-05 6/6, correlationId 100%); 14/14 tasks cerradas; ADR pronto para VERIFY/Completed via HITL; merge em main so apos refatoracao",
+      "executionScope": "Encerrado: 14/14, VERIFY APPROVED, PR #6 codigo + PR #7 cerimonial merged em develop; carry-overs azuis preservados.",
       "auth01_status": "assinado",
       "auth02_status": "PASS",
       "auth03_status": "review_aprovado",
@@ -4130,14 +4199,43 @@
         "provisioned": true,
         "at": "2026-11-24",
         "ambiente": "docker-local",
-        "portas": [55401, 55402],
+        "portas": [
+          55401,
+          55402
+        ],
         "evidencia": "docker healthy; probe SQL SET search_path + SELECT 1 OK 2/2; 0 tabelas",
         "probe": "2/2",
         "status": "PASS"
       },
       "merged_at": "2026-11-25",
-      "merge_commit": "e3708a1"
+      "merge_commit": "e3708a1",
+      "verify": "APPROVED; 3 dimensoes; 31/31; 77/77",
+      "archive": ".spec/archive/20261125-prd-auth-sessao-cliente",
+      "final_merge": {
+        "commit": "bef9664",
+        "via": "PR #7",
+        "base": "develop",
+        "at": "2026-11-27T17:15:27Z"
+      },
+      "main_merge": "postergado por decisao humana 2026-11-27; main em e4c981c"
     }
   ],
-  "prompt_assumptions": []
+  "prompt_assumptions": [],
+  "gates": {
+    "P1_P2": {
+      "status": "not_evidenced",
+      "note": "Aprovacao SPEC nao localizada; nao afirmada."
+    },
+    "P2_P3": {
+      "status": "not_evidenced",
+      "note": "Aprovacao TASKS nao localizada; nao afirmada."
+    },
+    "P5_P6": {
+      "status": "approved",
+      "at": "2026-11-27T17:15:27Z",
+      "evidence": "VERIFY APPROVED 31/31 77/77; PR #7 merged em develop@bef9664; decisao humana 2026-11-27 de nao levar a main."
+    }
+  },
+  "harness_status_scope": "auth-sessao-cliente (ciclo anterior) — NAO evidencia de frontend-migracao",
+  "code_review_status_scope": "auth-sessao-cliente (ciclo anterior) — NAO evidencia de frontend-migracao"
 }
